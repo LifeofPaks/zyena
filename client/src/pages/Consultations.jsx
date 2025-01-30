@@ -15,6 +15,12 @@ import {
 } from "@mui/material";
 import { PayPalButton } from "react-paypal-button-v2";
 
+const garmentPrices = {
+  bridalDress: 100.00,
+  eveningDress: 80.00,
+  promDress: 70.00,
+};
+
 const Consultations = () => {
   const [formData, setFormData] = useState({
     firstName: "",
@@ -28,10 +34,17 @@ const Consultations = () => {
     consent: false,
   });
 
-  const [loggedEntries, setLoggedEntries] = useState([]); // Stores logged entries
+  const [loggedEntries, setLoggedEntries] = useState([]); 
+  const [selectedAmount, setSelectedAmount] = useState(100.00); // Default amount
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
+    
+    // If garmentType is changed, update the amount
+    if (name === "garmentType") {
+      setSelectedAmount(garmentPrices[value] || 100.00);
+    }
+
     setFormData({
       ...formData,
       [name]: type === "checkbox" ? checked : value,
@@ -39,8 +52,9 @@ const Consultations = () => {
   };
 
   const handleLogEntry = () => {
+    const entry = { ...formData, amount: selectedAmount };
     setLoggedEntries((prevEntries) => {
-      const updatedEntries = [...prevEntries, formData];
+      const updatedEntries = [...prevEntries, entry];
       console.log("Logged Entries:", updatedEntries);
       return updatedEntries;
     });
@@ -66,6 +80,7 @@ const Consultations = () => {
       >
         Book a Consultation with Zyena, Fashion Designer
       </Typography>
+      
       <Typography
         variant="h6"
         paragraph
@@ -116,7 +131,6 @@ const Consultations = () => {
         Available Consultation Days & Time: Wednesday - Sunday (10 AM - 6 PM)
       </Typography>
 
-
       {/* Consultation Form */}
       <Box sx={{ marginTop: 3 }}>
         <Typography variant="h5" gutterBottom sx={{ fontSize: "1.5rem", fontWeight: 500 }}>
@@ -124,6 +138,7 @@ const Consultations = () => {
         </Typography>
         <form>
           <Grid container spacing={2}>
+            {/* First Name */}
             <Grid item xs={12} sm={6}>
               <TextField
                 fullWidth
@@ -135,6 +150,7 @@ const Consultations = () => {
                 required
               />
             </Grid>
+            {/* Last Name */}
             <Grid item xs={12} sm={6}>
               <TextField
                 fullWidth
@@ -146,6 +162,7 @@ const Consultations = () => {
                 required
               />
             </Grid>
+            {/* Phone Number */}
             <Grid item xs={12} sm={6}>
               <TextField
                 fullWidth
@@ -157,6 +174,7 @@ const Consultations = () => {
                 required
               />
             </Grid>
+            {/* State */}
             <Grid item xs={12} sm={6}>
               <TextField
                 fullWidth
@@ -168,7 +186,7 @@ const Consultations = () => {
                 required
               />
             </Grid>
-
+            {/* Email */}
             <Grid item xs={12} sm={6}>
               <TextField
                 fullWidth
@@ -180,7 +198,7 @@ const Consultations = () => {
                 required
               />
             </Grid>
-
+            {/* Consultation Date */}
             <Grid item xs={12} sm={6}>
               <TextField
                 fullWidth
@@ -194,7 +212,7 @@ const Consultations = () => {
                 required
               />
             </Grid>
-
+            {/* Meeting Type */}
             <Grid item xs={12} sm={6}>
               <FormControl fullWidth>
                 <InputLabel>Meeting Type</InputLabel>
@@ -209,7 +227,7 @@ const Consultations = () => {
                 </Select>
               </FormControl>
             </Grid>
-
+            {/* Garment Type */}
             <Grid item xs={12} sm={6}>
               <FormControl fullWidth>
                 <InputLabel>Garment Type</InputLabel>
@@ -225,7 +243,7 @@ const Consultations = () => {
                 </Select>
               </FormControl>
             </Grid>
-
+            {/* Consent Checkbox */}
             <Grid item xs={12}>
               <FormGroup>
                 <FormControlLabel
@@ -262,7 +280,7 @@ const Consultations = () => {
           </Typography>
 
           <PayPalButton
-            amount="100.00" // Replace with dynamic consultation fee
+            amount={selectedAmount}
             onSuccess={(details, data) => {
               alert("Payment Successful: " + details.payer.name.given_name);
             }}
