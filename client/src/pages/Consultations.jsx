@@ -16,9 +16,9 @@ import {
 import { PayPalButton } from "react-paypal-button-v2";
 
 const garmentPrices = {
-  bridalDress: 100.00,
-  eveningDress: 80.00,
-  promDress: 70.00,
+  bridalDress: 100.0,
+  eveningDress: 80.0,
+  promDress: 70.0,
 };
 
 const Consultations = () => {
@@ -31,19 +31,19 @@ const Consultations = () => {
     consultationDate: "",
     meetingType: "",
     garmentType: "",
-    consultationTime: "",  // New field for consultation time
+    consultationTime: "", // New field for consultation time
     consent: false,
   });
 
   const [loggedEntries, setLoggedEntries] = useState([]);
-  const [selectedAmount, setSelectedAmount] = useState(100.00); // Default amount
+  const [selectedAmount, setSelectedAmount] = useState(100.0); // Default amount
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
-    
+
     // If garmentType is changed, update the amount
     if (name === "garmentType") {
-      setSelectedAmount(garmentPrices[value] || 100.00);
+      setSelectedAmount(garmentPrices[value] || 100.0);
     }
 
     setFormData({
@@ -71,13 +71,15 @@ const Consultations = () => {
         const startPeriod = hour < 12 ? "AM" : "PM";
         const startHour12 = hour % 12 || 12; // Convert to 12-hour format
         const startMinuteFormatted = minute === 0 ? "00" : "30";
-        
+
         const endMinute = minute === 0 ? 30 : 0; // Set next slot's start time
-        const endPeriod = (hour + (minute + 30 >= 60 ? 1 : 0)) < 12 ? "AM" : "PM";
+        const endPeriod = hour + (minute + 30 >= 60 ? 1 : 0) < 12 ? "AM" : "PM";
         const endHour12 = (hour + (minute + 30 >= 60 ? 1 : 0)) % 12 || 12;
         const endMinuteFormatted = endMinute === 0 ? "00" : "30";
 
-        times.push(`${startHour12}:${startMinuteFormatted}${startPeriod} - ${endHour12}:${endMinuteFormatted}${endPeriod}`);
+        times.push(
+          `${startHour12}:${startMinuteFormatted}${startPeriod} - ${endHour12}:${endMinuteFormatted}${endPeriod}`
+        );
       }
     }
     return times;
@@ -105,7 +107,7 @@ const Consultations = () => {
       >
         Book a Consultation with Zyena, Fashion Designer
       </Typography>
-      
+
       <Typography
         variant="h6"
         paragraph
@@ -158,7 +160,11 @@ const Consultations = () => {
 
       {/* Consultation Form */}
       <Box sx={{ marginTop: 3 }}>
-        <Typography variant="h5" gutterBottom sx={{ fontSize: "1.5rem", fontWeight: 500 }}>
+        <Typography
+          variant="h5"
+          gutterBottom
+          sx={{ fontSize: "1.5rem", fontWeight: 500 }}
+        >
           Consultation Form
         </Typography>
         <form>
@@ -303,24 +309,12 @@ const Consultations = () => {
             </Grid>
           </Grid>
         </form>
-
-        {/* Log Selection Button */}
-        <Box sx={{ marginTop: 3, textAlign: "center" }}>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleLogEntry}
-            sx={{ fontSize: "1rem", padding: "10px 20px" }}
-            disabled={!formData.consent}
-          >
-            Log My Selection
-          </Button>
-        </Box>
       </Box>
 
       {/* PayPal Button */}
       <Box sx={{ marginTop: 3, textAlign: "center" }}>
         <PayPalButton
+          onClick={handleLogEntry}
           amount={selectedAmount}
           onSuccess={(details, data) => {
             alert("Payment Successful!");
