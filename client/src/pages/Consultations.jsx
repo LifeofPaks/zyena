@@ -29,13 +29,13 @@ const Consultations = () => {
     state: "",
     email: "",
     consultationDate: "",
-    consultationTime: "",
     meetingType: "",
     garmentType: "",
+    consultationTime: "",  // New field for consultation time
     consent: false,
   });
 
-  const [loggedEntries, setLoggedEntries] = useState([]); 
+  const [loggedEntries, setLoggedEntries] = useState([]);
   const [selectedAmount, setSelectedAmount] = useState(100.00); // Default amount
 
   const handleInputChange = (e) => {
@@ -61,23 +61,29 @@ const Consultations = () => {
     });
   };
 
-  // Generate time slots for 30-minute intervals from 10:00 AM to 6:00 PM
+  // Generate consultation times in 30-minute intervals from 10:00 AM to 6:00 PM
   const generateTimeSlots = () => {
-    const timeSlots = [];
-    let hour = 10;
-    let minute = 0;
+    const times = [];
+    const startTime = 10; // 10:00 AM
+    const endTime = 18; // 6:00 PM
+    for (let hour = startTime; hour <= endTime; hour++) {
+      for (let minute = 0; minute < 60; minute += 30) {
+        const startPeriod = hour < 12 ? "AM" : "PM";
+        const startHour12 = hour % 12 || 12; // Convert to 12-hour format
+        const startMinuteFormatted = minute === 0 ? "00" : "30";
+        
+        const endMinute = minute === 0 ? 30 : 0; // Set next slot's start time
+        const endPeriod = (hour + (minute + 30 >= 60 ? 1 : 0)) < 12 ? "AM" : "PM";
+        const endHour12 = (hour + (minute + 30 >= 60 ? 1 : 0)) % 12 || 12;
+        const endMinuteFormatted = endMinute === 0 ? "00" : "30";
 
-    while (hour < 18) {
-      const startTime = `${hour}:${minute === 0 ? "00" : minute}AM`;
-      const endTime = `${hour}:${minute === 0 ? "30" : "00"}PM`;
-      timeSlots.push(`${startTime} - ${endTime}`);
-      minute = minute === 0 ? 30 : 0;
-      if (minute === 0) {
-        hour++;
+        times.push(`${startHour12}:${startMinuteFormatted}${startPeriod} - ${endHour12}:${endMinuteFormatted}${endPeriod}`);
       }
     }
-    return timeSlots;
+    return times;
   };
+
+  const consultationTimes = generateTimeSlots();
 
   return (
     <Box
@@ -272,9 +278,9 @@ const Consultations = () => {
                   onChange={handleInputChange}
                   required
                 >
-                  {generateTimeSlots().map((timeSlot, index) => (
-                    <MenuItem key={index} value={timeSlot}>
-                      {timeSlot}
+                  {consultationTimes.map((time, index) => (
+                    <MenuItem key={index} value={time}>
+                      {time}
                     </MenuItem>
                   ))}
                 </Select>
@@ -305,27 +311,21 @@ const Consultations = () => {
             color="primary"
             onClick={handleLogEntry}
             sx={{ fontSize: "1rem", padding: "10px 20px" }}
+            disabled={!formData.consent}
           >
             Log My Selection
           </Button>
         </Box>
+      </Box>
 
-        {/* PayPal Payment */}
-        <Box sx={{ marginTop: 4, textAlign: "center" }}>
-          <Typography variant="h6" gutterBottom sx={{ fontSize: "1.2rem", fontWeight: 500 }}>
-            Secure Payment via PayPal
-          </Typography>
-
-          <PayPalButton
-            amount={selectedAmount}
-            onSuccess={(details, data) => {
-              alert("Payment Successful: " + details.payer.name.given_name);
-            }}
-            options={{
-              clientId: import.meta.env.VITE_PAYPAL_CLIENT_ID,
-            }}
-          />
-        </Box>
+      {/* PayPal Button */}
+      <Box sx={{ marginTop: 3, textAlign: "center" }}>
+        <PayPalButton
+          amount={selectedAmount}
+          onSuccess={(details, data) => {
+            alert("Payment Successful!");
+          }}
+        />
       </Box>
     </Box>
   );
