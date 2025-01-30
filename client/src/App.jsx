@@ -11,6 +11,7 @@ import {Home}  from "./pages/Home";
 import Bridal from "./pages/Bridal";
 import EveningDresses from "./pages/EveningDresses";
 import PromDresses from "./pages/PromDresses";
+import Valorous from "./pages/Valorous";
 
 
 
@@ -30,6 +31,7 @@ function App() {
       <Route path="prom-dresses" element={<PromDresses />} />
       <Route path="evening-dresses" element={<EveningDresses />} />
       <Route path="bridal" element={<Bridal />} />
+      <Route path="valorous" element={<Valorous />} />
     </Routes>
     </>
   );
