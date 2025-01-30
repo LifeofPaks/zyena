@@ -11,8 +11,8 @@ const Navbar = () => {
       <Link to="/">
         <img
           className="text-red-600"
-          width="50"
-          height="50"
+          width="35"
+          height="35"
           src="https://img.icons8.com/ios-filled/50/panopto.png"
           alt="panopto"
         />
@@ -20,7 +20,7 @@ const Navbar = () => {
       <div className="flex items-center gap-8 p-4">
         {[
           { name: "Home", path: "/" },
-          { name: "Gallery", path: "#", hasDropdown: true },
+          { name: "Gallery", path: "/bridal", hasDropdown: true },
           { name: "Consultations", path: "/consultations" },
           { name: "Shop", path: "/shop" },
           { name: "About Us", path: "/about-us" },
@@ -52,7 +52,7 @@ const Navbar = () => {
                 className="!px-4 !py-2 text-gray-700 hover:bg-gray-200 hover:text-blue-500 transition-all duration-300 ease-in-out flex items-center text-[13px] tracking-wider"
                 onMouseEnter={() => setIsBridalDropdownOpen(true)}
               >
-                Bridal <MdOutlineKeyboardArrowRight className="ml-2" />
+                Bridal <MdOutlineKeyboardArrowRight className="!ml-[6rem]" />
               </NavLink>
             
               {/* Nested Bridal Dropdown */}
