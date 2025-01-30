@@ -29,6 +29,7 @@ const Consultations = () => {
     state: "",
     email: "",
     consultationDate: "",
+    consultationTime: "",
     meetingType: "",
     garmentType: "",
     consent: false,
@@ -58,6 +59,24 @@ const Consultations = () => {
       console.log("Logged Entries:", updatedEntries);
       return updatedEntries;
     });
+  };
+
+  // Generate time slots for 30-minute intervals from 10:00 AM to 6:00 PM
+  const generateTimeSlots = () => {
+    const timeSlots = [];
+    let hour = 10;
+    let minute = 0;
+
+    while (hour < 18) {
+      const startTime = `${hour}:${minute === 0 ? "00" : minute}AM`;
+      const endTime = `${hour}:${minute === 0 ? "30" : "00"}PM`;
+      timeSlots.push(`${startTime} - ${endTime}`);
+      minute = minute === 0 ? 30 : 0;
+      if (minute === 0) {
+        hour++;
+      }
+    }
+    return timeSlots;
   };
 
   return (
@@ -240,6 +259,24 @@ const Consultations = () => {
                   <MenuItem value="bridalDress">Bridal Dress - $100</MenuItem>
                   <MenuItem value="eveningDress">Evening Dress - $80</MenuItem>
                   <MenuItem value="promDress">Prom Dress - $70</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+            {/* Consultation Time */}
+            <Grid item xs={12} sm={6}>
+              <FormControl fullWidth>
+                <InputLabel>Consultation Time</InputLabel>
+                <Select
+                  name="consultationTime"
+                  value={formData.consultationTime}
+                  onChange={handleInputChange}
+                  required
+                >
+                  {generateTimeSlots().map((timeSlot, index) => (
+                    <MenuItem key={index} value={timeSlot}>
+                      {timeSlot}
+                    </MenuItem>
+                  ))}
                 </Select>
               </FormControl>
             </Grid>
