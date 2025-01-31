@@ -14,6 +14,9 @@ import {
   Grid,
 } from "@mui/material";
 import { PayPalButton } from "react-paypal-button-v2";
+import { useDispatch } from "react-redux";
+import { newConsultation } from "../store/consultation-slice";
+import { notifyError, notifySuccess } from "../hooks/toastify";
 
 const garmentPrices = {
   bridalDress: 100.0,
@@ -36,7 +39,8 @@ const Consultations = () => {
   });
 
   const [loggedEntries, setLoggedEntries] = useState([]);
-  const [selectedAmount, setSelectedAmount] = useState(100.0); // Default amount
+  const [selectedAmount, setSelectedAmount] = useState(100.0); 
+  const dispatch = useDispatch();
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -52,14 +56,25 @@ const Consultations = () => {
     });
   };
 
-  const handleLogEntry = () => {
+
+  const onSubmit = (event) => {
+  
     const entry = { ...formData, amount: selectedAmount };
     setLoggedEntries((prevEntries) => {
       const updatedEntries = [...prevEntries, entry];
       console.log("Logged Entries:", updatedEntries);
       return updatedEntries;
     });
+  
+    dispatch(newConsultation(loggedEntries)).then((data) => {
+      if (data?.payload?.success) {
+        notifySuccess(data?.payload?.message);
+      } else {
+        notifyError(data?.payload?.message);
+      }
+    });
   };
+  
 
   // Generate consultation times in 30-minute intervals from 10:00 AM to 6:00 PM
   const generateTimeSlots = () => {
@@ -98,66 +113,6 @@ const Consultations = () => {
         boxShadow: 5,
       }}
     >
-      <Typography
-        variant="h4"
-        gutterBottom
-        align="center"
-        color="primary"
-        sx={{ fontSize: "2rem", fontWeight: 600 }}
-      >
-        Book a Consultation with Zyena, Fashion Designer
-      </Typography>
-
-      <Typography
-        variant="h6"
-        paragraph
-        sx={{ fontSize: "1rem", color: "#555" }}
-      >
-        For more information about Booking Consultation, kindly reach out to
-        Zyena on: <strong>+1 862-684-2601</strong> or Email:{" "}
-        <strong>info@zyena.co</strong>
-      </Typography>
-
-      <Typography
-        variant="h6"
-        paragraph
-        sx={{ fontSize: "1.1rem", color: "#333" }}
-      >
-        Available Consultation Days & Time: Wednesday - Sunday (10 AM - 6 PM)
-      </Typography>
-
-      <Typography
-        variant="h6"
-        paragraph
-        sx={{ fontSize: "1.1rem", color: "#333" }}
-      >
-        Here’s our starting prices:
-      </Typography>
-
-      <Typography variant="body1" sx={{ fontSize: "1rem", color: "#444" }}>
-        Wedding Dresses start at <strong>$3500</strong>.
-      </Typography>
-      <Typography variant="body1" sx={{ fontSize: "1rem", color: "#444" }}>
-        Reception Dresses start at <strong>$1800</strong>.
-      </Typography>
-      <Typography variant="body1" sx={{ fontSize: "1rem", color: "#444" }}>
-        Bridal Robes start at <strong>$800</strong>.
-      </Typography>
-      <Typography variant="body1" sx={{ fontSize: "1rem", color: "#444" }}>
-        Custom Prom Dresses start at <strong>$1500</strong>.
-      </Typography>
-      <Typography variant="body1" sx={{ fontSize: "1rem", color: "#444" }}>
-        Special Occasion Outfits start at <strong>$1200</strong>.
-      </Typography>
-
-      <Typography
-        variant="h6"
-        paragraph
-        sx={{ fontSize: "1.1rem", color: "#333" }}
-      >
-        Available Consultation Days & Time: Wednesday - Sunday (10 AM - 6 PM)
-      </Typography>
-
       {/* Consultation Form */}
       <Box sx={{ marginTop: 3 }}>
         <Typography
@@ -311,10 +266,11 @@ const Consultations = () => {
         </form>
       </Box>
 
+      <Button  onClick={onSubmit}>Book session</Button>
+
       {/* PayPal Button */}
       <Box sx={{ marginTop: 3, textAlign: "center" }}>
         <PayPalButton
-          onClick={handleLogEntry}
           amount={selectedAmount}
           onSuccess={(details, data) => {
             alert("Payment Successful!");
