@@ -53,14 +53,14 @@ const createConsultation = async (req, res) => {
     await newConsultation.save();
     res.status(201).json({
       success: true,
-      message: "Consultation created successfully",
+      message: "Your session have been booked succesfully",
       consultation: newConsultation,
     });
   } catch (error) {
     console.log(error);
     res.status(500).json({
       success: false,
-      message: "Failed to create consultation",
+      message: "Failed to book a session, please try again",
     });
   }
 };
