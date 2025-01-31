@@ -1,7 +1,86 @@
 const Consultation = require("../../models/Consultation");
-const moment = require("moment"); // Make sure to install moment for date comparison
+const moment = require("moment");
 const nodemailer = require("nodemailer");
 const cron = require("node-cron");
+
+// Nodemailer setup
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
+  },
+});
+
+// Utility function to send email
+const sendEmail = (to, subject, html) => {
+  const mailOptions = {
+    from: process.env.EMAIL_USER,
+    to,
+    subject,
+    html,
+  };
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.error("Error sending email:", error);
+    } else {
+      console.log("Email sent:", info.response);
+    }
+  });
+};
+
+// Function to schedule reminders
+const scheduleReminders = async () => {
+  const consultations = await Consultation.find({
+    consultationDate: { $gte: moment().toDate() },
+  });
+
+  consultations.forEach((consultation) => {
+    const { email, firstName, lastName, consultationDate, consultationTime } =
+      consultation;
+
+    const consultationMoment = moment(
+      `${consultationDate} ${consultationTime}`,
+      "YYYY-MM-DD HH:mm"
+    );
+
+    // Reminder 2 days before
+    const twoDaysBefore = consultationMoment.clone().subtract(2, "days");
+    if (twoDaysBefore.isAfter(moment())) {
+      setTimeout(() => {
+        sendEmail(
+          email,
+          "⏳ Reminder: Your Consultation is in 2 Days!",
+          `<p>Hello <strong>${firstName} ${lastName}</strong>,</p>
+           <p>Your consultation is scheduled for <strong>${consultationDate} at ${consultationTime}</strong>.</p>
+           <p>We look forward to seeing you!</p>
+           <p><strong>Your Company Name</strong></p>`
+        );
+      }, twoDaysBefore.diff(moment())); // Set timeout for the reminder
+    }
+
+    // Reminder 3 hours before
+    const threeHoursBefore = consultationMoment.clone().subtract(3, "hours");
+    if (threeHoursBefore.isAfter(moment())) {
+      setTimeout(() => {
+        sendEmail(
+          email,
+          "⏳ Reminder: Your Consultation is in 3 Hours!",
+          `<p>Hello <strong>${firstName} ${lastName}</strong>,</p>
+           <p>This is a reminder that your consultation is scheduled for <strong>${consultationDate} at ${consultationTime}</strong>.</p>
+           <p>See you soon!</p>
+           <p><strong>Your Company Name</strong></p>`
+        );
+      }, threeHoursBefore.diff(moment()));
+    }
+  });
+};
+
+// Run the reminder scheduler every hour
+cron.schedule("0 * * * *", async () => {
+  console.log("Running reminder scheduler...");
+  await scheduleReminders();
+});
 
 // Create Consultation
 const createConsultation = async (req, res) => {
@@ -20,7 +99,6 @@ const createConsultation = async (req, res) => {
   } = req.body;
 
   try {
-    // Check if all required fields are provided
     if (
       !email ||
       !firstName ||
@@ -34,12 +112,9 @@ const createConsultation = async (req, res) => {
       consent === undefined ||
       amount === undefined
     ) {
-      return res.json({
-        success: false,
-        message: "All fields are required",
-      });
+      return res.json({ success: false, message: "All fields are required" });
     }
-    // Check if a consultation already exists with the same date and time
+
     const existingConsultation = await Consultation.findOne({
       consultationDate,
       consultationTime,
@@ -53,7 +128,6 @@ const createConsultation = async (req, res) => {
       });
     }
 
-    // Check if a consultation exists with the same email and a future date/time
     const currentDateTime = moment();
     const existingEmailConsultation = await Consultation.findOne({
       email,
@@ -67,7 +141,6 @@ const createConsultation = async (req, res) => {
       });
     }
 
-    // Create new consultation
     const newConsultation = new Consultation({
       firstName,
       lastName,
@@ -82,24 +155,13 @@ const createConsultation = async (req, res) => {
       amount,
     });
 
-    // Save the new consultation
     await newConsultation.save();
 
-    // Send confirmation email using Nodemailer
-    const transporter = nodemailer.createTransport({
-      service: "gmail", // or your preferred email service
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-      },
-    });
-
-    const mailOptions = {
-      from: process.env.EMAIL_USER,
-      to: email,
-      subject: "✨ Consultation Booking Confirmation ✨",
-      html: `
-        <div style="font-family: Arial, sans-serif; padding: 20px; background-color: #f4f4f4;">
+    // Send confirmation email
+    sendEmail(
+      email,
+      "✨ Consultation Booking Confirmation ✨",
+      `<div style="font-family: Arial, sans-serif; padding: 20px; background-color: #f4f4f4;">
           <div style="max-width: 600px; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
             <h2 style="color: #2c3e50; text-align: center;">📅 Consultation Confirmed!</h2>
             <p style="font-size: 16px; color: #333;">Hello <strong>${firstName} ${lastName}</strong>,</p>
@@ -119,88 +181,12 @@ const createConsultation = async (req, res) => {
               <strong style="color: #2980b9;">Zyena Store</strong>
             </p>
           </div>
-        </div>
-      `,
-    };
-
-    // Send email
-    transporter.sendMail(mailOptions, (error, info) => {
-      if (error) {
-        console.log("Error sending email: ", error);
-      } else {
-        console.log("Email sent: ", info.response);
-      }
-    });
-
-    // Function to schedule reminders
-    const scheduleReminders = async () => {
-      const consultations = await Consultation.find({
-        consultationDate: { $gte: moment().toDate() }, // Fetch future consultations
-      });
-
-      consultations.forEach((consultation) => {
-        const {
-          email,
-          firstName,
-          lastName,
-          consultationDate,
-          consultationTime,
-        } = consultation;
-
-        // Convert date & time to moment object
-        const consultationMoment = moment(
-          `${consultationDate} ${consultationTime}`,
-          "YYYY-MM-DD HH:mm"
-        );
-
-        // Reminder 2 days before
-        const twoDaysBefore = consultationMoment.clone().subtract(2, "days");
-        if (twoDaysBefore.isAfter(moment())) {
-          cron.schedule(twoDaysBefore.format("m H D M *"), () => {
-            sendEmail(
-              email,
-              "⏳ Reminder: Your Consultation is in 2 Days!",
-              `<p>Hello <strong>${firstName} ${lastName}</strong>,</p>
-          <p>Your consultation is scheduled for <strong>${consultationDate} at ${consultationTime}</strong>.</p>
-          <p>We look forward to seeing you!</p>
-          <p><strong>Your Company Name</strong></p>`
-            );
-          });
-        }
-
-        // Reminder 3 hours before
-        const threeHoursBefore = consultationMoment
-          .clone()
-          .subtract(3, "hours");
-        if (threeHoursBefore.isAfter(moment())) {
-          cron.schedule(threeHoursBefore.format("m H D M *"), () => {
-            sendEmail(
-              email,
-              "⏳ Reminder: Your Consultation is in 3 Hours!",
-              `<p>Hello <strong>${firstName} ${lastName}</strong>,</p>
-          <p>This is a reminder that your consultation is scheduled for <strong>${consultationDate} at ${consultationTime}</strong>.</p>
-          <p>See you soon!</p>
-          <p><strong>Your Company Name</strong></p>`
-            );
-          });
-        }
-      });
-    };
-
-    // Run the reminder scheduler every hour
-    cron.schedule("0 * * * *", () => {
-      console.log("Running reminder scheduler...");
-      scheduleReminders();
-    });
-
-    // Export the function so it can be called when the server starts
-    module.exports = {
-      scheduleReminders,
-    };
+        </div>`
+    );
 
     res.status(201).json({
       success: true,
-      message: "Your session have been booked successfully",
+      message: "Your session has been booked successfully",
       consultation: newConsultation,
     });
   } catch (error) {
@@ -211,9 +197,4 @@ const createConsultation = async (req, res) => {
   }
 };
 
-
-
-
-module.exports = {
-  createConsultation,
-};
+module.exports = { createConsultation };
