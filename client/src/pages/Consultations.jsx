@@ -90,8 +90,10 @@ const Consultations = () => {
       if (data?.payload?.success) {
         notifySuccess(data?.payload?.message);
         setFormData(initialFormData)
+        setLoggedEntries([])
       } else {
         notifyError(data?.payload?.message);
+        setLoggedEntries([])
       }
     });
   };

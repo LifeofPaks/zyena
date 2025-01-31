@@ -17,7 +17,8 @@ const createConsultation = async (req, res) => {
     amount,
   } = req.body;
 
-  // Check if all required fields are provided
+  try {
+     // Check if all required fields are provided
   if (
     !email ||
     !firstName ||
@@ -31,13 +32,11 @@ const createConsultation = async (req, res) => {
     consent === undefined ||
     amount === undefined
   ) {
-    return res.status(400).json({
+    return res.json({
       success: false,
       message: "All fields are required",
     });
   }
-
-  try {
     // Check if a consultation already exists with the same date and time
     const existingConsultation = await Consultation.findOne({
       consultationDate,
@@ -45,7 +44,7 @@ const createConsultation = async (req, res) => {
     });
 
     if (existingConsultation) {
-      return res.status(400).json({
+      return res.json({
         success: false,
         message: "The selected date and time are already booked. Please choose another date and time.",
       });
@@ -55,11 +54,11 @@ const createConsultation = async (req, res) => {
     const currentDateTime = moment();
     const existingEmailConsultation = await Consultation.findOne({
       email,
-      consultationDate: { $gte: currentDateTime.toDate() },  // Ensure consultation date is in the future
+      consultationDate: { $gte: currentDateTime.toDate() }, 
     });
 
     if (existingEmailConsultation) {
-      return res.status(400).json({
+      return res.json({
         success: false,
         message: "You already have a booked session",
       });

@@ -9,6 +9,7 @@ const BACKEND_URL =
 const initialState = {
   isLoading: false,
   consultationList: [],
+  error: null
 };
 
 export const newConsultation = createAsyncThunk(
@@ -34,11 +35,9 @@ const consultationSlice = createSlice({
       .addCase(newConsultation.fulfilled, (state, action) => {
         state.isLoading = false;
         state.consultationList.push(action.payload.consultation);
-        console.log('Success payload:', action.payload);
       })
-      .addCase(newConsultation.rejected, (state, action) => {
+      .addCase(newConsultation.rejected, (state) => {
         state.isLoading = false;
-        console.log('Rejected payload:', action.payload);
       });
   },
 });
