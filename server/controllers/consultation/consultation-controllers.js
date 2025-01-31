@@ -1,6 +1,7 @@
 const Consultation = require("../../models/Consultation");
 const moment = require("moment"); // Make sure to install moment for date comparison
 const nodemailer = require("nodemailer");
+const cron = require("node-cron");
 
 // Create Consultation
 const createConsultation = async (req, res) => {
@@ -121,7 +122,6 @@ const createConsultation = async (req, res) => {
         </div>
       `,
     };
-    
 
     // Send email
     transporter.sendMail(mailOptions, (error, info) => {
@@ -131,6 +131,72 @@ const createConsultation = async (req, res) => {
         console.log("Email sent: ", info.response);
       }
     });
+
+    // Function to schedule reminders
+    const scheduleReminders = async () => {
+      const consultations = await Consultation.find({
+        consultationDate: { $gte: moment().toDate() }, // Fetch future consultations
+      });
+
+      consultations.forEach((consultation) => {
+        const {
+          email,
+          firstName,
+          lastName,
+          consultationDate,
+          consultationTime,
+        } = consultation;
+
+        // Convert date & time to moment object
+        const consultationMoment = moment(
+          `${consultationDate} ${consultationTime}`,
+          "YYYY-MM-DD HH:mm"
+        );
+
+        // Reminder 2 days before
+        const twoDaysBefore = consultationMoment.clone().subtract(2, "days");
+        if (twoDaysBefore.isAfter(moment())) {
+          cron.schedule(twoDaysBefore.format("m H D M *"), () => {
+            sendEmail(
+              email,
+              "⏳ Reminder: Your Consultation is in 2 Days!",
+              `<p>Hello <strong>${firstName} ${lastName}</strong>,</p>
+          <p>Your consultation is scheduled for <strong>${consultationDate} at ${consultationTime}</strong>.</p>
+          <p>We look forward to seeing you!</p>
+          <p><strong>Your Company Name</strong></p>`
+            );
+          });
+        }
+
+        // Reminder 3 hours before
+        const threeHoursBefore = consultationMoment
+          .clone()
+          .subtract(3, "hours");
+        if (threeHoursBefore.isAfter(moment())) {
+          cron.schedule(threeHoursBefore.format("m H D M *"), () => {
+            sendEmail(
+              email,
+              "⏳ Reminder: Your Consultation is in 3 Hours!",
+              `<p>Hello <strong>${firstName} ${lastName}</strong>,</p>
+          <p>This is a reminder that your consultation is scheduled for <strong>${consultationDate} at ${consultationTime}</strong>.</p>
+          <p>See you soon!</p>
+          <p><strong>Your Company Name</strong></p>`
+            );
+          });
+        }
+      });
+    };
+
+    // Run the reminder scheduler every hour
+    cron.schedule("0 * * * *", () => {
+      console.log("Running reminder scheduler...");
+      scheduleReminders();
+    });
+
+    // Export the function so it can be called when the server starts
+    module.exports = {
+      scheduleReminders,
+    };
 
     res.status(201).json({
       success: true,
@@ -145,100 +211,9 @@ const createConsultation = async (req, res) => {
   }
 };
 
-// Get All Consultations
-const getAllConsultations = async (req, res) => {
-  try {
-    const consultations = await Consultation.find();
-    res.status(200).json({
-      success: true,
-      consultations,
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: "Failed to fetch consultations",
-    });
-  }
-};
 
-// Get Consultation By ID
-const getConsultationById = async (req, res) => {
-  const { id } = req.params;
-  try {
-    const consultation = await Consultation.findById(id);
-    if (!consultation) {
-      return res.status(404).json({
-        success: false,
-        message: "Consultation not found",
-      });
-    }
-    res.status(200).json({
-      success: true,
-      consultation,
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: "Failed to fetch consultation",
-    });
-  }
-};
 
-// Update Consultation
-const updateConsultation = async (req, res) => {
-  const { id } = req.params;
-  try {
-    const updatedConsultation = await Consultation.findByIdAndUpdate(
-      id,
-      req.body,
-      { new: true }
-    );
-    if (!updatedConsultation) {
-      return res.status(404).json({
-        success: false,
-        message: "Consultation not found",
-      });
-    }
-    res.status(200).json({
-      success: true,
-      message: "Consultation updated successfully",
-      consultation: updatedConsultation,
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: "Failed to update consultation",
-    });
-  }
-};
-
-// Delete Consultation
-const deleteConsultation = async (req, res) => {
-  const { id } = req.params;
-  try {
-    const deletedConsultation = await Consultation.findByIdAndDelete(id);
-    if (!deletedConsultation) {
-      return res.status(404).json({
-        success: false,
-        message: "Consultation not found",
-      });
-    }
-    res.status(200).json({
-      success: true,
-      message: "Consultation deleted successfully",
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: "Failed to delete consultation",
-    });
-  }
-};
 
 module.exports = {
   createConsultation,
-  getAllConsultations,
-  getConsultationById,
-  updateConsultation,
-  deleteConsultation,
 };
