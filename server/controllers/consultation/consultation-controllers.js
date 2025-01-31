@@ -1,5 +1,6 @@
 const Consultation = require("../../models/Consultation");
-const moment = require("moment");  // Make sure to install moment for date comparison
+const moment = require("moment"); // Make sure to install moment for date comparison
+const nodemailer = require("nodemailer");
 
 // Create Consultation
 const createConsultation = async (req, res) => {
@@ -18,25 +19,25 @@ const createConsultation = async (req, res) => {
   } = req.body;
 
   try {
-     // Check if all required fields are provided
-  if (
-    !email ||
-    !firstName ||
-    !lastName ||
-    !phoneNumber ||
-    !state ||
-    !consultationDate ||
-    !meetingType ||
-    !garmentType ||
-    !consultationTime ||
-    consent === undefined ||
-    amount === undefined
-  ) {
-    return res.json({
-      success: false,
-      message: "All fields are required",
-    });
-  }
+    // Check if all required fields are provided
+    if (
+      !email ||
+      !firstName ||
+      !lastName ||
+      !phoneNumber ||
+      !state ||
+      !consultationDate ||
+      !meetingType ||
+      !garmentType ||
+      !consultationTime ||
+      consent === undefined ||
+      amount === undefined
+    ) {
+      return res.json({
+        success: false,
+        message: "All fields are required",
+      });
+    }
     // Check if a consultation already exists with the same date and time
     const existingConsultation = await Consultation.findOne({
       consultationDate,
@@ -46,7 +47,8 @@ const createConsultation = async (req, res) => {
     if (existingConsultation) {
       return res.json({
         success: false,
-        message: "The selected date and time are already booked. Please choose another date and time.",
+        message:
+          "The selected date and time are already booked. Please choose another date and time.",
       });
     }
 
@@ -54,7 +56,7 @@ const createConsultation = async (req, res) => {
     const currentDateTime = moment();
     const existingEmailConsultation = await Consultation.findOne({
       email,
-      consultationDate: { $gte: currentDateTime.toDate() }, 
+      consultationDate: { $gte: currentDateTime.toDate() },
     });
 
     if (existingEmailConsultation) {
@@ -81,6 +83,54 @@ const createConsultation = async (req, res) => {
 
     // Save the new consultation
     await newConsultation.save();
+
+    // Send confirmation email using Nodemailer
+    const transporter = nodemailer.createTransport({
+      service: "gmail", // or your preferred email service
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+      },
+    });
+
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: email,
+      subject: "✨ Consultation Booking Confirmation ✨",
+      html: `
+        <div style="font-family: Arial, sans-serif; padding: 20px; background-color: #f4f4f4;">
+          <div style="max-width: 600px; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+            <h2 style="color: #2c3e50; text-align: center;">📅 Consultation Confirmed!</h2>
+            <p style="font-size: 16px; color: #333;">Hello <strong>${firstName} ${lastName}</strong>,</p>
+            <p style="font-size: 16px; color: #555;">
+              Your consultation has been successfully booked for:
+            </p>
+            <div style="background: #ecf0f1; padding: 10px; border-radius: 5px; margin: 10px 0;">
+              <p style="margin: 5px 0;"><strong>Date:</strong> ${consultationDate}</p>
+              <p style="margin: 5px 0;"><strong>Time:</strong> ${consultationTime}</p>
+              <p style="margin: 5px 0;"><strong>Meeting Type:</strong> ${meetingType}</p>
+              <p style="margin: 5px 0;"><strong>Garment Type:</strong> ${garmentType}</p>
+            </div>
+            <p style="font-size: 16px; color: #555;">
+              We look forward to meeting you! If you have any questions, feel free to contact us.
+            </p>
+            <p style="font-size: 16px; text-align: center; margin-top: 20px;">
+              <strong style="color: #2980b9;">Zyena Store</strong>
+            </p>
+          </div>
+        </div>
+      `,
+    };
+    
+
+    // Send email
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.log("Error sending email: ", error);
+      } else {
+        console.log("Email sent: ", info.response);
+      }
+    });
 
     res.status(201).json({
       success: true,
