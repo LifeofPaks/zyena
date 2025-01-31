@@ -36,6 +36,7 @@ const Consultations = () => {
     garmentType: "",
     consultationTime: "", // New field for consultation time
     consent: false,
+    amount: 100
   });
 
   const [loggedEntries, setLoggedEntries] = useState([]);
@@ -44,8 +45,6 @@ const Consultations = () => {
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
-
-    // If garmentType is changed, update the amount
     if (name === "garmentType") {
       setSelectedAmount(garmentPrices[value] || 100.0);
     }
@@ -56,17 +55,35 @@ const Consultations = () => {
     });
   };
 
-
   const onSubmit = (event) => {
   
-    const entry = { ...formData, amount: selectedAmount };
+    const entry = {
+      ...formData,
+      amount: selectedAmount, 
+    };
+  
+    const missingFields = Object.keys(entry).filter(
+      (key) => entry[key] === "" || entry[key] === null
+    );
+  
+    if (missingFields.length > 0) {
+      notifyError(`You're missing some required fields: ${missingFields.join(", ")}`);
+      return;
+    }
+
+    if (!formData.consent) {
+      notifyError(`You need to check the consent box`);
+      return;
+    }
+  
     setLoggedEntries((prevEntries) => {
       const updatedEntries = [...prevEntries, entry];
       console.log("Logged Entries:", updatedEntries);
       return updatedEntries;
     });
   
-    dispatch(newConsultation(loggedEntries)).then((data) => {
+    // Submit the consultation to the API
+    dispatch(newConsultation(entry)).then((data) => {
       if (data?.payload?.success) {
         notifySuccess(data?.payload?.message);
       } else {
@@ -74,6 +91,7 @@ const Consultations = () => {
       }
     });
   };
+  
   
 
   // Generate consultation times in 30-minute intervals from 10:00 AM to 6:00 PM
@@ -247,6 +265,18 @@ const Consultations = () => {
                 </Select>
               </FormControl>
             </Grid>
+            {/* Amount Field */}
+            <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                label="Amount"
+                variant="outlined"
+                name="amount"
+                value={selectedAmount}
+                onChange={handleInputChange}
+                disabled
+              />
+            </Grid>
             {/* Consent Checkbox */}
             <Grid item xs={12}>
               <FormGroup>
@@ -266,7 +296,7 @@ const Consultations = () => {
         </form>
       </Box>
 
-      <Button  onClick={onSubmit}>Book session</Button>
+      <Button onClick={onSubmit}>Book session</Button>
 
       {/* PayPal Button */}
       <Box sx={{ marginTop: 3, textAlign: "center" }}>
