@@ -34,9 +34,11 @@ const consultationSlice = createSlice({
       .addCase(newConsultation.fulfilled, (state, action) => {
         state.isLoading = false;
         state.consultationList.push(action.payload.consultation);
+        console.log('Success payload:', action.payload);
       })
-      .addCase(newConsultation.rejected, (state) => {
+      .addCase(newConsultation.rejected, (state, action) => {
         state.isLoading = false;
+        console.log('Rejected payload:', action.payload);
       });
   },
 });

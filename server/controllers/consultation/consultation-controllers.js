@@ -1,4 +1,5 @@
 const Consultation = require("../../models/Consultation");
+const moment = require("moment");  // Make sure to install moment for date comparison
 
 // Create Consultation
 const createConsultation = async (req, res) => {
@@ -16,6 +17,7 @@ const createConsultation = async (req, res) => {
     amount,
   } = req.body;
 
+  // Check if all required fields are provided
   if (
     !email ||
     !firstName ||
@@ -36,6 +38,34 @@ const createConsultation = async (req, res) => {
   }
 
   try {
+    // Check if a consultation already exists with the same date and time
+    const existingConsultation = await Consultation.findOne({
+      consultationDate,
+      consultationTime,
+    });
+
+    if (existingConsultation) {
+      return res.status(400).json({
+        success: false,
+        message: "The selected date and time are already booked. Please choose another date and time.",
+      });
+    }
+
+    // Check if a consultation exists with the same email and a future date/time
+    const currentDateTime = moment();
+    const existingEmailConsultation = await Consultation.findOne({
+      email,
+      consultationDate: { $gte: currentDateTime.toDate() },  // Ensure consultation date is in the future
+    });
+
+    if (existingEmailConsultation) {
+      return res.status(400).json({
+        success: false,
+        message: "You already have a booked session",
+      });
+    }
+
+    // Create new consultation
     const newConsultation = new Consultation({
       firstName,
       lastName,
@@ -50,14 +80,15 @@ const createConsultation = async (req, res) => {
       amount,
     });
 
+    // Save the new consultation
     await newConsultation.save();
+
     res.status(201).json({
       success: true,
-      message: "Your session have been booked succesfully",
+      message: "Your session have been booked successfully",
       consultation: newConsultation,
     });
   } catch (error) {
-    console.log(error);
     res.status(500).json({
       success: false,
       message: "Failed to book a session, please try again",

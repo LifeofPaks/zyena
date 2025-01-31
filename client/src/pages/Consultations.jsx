@@ -24,9 +24,8 @@ const garmentPrices = {
   promDress: 70.0,
 };
 
-const Consultations = () => {
-  const [formData, setFormData] = useState({
-    firstName: "",
+const initialFormData = {
+  firstName: "",
     lastName: "",
     phoneNumber: "",
     state: "",
@@ -34,10 +33,13 @@ const Consultations = () => {
     consultationDate: "",
     meetingType: "",
     garmentType: "",
-    consultationTime: "", // New field for consultation time
+    consultationTime: "", 
     consent: false,
     amount: 100,
-  });
+}
+
+const Consultations = () => {
+  const [formData, setFormData] = useState(initialFormData);
 
   const [loggedEntries, setLoggedEntries] = useState([]);
   const [selectedAmount, setSelectedAmount] = useState(100.0);
@@ -87,6 +89,7 @@ const Consultations = () => {
     dispatch(newConsultation(entry)).then((data) => {
       if (data?.payload?.success) {
         notifySuccess(data?.payload?.message);
+        setFormData(initialFormData)
       } else {
         notifyError(data?.payload?.message);
       }
