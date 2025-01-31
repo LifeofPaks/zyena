@@ -3,6 +3,7 @@ const express = require("express")
 const mongoose = require("mongoose");
 const cors = require("cors");
 const authRouter = require("./routes/auth/auth-routes");
+const consultationRouter = require("./routes/consultation/consultation-routes")
 
 
 const app = express()
@@ -42,6 +43,7 @@ app.use(
 
 app.use(express.json())
 app.use("/api/auth", authRouter);
+app.use("/api/consultation", consultationRouter);
 
 
 app.listen(PORT, () => {
