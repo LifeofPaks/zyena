@@ -36,11 +36,11 @@ const Consultations = () => {
     garmentType: "",
     consultationTime: "", // New field for consultation time
     consent: false,
-    amount: 100
+    amount: 100,
   });
 
   const [loggedEntries, setLoggedEntries] = useState([]);
-  const [selectedAmount, setSelectedAmount] = useState(100.0); 
+  const [selectedAmount, setSelectedAmount] = useState(100.0);
   const dispatch = useDispatch();
 
   const handleInputChange = (e) => {
@@ -56,18 +56,19 @@ const Consultations = () => {
   };
 
   const onSubmit = (event) => {
-  
     const entry = {
       ...formData,
-      amount: selectedAmount, 
+      amount: selectedAmount,
     };
-  
+
     const missingFields = Object.keys(entry).filter(
       (key) => entry[key] === "" || entry[key] === null
     );
-  
+
     if (missingFields.length > 0) {
-      notifyError(`You're missing some required fields: ${missingFields.join(", ")}`);
+      notifyError(
+        `You're missing some required fields: ${missingFields.join(", ")}`
+      );
       return;
     }
 
@@ -75,13 +76,13 @@ const Consultations = () => {
       notifyError(`You need to check the consent box`);
       return;
     }
-  
+
     setLoggedEntries((prevEntries) => {
       const updatedEntries = [...prevEntries, entry];
       console.log("Logged Entries:", updatedEntries);
       return updatedEntries;
     });
-  
+
     // Submit the consultation to the API
     dispatch(newConsultation(entry)).then((data) => {
       if (data?.payload?.success) {
@@ -91,8 +92,6 @@ const Consultations = () => {
       }
     });
   };
-  
-  
 
   // Generate consultation times in 30-minute intervals from 10:00 AM to 6:00 PM
   const generateTimeSlots = () => {
@@ -225,6 +224,7 @@ const Consultations = () => {
                   value={formData.meetingType}
                   onChange={handleInputChange}
                   required
+                  label="Meeting Type"
                 >
                   <MenuItem value="inPerson">In-Person</MenuItem>
                   <MenuItem value="virtual">Virtual</MenuItem>
@@ -233,13 +233,14 @@ const Consultations = () => {
             </Grid>
             {/* Garment Type */}
             <Grid item xs={12} sm={6}>
-              <FormControl fullWidth>
+              <FormControl fullWidth variant="outlined">
                 <InputLabel>Garment Type</InputLabel>
                 <Select
                   name="garmentType"
                   value={formData.garmentType}
                   onChange={handleInputChange}
                   required
+                  label="Garment Type"
                 >
                   <MenuItem value="bridalDress">Bridal Dress - $100</MenuItem>
                   <MenuItem value="eveningDress">Evening Dress - $80</MenuItem>
@@ -256,6 +257,7 @@ const Consultations = () => {
                   value={formData.consultationTime}
                   onChange={handleInputChange}
                   required
+                  label="Consultation Time"
                 >
                   {consultationTimes.map((time, index) => (
                     <MenuItem key={index} value={time}>
