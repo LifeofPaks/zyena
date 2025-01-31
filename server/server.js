@@ -7,7 +7,7 @@ const consultationRouter = require("./routes/consultation/consultation-routes")
 
 
 const app = express()
-const PORT = process.env.PORT || 6000;
+const PORT = process.env.PORT || 5500;
 
 //CONNECT TO DATABASE
 mongoose
@@ -25,10 +25,11 @@ mongoose
 //CONFIGURE CORS
 app.use(
   cors({
-    origin: [
-      process.env.FRONTEND_URL_LOCAL, 
-      process.env.FRONTEND_URL_PRODUCTION, 
-    ],
+    // origin: [
+    //   process.env.FRONTEND_URL_LOCAL, 
+    //   process.env.FRONTEND_URL_PRODUCTION, 
+    // ],
+    origin:"http://localhost:5174",
     methods: ["GET", "POST", "DELETE", "PUT"],
     allowedHeaders: [
       "Content-Type",
