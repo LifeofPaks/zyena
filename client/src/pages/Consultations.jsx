@@ -119,12 +119,12 @@ const Consultations = () => {
 
       <form>
         <Grid container spacing={2}>
-          {["firstName", "lastName", "phoneNumber", "state", "email"].map(
+          {["firstName", "lastName","email", "phoneNumber", "state", ].map(
             (field) => (
               <Grid item xs={12} sm={6} key={field}>
                 <TextField
                   fullWidth
-                  label={field.replace(/([A-Z])/g, " $1")}
+                  label={field.replace(/([A-Z])/g, " $1").replace(/^./, (str) => str.toUpperCase())}
                   variant="outlined"
                   name={field}
                   value={formData[field]}
@@ -134,21 +134,6 @@ const Consultations = () => {
               </Grid>
             )
           )}
-
-          {/* Consultation Date */}
-          <Grid item xs={12} sm={6}>
-            <TextField
-              fullWidth
-              label="Consultation Date"
-              type="date"
-              InputLabelProps={{ shrink: true }}
-              variant="outlined"
-              name="consultationDate"
-              value={formData.consultationDate}
-              onChange={handleInputChange}
-              required
-            />
-          </Grid>
 
           {/* Meeting Type */}
           <Grid item xs={12} sm={6}>
@@ -166,27 +151,20 @@ const Consultations = () => {
               </Select>
             </FormControl>
           </Grid>
-
-          {/* Garment Type */}
+          {/* Consultation Date */}
           <Grid item xs={12} sm={6}>
-            <FormControl fullWidth>
-              <InputLabel>Garment Type</InputLabel>
-              <Select
-                name="garmentType"
-                value={formData.garmentType}
-                onChange={handleInputChange}
-                required
-                label="Garmet Type"
-              >
-                {Object.entries(garmentPrices).map(([key, price]) => (
-                  <MenuItem key={key} value={key}>
-                    {key.replace(/([A-Z])/g, " $1")} - ${price}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+            <TextField
+              fullWidth
+              label="Consultation Date"
+              type="date"
+              InputLabelProps={{ shrink: true }}
+              variant="outlined"
+              name="consultationDate"
+              value={formData.consultationDate}
+              onChange={handleInputChange}
+              required
+            />
           </Grid>
-
           {/* Consultation Time */}
           <Grid item xs={12} sm={6}>
             <FormControl fullWidth>
@@ -201,6 +179,26 @@ const Consultations = () => {
                 {consultationTimes.map((time, index) => (
                   <MenuItem key={index} value={time}>
                     {time}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
+
+          {/* Garment Type */}
+          <Grid item xs={12} sm={6}>
+            <FormControl fullWidth>
+              <InputLabel>Garment Type</InputLabel>
+              <Select
+                name="garmentType"
+                value={formData.garmentType}
+                onChange={handleInputChange}
+                required
+                label="Garmet Type"
+              >
+                {Object.entries(garmentPrices).map(([key, price]) => (
+                  <MenuItem key={key} value={key}>
+                    {key.replace(/([A-Z])/g, " $1").replace(/^./, (str) => str.toUpperCase())} - ${price}
                   </MenuItem>
                 ))}
               </Select>
