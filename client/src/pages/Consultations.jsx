@@ -130,6 +130,12 @@ const Consultations = () => {
                   value={formData[field]}
                   onChange={handleInputChange}
                   required
+                  InputProps={{
+                    style: { fontSize: "14px" },
+                  }}
+                  InputLabelProps={{
+                    style: { fontSize: "14px" },
+                  }}
                 />
               </Grid>
             )
@@ -138,16 +144,17 @@ const Consultations = () => {
           {/* Meeting Type */}
           <Grid item xs={12} sm={6}>
             <FormControl fullWidth>
-              <InputLabel>Meeting Type</InputLabel>
+              <InputLabel  className="!text-[14px]">Meeting Type</InputLabel>
               <Select
                 name="meetingType"
                 value={formData.meetingType}
                 onChange={handleInputChange}
                 required
                 label="Meeting Type"
+                sx={{ fontSize: "14px" }}
               >
-                <MenuItem value="inPerson">In-Person</MenuItem>
-                <MenuItem value="virtual">Virtual</MenuItem>
+                <MenuItem value="inPerson"  className="!text-[14px]">In-Person</MenuItem>
+                <MenuItem value="virtual"  className="!text-[14px]">Virtual</MenuItem>
               </Select>
             </FormControl>
           </Grid>
@@ -163,21 +170,25 @@ const Consultations = () => {
               value={formData.consultationDate}
               onChange={handleInputChange}
               required
+              InputProps={{
+                style: { fontSize: "14px" },
+              }}
             />
           </Grid>
           {/* Consultation Time */}
           <Grid item xs={12} sm={6}>
             <FormControl fullWidth>
-              <InputLabel>Consultation Time</InputLabel>
+              <InputLabel  className="!text-[14px]">Consultation Time</InputLabel>
               <Select
                 name="consultationTime"
                 value={formData.consultationTime}
                 onChange={handleInputChange}
                 required
                 label="Consultation Time"
+                sx={{ fontSize: "14px" }}
               >
                 {consultationTimes.map((time, index) => (
-                  <MenuItem key={index} value={time}>
+                  <MenuItem key={index} value={time}  className="!text-[14px]">
                     {time}
                   </MenuItem>
                 ))}
@@ -188,16 +199,17 @@ const Consultations = () => {
           {/* Garment Type */}
           <Grid item xs={12} sm={6}>
             <FormControl fullWidth>
-              <InputLabel>Garment Type</InputLabel>
+              <InputLabel className="!text-[14px]">Garment Type</InputLabel>
               <Select
                 name="garmentType"
                 value={formData.garmentType}
                 onChange={handleInputChange}
                 required
                 label="Garmet Type"
+                sx={{ fontSize: "14px" }}
               >
                 {Object.entries(garmentPrices).map(([key, price]) => (
-                  <MenuItem key={key} value={key}>
+                  <MenuItem key={key} value={key} className="!text-[14px]">
                     {key.replace(/([A-Z])/g, " $1").replace(/^./, (str) => str.toUpperCase())} - ${price}
                   </MenuItem>
                 ))}
@@ -214,6 +226,12 @@ const Consultations = () => {
               name="amount"
               value={selectedAmount}
               disabled
+              InputProps={{
+                style: { fontSize: "14px" },
+              }}
+              InputLabelProps={{
+                style: { fontSize: "14px" },
+              }}
             />
           </Grid>
 
@@ -231,7 +249,9 @@ const Consultations = () => {
                     onChange={handleInputChange}
                   />
                 }
-                label="Yes, I agree with the non-refundable consultation fee and privacy policy."
+                label={
+                  <span className="text-sm">Yes, I agree with the non-refundable consultation fee and privacy policy.</span>
+                }
               />
             </FormGroup>
           </Grid>
