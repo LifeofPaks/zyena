@@ -45,6 +45,34 @@ const Consultations = () => {
   const [selectedAmount, setSelectedAmount] = useState(100.0);
   const dispatch = useDispatch();
 
+  const isFormValid = () => {
+    return (
+      formData.firstName &&
+      formData.lastName &&
+      formData.phoneNumber &&
+      formData.state &&
+      formData.email &&
+      formData.consultationDate &&
+      formData.meetingType &&
+      formData.garmentType &&
+      formData.consultationTime &&
+      formData.consent
+    );
+  };
+  
+  {/* PayPal Button */}
+  <Box sx={{ marginTop: 3, textAlign: "center" }}>
+    <PayPalButton
+      amount={selectedAmount}
+      onSuccess={(details, data) => {
+        onSubmit();
+        alert("Payment Successful!");
+      }}
+      disabled={!isFormValid()} // Disable button if form is incomplete
+    />
+  </Box>
+  
+
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
     if (name === "garmentType") {
@@ -303,15 +331,16 @@ const Consultations = () => {
         </form>
       </Box>
 
-      <Button onClick={onSubmit}>Book session</Button>
 
       {/* PayPal Button */}
       <Box sx={{ marginTop: 3, textAlign: "center" }}>
         <PayPalButton
           amount={selectedAmount}
           onSuccess={(details, data) => {
+            onSubmit()
             alert("Payment Successful!");
           }}
+          disabled={!isFormValid()}
         />
       </Box>
     </Box>
