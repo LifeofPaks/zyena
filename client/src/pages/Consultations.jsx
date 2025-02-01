@@ -18,6 +18,7 @@ import { useDispatch } from "react-redux";
 import { newConsultation } from "../store/consultation-slice";
 import { notifyError, notifySuccess } from "../hooks/toastify";
 
+// Constants
 const garmentPrices = {
   bridalDress: 100.0,
   eveningDress: 80.0,
@@ -26,131 +27,76 @@ const garmentPrices = {
 
 const initialFormData = {
   firstName: "",
-    lastName: "",
-    phoneNumber: "",
-    state: "",
-    email: "",
-    consultationDate: "",
-    meetingType: "",
-    garmentType: "",
-    consultationTime: "", 
-    consent: false,
-    amount: 100,
-}
+  lastName: "",
+  phoneNumber: "",
+  state: "",
+  email: "",
+  consultationDate: "",
+  meetingType: "",
+  garmentType: "",
+  consultationTime: "",
+  consent: false,
+  amount: 100,
+};
+
+// Generate Consultation Time Slots
+const generateTimeSlots = () => {
+  const times = [];
+  for (let hour = 10; hour <= 18; hour++) {
+    for (let minute of [0, 30]) {
+      const formattedTime = (h, m) =>
+        `${h % 12 || 12}:${m === 0 ? "00" : "30"}${h < 12 ? "AM" : "PM"}`;
+      const startTime = formattedTime(hour, minute);
+      const endTime = formattedTime(
+        hour + (minute === 30 ? 1 : 0),
+        (minute + 30) % 60
+      );
+      times.push(`${startTime} - ${endTime}`);
+    }
+  }
+  return times;
+};
+
+const consultationTimes = generateTimeSlots();
 
 const Consultations = () => {
   const [formData, setFormData] = useState(initialFormData);
-
   const [loggedEntries, setLoggedEntries] = useState([]);
-  const [selectedAmount, setSelectedAmount] = useState(100.0);
+  const [selectedAmount, setSelectedAmount] = useState(initialFormData.amount);
   const dispatch = useDispatch();
 
-  const isFormValid = () => {
-    return (
-      formData.firstName &&
-      formData.lastName &&
-      formData.phoneNumber &&
-      formData.state &&
-      formData.email &&
-      formData.consultationDate &&
-      formData.meetingType &&
-      formData.garmentType &&
-      formData.consultationTime &&
-      formData.consent
-    );
-  };
-  
-  {/* PayPal Button */}
-  <Box sx={{ marginTop: 3, textAlign: "center" }}>
-    <PayPalButton
-      amount={selectedAmount}
-      onSuccess={(details, data) => {
-        onSubmit();
-        alert("Payment Successful!");
-      }}
-      disabled={!isFormValid()} // Disable button if form is incomplete
-    />
-  </Box>
-  
+  // Check if all required fields are filled
+  const isFormValid = () => Object.values(formData).every((value) => value);
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
-    if (name === "garmentType") {
-      setSelectedAmount(garmentPrices[value] || 100.0);
-    }
-
-    setFormData({
-      ...formData,
+    setFormData((prev) => ({
+      ...prev,
       [name]: type === "checkbox" ? checked : value,
-    });
+      ...(name === "garmentType" && { amount: garmentPrices[value] || 100.0 }),
+    }));
+    if (name === "garmentType")
+      setSelectedAmount(garmentPrices[value] || 100.0);
   };
 
-  const onSubmit = (event) => {
-    const entry = {
-      ...formData,
-      amount: selectedAmount,
-    };
-
-    const missingFields = Object.keys(entry).filter(
-      (key) => entry[key] === "" || entry[key] === null
-    );
-
-    if (missingFields.length > 0) {
-      notifyError(
-        `You're missing some required fields: ${missingFields.join(", ")}`
-      );
+  const handleSubmit = () => {
+    if (!isFormValid()) {
+      notifyError("Please complete all required fields.");
       return;
     }
 
-    if (!formData.consent) {
-      notifyError(`You need to check the consent box`);
-      return;
-    }
+    const entry = { ...formData, amount: selectedAmount };
 
-    setLoggedEntries((prevEntries) => {
-      const updatedEntries = [...prevEntries, entry];
-      console.log("Logged Entries:", updatedEntries);
-      return updatedEntries;
-    });
-
-    // Submit the consultation to the API
     dispatch(newConsultation(entry)).then((data) => {
       if (data?.payload?.success) {
-        notifySuccess(data?.payload?.message);
-        setFormData(initialFormData)
-        setLoggedEntries([])
+        notifySuccess(data.payload.message);
+        setFormData(initialFormData);
+        setLoggedEntries([]);
       } else {
-        notifyError(data?.payload?.message);
-        setLoggedEntries([])
+        notifyError(data.payload?.message || "Submission failed.");
       }
     });
   };
-
-  // Generate consultation times in 30-minute intervals from 10:00 AM to 6:00 PM
-  const generateTimeSlots = () => {
-    const times = [];
-    const startTime = 10; // 10:00 AM
-    const endTime = 18; // 6:00 PM
-    for (let hour = startTime; hour <= endTime; hour++) {
-      for (let minute = 0; minute < 60; minute += 30) {
-        const startPeriod = hour < 12 ? "AM" : "PM";
-        const startHour12 = hour % 12 || 12; // Convert to 12-hour format
-        const startMinuteFormatted = minute === 0 ? "00" : "30";
-
-        const endMinute = minute === 0 ? 30 : 0; // Set next slot's start time
-        const endPeriod = hour + (minute + 30 >= 60 ? 1 : 0) < 12 ? "AM" : "PM";
-        const endHour12 = (hour + (minute + 30 >= 60 ? 1 : 0)) % 12 || 12;
-        const endMinuteFormatted = endMinute === 0 ? "00" : "30";
-
-        times.push(
-          `${startHour12}:${startMinuteFormatted}${startPeriod} - ${endHour12}:${endMinuteFormatted}${endPeriod}`
-        );
-      }
-    }
-    return times;
-  };
-
-  const consultationTimes = generateTimeSlots();
 
   return (
     <Box
@@ -163,186 +109,157 @@ const Consultations = () => {
         boxShadow: 5,
       }}
     >
-      {/* Consultation Form */}
-      <Box sx={{ marginTop: 3 }}>
-        <Typography
-          variant="h5"
-          gutterBottom
-          sx={{ fontSize: "1.5rem", fontWeight: 500 }}
-        >
-          Consultation Form
-        </Typography>
-        <form>
-          <Grid container spacing={2}>
-            {/* First Name */}
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label="First Name"
-                variant="outlined"
-                name="firstName"
-                value={formData.firstName}
-                onChange={handleInputChange}
-                required
-              />
-            </Grid>
-            {/* Last Name */}
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label="Last Name"
-                variant="outlined"
-                name="lastName"
-                value={formData.lastName}
-                onChange={handleInputChange}
-                required
-              />
-            </Grid>
-            {/* Phone Number */}
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label="Phone Number"
-                variant="outlined"
-                name="phoneNumber"
-                value={formData.phoneNumber}
-                onChange={handleInputChange}
-                required
-              />
-            </Grid>
-            {/* State */}
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label="State/Province"
-                variant="outlined"
-                name="state"
-                value={formData.state}
-                onChange={handleInputChange}
-                required
-              />
-            </Grid>
-            {/* Email */}
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label="Email Address"
-                variant="outlined"
-                name="email"
-                value={formData.email}
-                onChange={handleInputChange}
-                required
-              />
-            </Grid>
-            {/* Consultation Date */}
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label="Consultation Date"
-                type="date"
-                InputLabelProps={{ shrink: true }}
-                variant="outlined"
-                name="consultationDate"
-                value={formData.consultationDate}
-                onChange={handleInputChange}
-                required
-              />
-            </Grid>
-            {/* Meeting Type */}
-            <Grid item xs={12} sm={6}>
-              <FormControl fullWidth>
-                <InputLabel>Meeting Type</InputLabel>
-                <Select
-                  name="meetingType"
-                  value={formData.meetingType}
+      <Typography
+        variant="h5"
+        gutterBottom
+        sx={{ fontSize: "1.5rem", fontWeight: 500 }}
+      >
+        Consultation Form
+      </Typography>
+
+      <form>
+        <Grid container spacing={2}>
+          {["firstName", "lastName", "phoneNumber", "state", "email"].map(
+            (field) => (
+              <Grid item xs={12} sm={6} key={field}>
+                <TextField
+                  fullWidth
+                  label={field.replace(/([A-Z])/g, " $1")}
+                  variant="outlined"
+                  name={field}
+                  value={formData[field]}
                   onChange={handleInputChange}
                   required
-                  label="Meeting Type"
-                >
-                  <MenuItem value="inPerson">In-Person</MenuItem>
-                  <MenuItem value="virtual">Virtual</MenuItem>
-                </Select>
-              </FormControl>
-            </Grid>
-            {/* Garment Type */}
-            <Grid item xs={12} sm={6}>
-              <FormControl fullWidth variant="outlined">
-                <InputLabel>Garment Type</InputLabel>
-                <Select
-                  name="garmentType"
-                  value={formData.garmentType}
-                  onChange={handleInputChange}
-                  required
-                  label="Garment Type"
-                >
-                  <MenuItem value="bridalDress">Bridal Dress - $100</MenuItem>
-                  <MenuItem value="eveningDress">Evening Dress - $80</MenuItem>
-                  <MenuItem value="promDress">Prom Dress - $70</MenuItem>
-                </Select>
-              </FormControl>
-            </Grid>
-            {/* Consultation Time */}
-            <Grid item xs={12} sm={6}>
-              <FormControl fullWidth>
-                <InputLabel>Consultation Time</InputLabel>
-                <Select
-                  name="consultationTime"
-                  value={formData.consultationTime}
-                  onChange={handleInputChange}
-                  required
-                  label="Consultation Time"
-                >
-                  {consultationTimes.map((time, index) => (
-                    <MenuItem key={index} value={time}>
-                      {time}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Grid>
-            {/* Amount Field */}
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label="Amount"
-                variant="outlined"
-                name="amount"
-                value={selectedAmount}
-                onChange={handleInputChange}
-                disabled
-              />
-            </Grid>
-            {/* Consent Checkbox */}
-            <Grid item xs={12}>
-              <FormGroup>
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      name="consent"
-                      checked={formData.consent}
-                      onChange={handleInputChange}
-                    />
-                  }
-                  label="Yes, I agree with the non-refundable consultation fee and privacy policy."
                 />
-              </FormGroup>
-            </Grid>
+              </Grid>
+            )
+          )}
+
+          {/* Consultation Date */}
+          <Grid item xs={12} sm={6}>
+            <TextField
+              fullWidth
+              label="Consultation Date"
+              type="date"
+              InputLabelProps={{ shrink: true }}
+              variant="outlined"
+              name="consultationDate"
+              value={formData.consultationDate}
+              onChange={handleInputChange}
+              required
+            />
           </Grid>
-        </form>
-      </Box>
 
+          {/* Meeting Type */}
+          <Grid item xs={12} sm={6}>
+            <FormControl fullWidth>
+              <InputLabel>Meeting Type</InputLabel>
+              <Select
+                name="meetingType"
+                value={formData.meetingType}
+                onChange={handleInputChange}
+                required
+                label="Meeting Type"
+              >
+                <MenuItem value="inPerson">In-Person</MenuItem>
+                <MenuItem value="virtual">Virtual</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
 
-      {/* PayPal Button */}
-      <Box sx={{ marginTop: 3, textAlign: "center" }}>
-        <PayPalButton
-          amount={selectedAmount}
-          onSuccess={(details, data) => {
-            onSubmit()
-            alert("Payment Successful!");
-          }}
-          disabled={!isFormValid()}
-        />
-      </Box>
+          {/* Garment Type */}
+          <Grid item xs={12} sm={6}>
+            <FormControl fullWidth>
+              <InputLabel>Garment Type</InputLabel>
+              <Select
+                name="garmentType"
+                value={formData.garmentType}
+                onChange={handleInputChange}
+                required
+                label="Garmet Type"
+              >
+                {Object.entries(garmentPrices).map(([key, price]) => (
+                  <MenuItem key={key} value={key}>
+                    {key.replace(/([A-Z])/g, " $1")} - ${price}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
+
+          {/* Consultation Time */}
+          <Grid item xs={12} sm={6}>
+            <FormControl fullWidth>
+              <InputLabel>Consultation Time</InputLabel>
+              <Select
+                name="consultationTime"
+                value={formData.consultationTime}
+                onChange={handleInputChange}
+                required
+                label="Consultation Time"
+              >
+                {consultationTimes.map((time, index) => (
+                  <MenuItem key={index} value={time}>
+                    {time}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
+
+          {/* Amount */}
+          <Grid item xs={12} sm={6}>
+            <TextField
+              fullWidth
+              label="Amount"
+              variant="outlined"
+              name="amount"
+              value={selectedAmount}
+              disabled
+            />
+          </Grid>
+
+          {/* Consent Checkbox */}
+          <Grid item xs={12}>
+            <FormGroup>
+              <InputLabel className="!text-[12px]">
+                Consent <span className="text-red-600">*</span>
+              </InputLabel>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    name="consent"
+                    checked={formData.consent}
+                    onChange={handleInputChange}
+                  />
+                }
+                label="Yes, I agree with the non-refundable consultation fee and privacy policy."
+              />
+            </FormGroup>
+          </Grid>
+        </Grid>
+
+        {/* PayPal Button */}
+        <Box sx={{ marginTop: 3, textAlign: "center" }}>
+          <PayPalButton
+            amount={selectedAmount}
+            onSuccess={handleSubmit}
+            disabled={!isFormValid()}
+          />
+        </Box>
+
+        {/* Submit Button */}
+        <Box sx={{ textAlign: "center", marginTop: 2 }}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleSubmit}
+            disabled={!isFormValid()}
+          >
+            Submit Consultation
+          </Button>
+        </Box>
+      </form>
     </Box>
   );
 };
