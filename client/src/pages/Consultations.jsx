@@ -57,7 +57,9 @@ const generateTimeSlots = () => {
   return times;
 };
 
-const consultationTimes = generateTimeSlots();
+const consultationTimes = generateTimeSlots().filter(
+  (time) => time !== "6:00PM - 6:30PM" && time !== "6:30PM - 7:00PM"
+);
 
 const Consultations = () => {
   const [formData, setFormData] = useState(initialFormData);
