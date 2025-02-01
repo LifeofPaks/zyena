@@ -54,7 +54,7 @@ const scheduleReminders = async () => {
           `<p>Hello <strong>${firstName} ${lastName}</strong>,</p>
            <p>Your consultation is scheduled for <strong>${consultationDate} at ${consultationTime}</strong>.</p>
            <p>We look forward to seeing you!</p>
-           <p><strong>Your Company Name</strong></p>`
+           <p><strong>Zyena Store</strong></p>`
         );
       }, twoDaysBefore.diff(moment())); // Set timeout for the reminder
     }
@@ -69,7 +69,7 @@ const scheduleReminders = async () => {
           `<p>Hello <strong>${firstName} ${lastName}</strong>,</p>
            <p>This is a reminder that your consultation is scheduled for <strong>${consultationDate} at ${consultationTime}</strong>.</p>
            <p>See you soon!</p>
-           <p><strong>Your Company Name</strong></p>`
+           <p><strong>Zyena Store</strong></p>`
         );
       }, threeHoursBefore.diff(moment()));
     }
