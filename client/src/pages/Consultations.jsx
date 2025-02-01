@@ -87,6 +87,14 @@ const Consultations = () => {
       return;
     }
 
+    // Check if the selected date is within allowed range (Wednesday to Sunday)
+    const selectedDate = new Date(formData.consultationDate);
+    const dayOfWeek = selectedDate.getDay(); // 0 is Sunday, 1 is Monday, etc.
+    if (dayOfWeek === 1 || dayOfWeek === 2) {
+      notifyError("Consultations can only be booked from Wednesday to Sunday.");
+      return;
+    }
+
     const entry = { ...formData, amount: selectedAmount };
 
     dispatch(newConsultation(entry)).then((data) => {
@@ -146,7 +154,7 @@ const Consultations = () => {
           {/* Meeting Type */}
           <Grid item xs={12} sm={6}>
             <FormControl fullWidth>
-              <InputLabel  className="!text-[14px]">Meeting Type</InputLabel>
+              <InputLabel className="!text-[14px]">Meeting Type</InputLabel>
               <Select
                 name="meetingType"
                 value={formData.meetingType}
@@ -155,8 +163,8 @@ const Consultations = () => {
                 label="Meeting Type"
                 sx={{ fontSize: "14px" }}
               >
-                <MenuItem value="inPerson"  className="!text-[14px]">In-Person</MenuItem>
-                <MenuItem value="virtual"  className="!text-[14px]">Virtual</MenuItem>
+                <MenuItem value="inPerson" className="!text-[14px]">In-Person</MenuItem>
+                <MenuItem value="virtual" className="!text-[14px]">Virtual</MenuItem>
               </Select>
             </FormControl>
           </Grid>
@@ -180,7 +188,7 @@ const Consultations = () => {
           {/* Consultation Time */}
           <Grid item xs={12} sm={6}>
             <FormControl fullWidth>
-              <InputLabel  className="!text-[14px]">Consultation Time</InputLabel>
+              <InputLabel className="!text-[14px]">Consultation Time</InputLabel>
               <Select
                 name="consultationTime"
                 value={formData.consultationTime}
@@ -190,7 +198,7 @@ const Consultations = () => {
                 sx={{ fontSize: "14px" }}
               >
                 {consultationTimes.map((time, index) => (
-                  <MenuItem key={index} value={time}  className="!text-[14px]">
+                  <MenuItem key={index} value={time} className="!text-[14px]">
                     {time}
                   </MenuItem>
                 ))}
@@ -207,7 +215,7 @@ const Consultations = () => {
                 value={formData.garmentType}
                 onChange={handleInputChange}
                 required
-                label="Garmet Type"
+                label="Garment Type"
                 sx={{ fontSize: "14px" }}
               >
                 {Object.entries(garmentPrices).map(([key, price]) => (
