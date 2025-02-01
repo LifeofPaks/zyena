@@ -127,7 +127,7 @@ const Consultations = () => {
         Consultation Form
       </Typography>
 
-      <form>
+      <div>
         <Grid container spacing={2}>
           {["firstName", "lastName","email", "phoneNumber", "state", ].map(
             (field) => (
@@ -268,7 +268,8 @@ const Consultations = () => {
         </Grid>
 
         {/* PayPal Button */}
-        <Box sx={{ marginTop: 3, textAlign: "center" }}>
+        {
+          isFormValid() && <Box sx={{ marginTop: 3, textAlign: "center" }}>
           <PayPalButton
             amount={selectedAmount}
             onSuccess={handleSubmit}
@@ -276,18 +277,8 @@ const Consultations = () => {
           />
         </Box>
 
-        {/* Submit Button */}
-        <Box sx={{ textAlign: "center", marginTop: 2 }}>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleSubmit}
-            disabled={!isFormValid()}
-          >
-            Submit Consultation
-          </Button>
-        </Box>
-      </form>
+        }
+      </div>
     </Box>
   );
 };
