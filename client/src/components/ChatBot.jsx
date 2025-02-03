@@ -15,7 +15,7 @@ const ChatBot = () => {
   const generateBotReply = async (history) => {
     const updateHistory = (text, isError = false) => {
       setChatHistory((prev) => [
-        ...prev.filter((msg) => msg.text !== "Thinking..."),
+        ...prev.filter((msg) => msg.text !== ""),
         { role: "model", text, isError },
       ]);
     };
@@ -50,7 +50,7 @@ const ChatBot = () => {
   useEffect(() => {
     chatBodyRef.current.scrollTo({
       top: chatBodyRef.current.scrollHeight,
-      behaviour: "smooth",
+      behavior: "smooth",
     });
   }, [chatHistory]);
 
