@@ -12,6 +12,7 @@ import Bridal from "./pages/Bridal";
 import EveningDresses from "./pages/EveningDresses";
 import PromDresses from "./pages/PromDresses";
 import Valorous from "./pages/Valorous";
+import ChatBot from "./components/ChatBot";
 
 
 
@@ -19,6 +20,7 @@ import Valorous from "./pages/Valorous";
 function App() {
   return (
     <>
+    <ChatBot/>
     <ScrollTop/>
     <Navbar/>
     <Routes>
