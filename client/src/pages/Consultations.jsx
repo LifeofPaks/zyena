@@ -274,6 +274,9 @@ const Consultations = () => {
             amount={selectedAmount}
             onSuccess={handleSubmit}
             disabled={!isFormValid()}
+            options={{
+              clientId: import.meta.env.VITE_PAYPAL_CLIENT_ID,
+            }}
           />
         </Box>
 
