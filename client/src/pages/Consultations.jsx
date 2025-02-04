@@ -63,6 +63,7 @@ const consultationTimes = generateTimeSlots().filter(
 
 const Consultations = () => {
   const [formData, setFormData] = useState(initialFormData);
+  const [formError, setFormError] = useState(false);
   const [loggedEntries, setLoggedEntries] = useState([]);
   const [selectedAmount, setSelectedAmount] = useState(initialFormData.amount);
   const dispatch = useDispatch();
@@ -84,6 +85,7 @@ const Consultations = () => {
   const handleSubmit = () => {
     if (!isFormValid()) {
       notifyError("Please complete all required fields.");
+      setFormError(true)
       return;
     }
 
@@ -114,9 +116,6 @@ const Consultations = () => {
         padding: 4,
         maxWidth: 800,
         margin: "3rem auto",
-        backgroundColor: "#f9f9f9",
-        borderRadius: 3,
-        boxShadow: 5,
       }}
     >
       <Typography
@@ -128,7 +127,7 @@ const Consultations = () => {
       </Typography>
 
       <div>
-        <Grid container spacing={2}>
+        <Grid container spacing={4}>
           {["firstName", "lastName", "email", "phoneNumber", "state"].map(
             (field) => (
               <Grid item xs={12} sm={6} key={field}>
@@ -137,7 +136,8 @@ const Consultations = () => {
                   label={field
                     .replace(/([A-Z])/g, " $1")
                     .replace(/^./, (str) => str.toUpperCase())}
-                  variant="outlined"
+                   variant="standard"
+                   error={formError}
                   name={field}
                   value={formData[field]}
                   onChange={handleInputChange}
@@ -154,10 +154,12 @@ const Consultations = () => {
           )}
 
           {/* Meeting Type */}
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={20} sm={6}>
             <FormControl fullWidth>
               <InputLabel className="!text-[14px]">Meeting Type</InputLabel>
               <Select
+                variant="standard"
+                error={formError}
                 name="meetingType"
                 value={formData.meetingType}
                 onChange={handleInputChange}
@@ -181,7 +183,8 @@ const Consultations = () => {
               label="Consultation Date"
               type="date"
               InputLabelProps={{ shrink: true }}
-              variant="outlined"
+               variant="standard"
+               error={formError}
               name="consultationDate"
               value={formData.consultationDate}
               onChange={handleInputChange}
@@ -198,6 +201,8 @@ const Consultations = () => {
                 Consultation Time
               </InputLabel>
               <Select
+                variant="standard"
+                error={formError}
                 name="consultationTime"
                 value={formData.consultationTime}
                 onChange={handleInputChange}
@@ -219,6 +224,8 @@ const Consultations = () => {
             <FormControl fullWidth>
               <InputLabel className="!text-[14px]">Garment Type</InputLabel>
               <Select
+              variant="standard"
+              error={formError}
                 name="garmentType"
                 value={formData.garmentType}
                 onChange={handleInputChange}
@@ -243,7 +250,8 @@ const Consultations = () => {
             <TextField
               fullWidth
               label="Amount"
-              variant="outlined"
+               variant="standard"
+               error={formError}
               name="amount"
               value={selectedAmount}
               disabled
