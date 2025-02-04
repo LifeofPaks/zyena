@@ -63,15 +63,27 @@ const consultationTimes = generateTimeSlots().filter(
 
 const Consultations = () => {
   const [formData, setFormData] = useState(initialFormData);
-  const [formError, setFormError] = useState(false);
+  const [errors, setErrors] = useState({});
   const [loggedEntries, setLoggedEntries] = useState([]);
   const [selectedAmount, setSelectedAmount] = useState(initialFormData.amount);
   const dispatch = useDispatch();
 
   // Check if all required fields are filled
-  const isFormValid = () => Object.values(formData).every((value) => value);
+  const isFormValid = () => {
+    const newErrors = {};
+  
+    Object.keys(formData).forEach((key) => {
+      if (!formData[key]) {
+        newErrors[key] = true;
+      }
+    });
+  
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleInputChange = (e) => {
+    setErrors({});
     const { name, value, type, checked } = e.target;
     setFormData((prev) => ({
       ...prev,
@@ -104,6 +116,7 @@ const Consultations = () => {
         notifySuccess(data.payload.message);
         setFormData(initialFormData);
         setLoggedEntries([]);
+        setErrors({});
       } else {
         notifyError(data.payload?.message || "Submission failed.");
       }
@@ -137,7 +150,7 @@ const Consultations = () => {
                     .replace(/([A-Z])/g, " $1")
                     .replace(/^./, (str) => str.toUpperCase())}
                    variant="standard"
-                   error={formError}
+                   error={!!errors.firstName}
                   name={field}
                   value={formData[field]}
                   onChange={handleInputChange}
@@ -156,10 +169,10 @@ const Consultations = () => {
           {/* Meeting Type */}
           <Grid item xs={20} sm={6}>
             <FormControl fullWidth>
-              <InputLabel className="!text-[14px]">Meeting Type</InputLabel>
+              <InputLabel className={`!text-[14px] !ml-[-12px] ${errors.meetingType ? '!text-red-700': ''}`}>Meeting Type*</InputLabel>
               <Select
                 variant="standard"
-                error={formError}
+                error={!!errors.meetingType}
                 name="meetingType"
                 value={formData.meetingType}
                 onChange={handleInputChange}
@@ -184,7 +197,7 @@ const Consultations = () => {
               type="date"
               InputLabelProps={{ shrink: true }}
                variant="standard"
-               error={formError}
+               error={!!errors.consultationDate}
               name="consultationDate"
               value={formData.consultationDate}
               onChange={handleInputChange}
@@ -197,12 +210,12 @@ const Consultations = () => {
           {/* Consultation Time */}
           <Grid item xs={12} sm={6}>
             <FormControl fullWidth>
-              <InputLabel className="!text-[14px]">
-                Consultation Time
+              <InputLabel className={`!text-[14px] !ml-[-12px] ${errors.consultationTime ? '!text-red-700': ''}`}>
+                Consultation Time*
               </InputLabel>
               <Select
                 variant="standard"
-                error={formError}
+                error={!!errors.consultationTime}
                 name="consultationTime"
                 value={formData.consultationTime}
                 onChange={handleInputChange}
@@ -222,10 +235,10 @@ const Consultations = () => {
           {/* Garment Type */}
           <Grid item xs={12} sm={6}>
             <FormControl fullWidth>
-              <InputLabel className="!text-[14px]">Garment Type</InputLabel>
+              <InputLabel className={`!text-[14px] !ml-[-12px] ${errors.garmentType ? '!text-red-700': ''}`}>Garment Type*</InputLabel>
               <Select
               variant="standard"
-              error={formError}
+              error={!!errors.garmentType}
                 name="garmentType"
                 value={formData.garmentType}
                 onChange={handleInputChange}
@@ -251,7 +264,7 @@ const Consultations = () => {
               fullWidth
               label="Amount"
                variant="standard"
-               error={formError}
+              //  error={formError}
               name="amount"
               value={selectedAmount}
               disabled
@@ -273,10 +286,12 @@ const Consultations = () => {
               <FormControlLabel
                 control={
                   <Checkbox
-                    name="consent"
-                    checked={formData.consent}
-                    onChange={handleInputChange}
-                  />
+                  name="consent"
+                  checked={formData.consent}
+                  onChange={handleInputChange}
+                  className={`!text-amber-300 ${errors.consent ? " !text-red-600": ''}`}
+                />
+                
                 }
                 label={
                   <span className="text-sm">
@@ -299,9 +314,9 @@ const Consultations = () => {
                   notifyError(
                     "Please complete the form before proceeding to payment."
                   );
-                  return actions.reject(); // Prevents the redirection
+                  return actions.reject(); 
                 }
-                return actions.resolve(); // Allows payment to proceed
+                return actions.resolve(); 
               }}
               onSuccess={handleSubmit}
               options={{
