@@ -36,7 +36,7 @@ const Navbar = () => {
               to={link.path}
               onMouseEnter={() => setIsBridalDropdownOpen(false)}
               className={({ isActive }) =>
-                `relative  text-black text-sm tracking-wider transition-all duration-300 after:content-[''] after:absolute after:left-1/2 after:w-0 after:h-[2px] after:bg-blue-500 after:transition-all after:duration-300 after:top-full hover:after:w-full hover:after:left-0 
+                `relative  text-black text-sm transition-all duration-300 after:content-[''] after:absolute after:left-1/2 after:w-0 after:h-[2px] after:bg-blue-500 after:transition-all after:duration-300 after:top-full hover:after:w-full hover:after:left-0 
     ${isActive ? "text-blue-500" : "hover:text-blue-500"}
     block h-[30px]`
               }
@@ -49,7 +49,7 @@ const Navbar = () => {
               <div className="absolute left-0 mt-2 w-48 bg-white shadow-lg rounded-lg !border-t-2 border-blue-500 top-[2rem]">
               <NavLink
                 to="#"
-                className="!px-4 !py-2 text-gray-700 hover:bg-gray-200 hover:text-blue-500 transition-all duration-300 ease-in-out flex items-center text-[13px] tracking-wider"
+                className="!px-4 !py-2 text-gray-700 hover:bg-gray-200 hover:text-blue-500 transition-all duration-300 ease-in-out flex items-center text-[13px]"
                 onMouseEnter={() => setIsBridalDropdownOpen(true)}
               >
                 Bridal <MdOutlineKeyboardArrowRight className="!ml-[6rem]" />

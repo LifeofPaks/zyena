@@ -134,7 +134,7 @@ const Consultations = () => {
       <Typography
         variant="h5"
         gutterBottom
-        sx={{ fontSize: "1.5rem", fontWeight: 500 }}
+        sx={{ fontSize: "18px", fontWeight: 500, color:"#333" }}
       >
         Consultation Form
       </Typography>
