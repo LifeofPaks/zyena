@@ -5,9 +5,16 @@ import ChatForm from "./ChatForm";
 import ChatMessage from "./ChatMessage";
 import { BsFillChatRightFill } from "react-icons/bs";
 import { IoClose } from "react-icons/io5";
+import { businessInfo } from "../config/businessInfo";
 
 const ChatBot = () => {
-  const [chatHistory, setChatHistory] = useState([]);
+  const [chatHistory, setChatHistory] = useState([
+    {
+      hideInChat:true,
+      role: "model",
+      text: businessInfo
+    }
+  ]);
   const [showChatBot, setShowChatBot] = useState(false);
 
   const chatBodyRef = useRef();
@@ -68,7 +75,7 @@ const ChatBot = () => {
         <div className="chat-header">
           <div className="header-info">
             <ChatIcon />
-            <h1 className="logo-text">Chat with Zyena Support</h1>
+            <h1 className="logo-text">Ask Zyena Support</h1>
           </div>
           <button onClick={() => setShowChatBot(prev => !prev)}>
             <IoIosArrowDown />

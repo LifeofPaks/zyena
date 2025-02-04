@@ -1,5 +1,4 @@
 import React from "react";
-import ChatBotImg from "../assets/chatbot.png";
 
 const ChatIcon = () => {
   return (
