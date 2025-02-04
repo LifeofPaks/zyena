@@ -129,12 +129,14 @@ const Consultations = () => {
 
       <div>
         <Grid container spacing={2}>
-          {["firstName", "lastName","email", "phoneNumber", "state", ].map(
+          {["firstName", "lastName", "email", "phoneNumber", "state"].map(
             (field) => (
               <Grid item xs={12} sm={6} key={field}>
                 <TextField
                   fullWidth
-                  label={field.replace(/([A-Z])/g, " $1").replace(/^./, (str) => str.toUpperCase())}
+                  label={field
+                    .replace(/([A-Z])/g, " $1")
+                    .replace(/^./, (str) => str.toUpperCase())}
                   variant="outlined"
                   name={field}
                   value={formData[field]}
@@ -163,8 +165,12 @@ const Consultations = () => {
                 label="Meeting Type"
                 sx={{ fontSize: "14px" }}
               >
-                <MenuItem value="inPerson" className="!text-[14px]">In-Person</MenuItem>
-                <MenuItem value="virtual" className="!text-[14px]">Virtual</MenuItem>
+                <MenuItem value="inPerson" className="!text-[14px]">
+                  In-Person
+                </MenuItem>
+                <MenuItem value="virtual" className="!text-[14px]">
+                  Virtual
+                </MenuItem>
               </Select>
             </FormControl>
           </Grid>
@@ -188,7 +194,9 @@ const Consultations = () => {
           {/* Consultation Time */}
           <Grid item xs={12} sm={6}>
             <FormControl fullWidth>
-              <InputLabel className="!text-[14px]">Consultation Time</InputLabel>
+              <InputLabel className="!text-[14px]">
+                Consultation Time
+              </InputLabel>
               <Select
                 name="consultationTime"
                 value={formData.consultationTime}
@@ -220,7 +228,10 @@ const Consultations = () => {
               >
                 {Object.entries(garmentPrices).map(([key, price]) => (
                   <MenuItem key={key} value={key} className="!text-[14px]">
-                    {key.replace(/([A-Z])/g, " $1").replace(/^./, (str) => str.toUpperCase())} - ${price}
+                    {key
+                      .replace(/([A-Z])/g, " $1")
+                      .replace(/^./, (str) => str.toUpperCase())}{" "}
+                    - ${price}
                   </MenuItem>
                 ))}
               </Select>
@@ -260,7 +271,10 @@ const Consultations = () => {
                   />
                 }
                 label={
-                  <span className="text-sm">Yes, I agree with the non-refundable consultation fee and privacy policy.</span>
+                  <span className="text-sm">
+                    Yes, I agree with the non-refundable consultation fee and
+                    privacy policy.
+                  </span>
                 }
               />
             </FormGroup>
@@ -268,19 +282,26 @@ const Consultations = () => {
         </Grid>
 
         {/* PayPal Button */}
-        {
-          isFormValid() && <Box sx={{ marginTop: 3, textAlign: "center" }}>
-          <PayPalButton
-            amount={selectedAmount}
-            onSuccess={handleSubmit}
-            disabled={!isFormValid()}
-            options={{
-              clientId: import.meta.env.VITE_PAYPAL_CLIENT_ID,
-            }}
-          />
+        <Box sx={{ marginTop: 3, textAlign: "center" }}>
+          <Box sx={{ marginTop: 3, textAlign: "center" }}>
+            <PayPalButton
+              amount={selectedAmount}
+              onClick={(data, actions) => {
+                if (!isFormValid()) {
+                  notifyError(
+                    "Please complete the form before proceeding to payment."
+                  );
+                  return actions.reject(); // Prevents the redirection
+                }
+                return actions.resolve(); // Allows payment to proceed
+              }}
+              onSuccess={handleSubmit}
+              options={{
+                clientId: import.meta.env.VITE_PAYPAL_CLIENT_ID,
+              }}
+            />
+          </Box>
         </Box>
-
-        }
       </div>
     </Box>
   );
