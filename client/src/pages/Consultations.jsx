@@ -71,13 +71,13 @@ const Consultations = () => {
   // Check if all required fields are filled
   const isFormValid = () => {
     const newErrors = {};
-  
+
     Object.keys(formData).forEach((key) => {
       if (!formData[key]) {
         newErrors[key] = true;
       }
     });
-  
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -97,7 +97,7 @@ const Consultations = () => {
   const handleSubmit = () => {
     if (!isFormValid()) {
       notifyError("Please complete all required fields.");
-      setFormError(true)
+      setFormError(true);
       return;
     }
 
@@ -134,7 +134,7 @@ const Consultations = () => {
       <Typography
         variant="h5"
         gutterBottom
-        sx={{ fontSize: "18px", fontWeight: 500, color:"#333" }}
+        sx={{ fontSize: "18px", fontWeight: 500, color: "#333" }}
       >
         Consultation Form
       </Typography>
@@ -149,8 +149,8 @@ const Consultations = () => {
                   label={field
                     .replace(/([A-Z])/g, " $1")
                     .replace(/^./, (str) => str.toUpperCase())}
-                   variant="standard"
-                   error={!!errors.firstName}
+                  variant="standard"
+                  error={!!errors.firstName}
                   name={field}
                   value={formData[field]}
                   onChange={handleInputChange}
@@ -169,7 +169,13 @@ const Consultations = () => {
           {/* Meeting Type */}
           <Grid item xs={20} sm={6}>
             <FormControl fullWidth>
-              <InputLabel className={`!text-[14px] !ml-[-12px] ${errors.meetingType ? '!text-red-700': ''}`}>Meeting Type*</InputLabel>
+              <InputLabel
+                className={`!text-[14px] !ml-[-12px] ${
+                  errors.meetingType ? "!text-red-700" : ""
+                }`}
+              >
+                Meeting Type*
+              </InputLabel>
               <Select
                 variant="standard"
                 error={!!errors.meetingType}
@@ -196,8 +202,8 @@ const Consultations = () => {
               label="Consultation Date"
               type="date"
               InputLabelProps={{ shrink: true }}
-               variant="standard"
-               error={!!errors.consultationDate}
+              variant="standard"
+              error={!!errors.consultationDate}
               name="consultationDate"
               value={formData.consultationDate}
               onChange={handleInputChange}
@@ -210,7 +216,11 @@ const Consultations = () => {
           {/* Consultation Time */}
           <Grid item xs={12} sm={6}>
             <FormControl fullWidth>
-              <InputLabel className={`!text-[14px] !ml-[-12px] ${errors.consultationTime ? '!text-red-700': ''}`}>
+              <InputLabel
+                className={`!text-[14px] !ml-[-12px] ${
+                  errors.consultationTime ? "!text-red-700" : ""
+                }`}
+              >
                 Consultation Time*
               </InputLabel>
               <Select
@@ -235,10 +245,16 @@ const Consultations = () => {
           {/* Garment Type */}
           <Grid item xs={12} sm={6}>
             <FormControl fullWidth>
-              <InputLabel className={`!text-[14px] !ml-[-12px] ${errors.garmentType ? '!text-red-700': ''}`}>Garment Type*</InputLabel>
+              <InputLabel
+                className={`!text-[14px] !ml-[-12px] ${
+                  errors.garmentType ? "!text-red-700" : ""
+                }`}
+              >
+                Garment Type*
+              </InputLabel>
               <Select
-              variant="standard"
-              error={!!errors.garmentType}
+                variant="standard"
+                error={!!errors.garmentType}
                 name="garmentType"
                 value={formData.garmentType}
                 onChange={handleInputChange}
@@ -263,7 +279,7 @@ const Consultations = () => {
             <TextField
               fullWidth
               label="Amount"
-               variant="standard"
+              variant="standard"
               //  error={formError}
               name="amount"
               value={selectedAmount}
@@ -286,12 +302,13 @@ const Consultations = () => {
               <FormControlLabel
                 control={
                   <Checkbox
-                  name="consent"
-                  checked={formData.consent}
-                  onChange={handleInputChange}
-                  className={`!text-amber-300 ${errors.consent ? " !text-red-600": ''}`}
-                />
-                
+                    name="consent"
+                    checked={formData.consent}
+                    onChange={handleInputChange}
+                    className={`!text-amber-300 ${
+                      errors.consent ? " !text-red-600" : ""
+                    }`}
+                  />
                 }
                 label={
                   <span className="text-sm">
@@ -309,16 +326,20 @@ const Consultations = () => {
           <Box sx={{ marginTop: 3, textAlign: "center" }}>
             <PayPalButton
               amount={selectedAmount}
-              onClick={(data, actions) => {
+              createOrder={(data, actions) => {
                 if (!isFormValid()) {
                   notifyError(
                     "Please complete the form before proceeding to payment."
                   );
-                  return actions.reject(); 
+                  return Promise.reject(); // Completely stop PayPal from proceeding
                 }
-                return actions.resolve(); 
+                return actions.order.create({
+                  purchase_units: [{ amount: { value: selectedAmount } }],
+                });
               }}
-              onSuccess={handleSubmit}
+              onApprove={(data, actions) => {
+                return actions.order.capture().then(handleSubmit);
+              }}
               options={{
                 clientId: import.meta.env.VITE_PAYPAL_CLIENT_ID,
               }}
