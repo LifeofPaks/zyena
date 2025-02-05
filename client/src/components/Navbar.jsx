@@ -8,17 +8,21 @@ import {
   ListItem,
   ListItemText,
   Collapse,
+  Popover,
+  MenuItem,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import ExpandLess from "@mui/icons-material/ExpandLess";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 const Navbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isBridalDropdownOpen, setIsBridalDropdownOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileBridalOpen, setMobileBridalOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
 
   const navLinks = [
     { name: "Home", path: "/" },
@@ -28,6 +32,14 @@ const Navbar = () => {
     { name: "About Us", path: "/about-us" },
     { name: "Contact Us", path: "/contact-us" },
   ];
+
+  const handleProfileClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleProfileClose = () => {
+    setAnchorEl(null);
+  };
 
   return (
     <nav className="container flex items-center justify-between !mx-auto !py-1">
@@ -111,6 +123,46 @@ const Navbar = () => {
         ))}
       </div>
 
+      {/* Profile Icon & Popover */}
+      <div>
+        <IconButton className="!hidden md:!block" onClick={handleProfileClick}>
+          <AccountCircleIcon fontSize="large" />
+        </IconButton>
+
+        <Popover
+          open={Boolean(anchorEl)}
+          anchorEl={anchorEl}
+          onClose={handleProfileClose}
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "right",
+          }}
+          transformOrigin={{
+            vertical: "top",
+            horizontal: "right",
+          }}
+        >
+          <div className="p-2 w-30">
+            <MenuItem
+              onClick={handleProfileClose}
+              component={NavLink}
+              to="/sign-in"
+              className="!text-[13px] !border-b !border-gray-100"
+            >
+              Sign In
+            </MenuItem>
+            <MenuItem
+              onClick={handleProfileClose}
+              component={NavLink}
+              to="/sign-out"
+              className="!text-[13px]"
+            >
+              Sign Out
+            </MenuItem>
+          </div>
+        </Popover>
+      </div>
+
       {/* Mobile Navbar Button */}
       {!mobileOpen && (
         <IconButton
@@ -144,7 +196,10 @@ const Navbar = () => {
                   to={link.path}
                   onClick={() => setMobileOpen(false)}
                 >
-                  <ListItemText   primaryTypographyProps={{ style: { fontSize: "14px" } }} primary={link.name} />
+                  <ListItemText
+                    primaryTypographyProps={{ style: { fontSize: "14px" } }}
+                    primary={link.name}
+                  />
                 </ListItem>
                 {link.hasDropdown && (
                   <>
@@ -152,7 +207,10 @@ const Navbar = () => {
                       button
                       onClick={() => setMobileBridalOpen(!mobileBridalOpen)}
                     >
-                      <ListItemText primary="Bridal"   primaryTypographyProps={{ style: { fontSize: "14px" } }}/>
+                      <ListItemText
+                        primary="Bridal"
+                        primaryTypographyProps={{ style: { fontSize: "14px" } }}
+                      />
                       {mobileBridalOpen ? <ExpandLess /> : <ExpandMore />}
                     </ListItem>
                     <Collapse
@@ -170,7 +228,9 @@ const Navbar = () => {
                           <ListItemText
                             primary="Valorous 2024"
                             className="!pl-3"
-                            primaryTypographyProps={{ style: { fontSize: "13px" } }}
+                            primaryTypographyProps={{
+                              style: { fontSize: "13px" },
+                            }}
                           />
                         </ListItem>
                         <ListItem
@@ -182,7 +242,9 @@ const Navbar = () => {
                           <ListItemText
                             primary="2023 Bridal"
                             className="!pl-3"
-                            primaryTypographyProps={{ style: { fontSize: "13px" } }}
+                            primaryTypographyProps={{
+                              style: { fontSize: "13px" },
+                            }}
                           />
                         </ListItem>
                       </List>
