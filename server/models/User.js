@@ -1,12 +1,15 @@
 const mongoose = require("mongoose");
 
 const UserSchema = new mongoose.Schema({
-  userName: {
+  firstName: {
     type: String,
     required: true,
-    unique: true,
   },
 
+  lastName: {
+    type: String,
+    required: true,
+  },
   email: {
     type: String,
     required: true,
@@ -18,15 +21,15 @@ const UserSchema = new mongoose.Schema({
     required: true,
   },
 
-//   resetPasswordToken: {
-//     type: String,
-//     default: null,
-//   },
+  //   resetPasswordToken: {
+  //     type: String,
+  //     default: null,
+  //   },
 
-//   resetPasswordExpires: {
-//     type: Date,
-//     default: null,
-//   },
+  //   resetPasswordExpires: {
+  //     type: Date,
+  //     default: null,
+  //   },
 });
 
 const User = mongoose.model("User", UserSchema);

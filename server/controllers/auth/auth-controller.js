@@ -6,7 +6,7 @@ const nodemailer = require("nodemailer");
 
 // Register User
 const registerUser = async (req, res) => {
-    const { userName, email, password } = req.body;
+    const { firstName, lastName, email, password } = req.body;
   
     if (!validator.isEmail(email)) {
       return res.json({
@@ -26,7 +26,8 @@ const registerUser = async (req, res) => {
   
       const hashPassword = await bcrypt.hash(password, 12);
       const newUser = new User({
-        userName,
+        firstName,
+        lastName,
         email,
         password: hashPassword,
       });
@@ -74,7 +75,8 @@ const loginUser = async (req, res) => {
           id: checkUser._id,
           role: checkUser.role,
           email: checkUser.email,
-          userName: checkUser.userName,
+          firstName: checkUser.firstName,
+          lastName: checkUser.lastName,
         },
         process.env.JWT_SECRET,
         { expiresIn: "1h" }
@@ -88,7 +90,8 @@ const loginUser = async (req, res) => {
           email: checkUser.email,
           role: checkUser.role,
           id: checkUser._id,
-          userName: checkUser.userName,
+          firstName: checkUser.firstName,
+          lastName: checkUser.lastName,
         },
       });
     } catch (e) {

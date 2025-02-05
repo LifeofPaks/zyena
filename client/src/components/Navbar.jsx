@@ -147,8 +147,6 @@ const Navbar = () => {
             <NavLink to="/sign-up">
               <MenuItem
                 onClick={handleProfileClose}
-                component={NavLink}
-                to="/sign-up"
                 className="!text-[11px] !border-b !border-gray-100"
               >
                 <AiOutlineUserAdd className="!mr-2 !text-[14px]" />{" "}
@@ -159,8 +157,6 @@ const Navbar = () => {
             <NavLink to="/login">
               <MenuItem
                 onClick={handleProfileClose}
-                component={NavLink}
-                to="/login"
                 className="!text-[11px]"
               >
                 <AiOutlineLogin className="!mr-2 !text-[14px]" />{" "}

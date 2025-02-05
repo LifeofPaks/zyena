@@ -15,9 +15,15 @@ import {
   Person,
   Lock,
 } from "@mui/icons-material";
-import { NavLink } from "react-router-dom";
+import { notifyError, notifySuccess } from "../hooks/toastify";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { registerUser } from "../store/auth-slice";
+
 
 const SignUp = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -33,9 +39,17 @@ const SignUp = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle sign-up logic (e.g., API call)
-    console.log("Form submitted", formData);
+    dispatch(registerUser(formData)).then((data) => {
+      if (data?.payload?.success) {
+        notifySuccess(data?.payload?.message);
+        setFormData({})
+        navigate("/login");
+      } else {
+        notifyError(data?.payload?.message);
+      }
+    });
   };
+
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -64,7 +78,7 @@ const SignUp = () => {
           align="center"
           gutterBottom
         >
-          Sign Up
+          <NavLink to="/"> Sign Up</NavLink>
         </Typography>
         <form onSubmit={handleSubmit}>
           {["firstName", "lastName", "email"].map((field, index) => (

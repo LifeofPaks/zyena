@@ -22,7 +22,8 @@ function App() {
 
   return (
     <>
-      <ChatBot />
+      
+      {!isAuthPage && <ChatBot />} 
       <ScrollTop />
       {!isAuthPage && <Navbar />} 
       <Routes>
