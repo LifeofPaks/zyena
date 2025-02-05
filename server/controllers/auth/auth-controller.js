@@ -6,153 +6,155 @@ const nodemailer = require("nodemailer");
 
 // Register User
 const registerUser = async (req, res) => {
-    const { firstName, lastName, email, password } = req.body;
-  
-    if (!validator.isEmail(email)) {
+  const { firstName, lastName, email, password } = req.body;
+
+  if (!validator.isEmail(email)) {
+    return res.json({
+      success: false,
+      message: "Email is not valid",
+    });
+  }
+
+  try {
+    const checkUser = await User.findOne({ email });
+    if (checkUser) {
       return res.json({
         success: false,
-        message: "Email is not valid",
+        message: "User already exists, please try again with a different email",
       });
     }
-  
-    try {
-      const checkUser = await User.findOne({ email });
-      if (checkUser) {
-        return res.json({
-          success: false,
-          message: "User already exists, please try again with a different email",
-        });
-      }
-  
-      const hashPassword = await bcrypt.hash(password, 12);
-      const newUser = new User({
-        firstName,
-        lastName,
-        email,
-        password: hashPassword,
-      });
-  
-      await newUser.save();
-      res.status(200).json({
-        success: true,
-        message: "Registration successful",
-      });
-    } catch (e) {
-      res.status(500).json({
-        success: false,
-        message: "Some error occurred",
-      });
-    }
-  };
 
-  // Login User
-const loginUser = async (req, res) => {
-    const { email, password } = req.body;
-  
-    try {
-      const checkUser = await User.findOne({ email });
-      if (!checkUser) {
-        return res.json({
-          success: false,
-          message: "User does not exist! Please register.",
-        });
-      }
-  
-      const checkPasswordMatch = await bcrypt.compare(
-        password,
-        checkUser.password
-      );
-  
-      if (!checkPasswordMatch) {
-        return res.json({
-          success: false,
-          message: "Incorrect Password, please try again",
-        });
-      }
-  
-      const token = jwt.sign(
-        {
-          id: checkUser._id,
-          role: checkUser.role,
-          email: checkUser.email,
-          firstName: checkUser.firstName,
-          lastName: checkUser.lastName,
-        },
-        process.env.JWT_SECRET,
-        { expiresIn: "1h" }
-      );
-  
-      res.status(200).json({
-        success: true,
-        message: "Logged in successfully!",
-        token, // Send token directly in the response
-        user: {
-          email: checkUser.email,
-          role: checkUser.role,
-          id: checkUser._id,
-          firstName: checkUser.firstName,
-          lastName: checkUser.lastName,
-        },
-      });
-    } catch (e) {
-      res.status(500).json({
-        success: false,
-        message: "Some error occurred",
-      });
-    }
-  };
-  
-  // Logout User
-  const logoutUser = (req, res) => {
+    const hashPassword = await bcrypt.hash(password, 12);
+    const newUser = new User({
+      firstName,
+      lastName,
+      email,
+      password: hashPassword,
+    });
+
+    await newUser.save();
     res.status(200).json({
       success: true,
-      message: "Logged out successfully!",
+      message: "Registration successful",
     });
-  };
-  
-  // Auth Middleware
-  const authMiddleware = async (req, res, next) => {
-    const token = req.header("Authorization")?.replace("Bearer ", "");
-    if (!token) {
-      return res.status(401).json({
+  } catch (e) {
+    console.log(e)
+    res.status(500).json({
+      success: false,
+      message: "Some error occurred",
+    });
+  }
+};
+
+// Login User
+const loginUser = async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    const checkUser = await User.findOne({ email });
+    if (!checkUser) {
+      return res.json({
         success: false,
-        message: "Unauthorized user - no token!",
+        message: "User does not exist! Please register.",
       });
     }
-  
-    try {
-      const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      req.user = decoded;
-      next();
-    } catch (error) {
-      res.status(401).json({
+
+    const checkPasswordMatch = await bcrypt.compare(
+      password,
+      checkUser.password
+    );
+
+    if (!checkPasswordMatch) {
+      return res.json({
         success: false,
-        message: "Unauthorized user - invalid token!",
+        message: "Incorrect Password, please try again",
       });
     }
-  };
-  
-  // Get All Users
-  const getAllUsers = async (req, res) => {
-    try {
-      const users = await User.find({}, "-password");
-      res.status(200).json({
-        success: true,
-        users,
-      });
-    } catch (error) {
-      res.status(500).json({
-        success: false,
-        message: "Failed to fetch users",
-      });
-    }
-  };
-  
-  module.exports = {
-    registerUser,
-    loginUser,
-    logoutUser,
-    authMiddleware,
-    getAllUsers,
-  };
-  
+
+    const token = jwt.sign(
+      {
+        id: checkUser._id,
+        role: checkUser.role,
+        email: checkUser.email,
+        firstName: checkUser.firstName,
+        lastName: checkUser.lastName,
+        role: checkUser.role,
+      },
+      process.env.JWT_SECRET,
+      { expiresIn: "1h" }
+    );
+
+    res.status(200).json({
+      success: true,
+      message: "Logged in successfully!",
+      token, // Send token directly in the response
+      user: {
+        email: checkUser.email,
+        role: checkUser.role,
+        id: checkUser._id,
+        firstName: checkUser.firstName,
+        lastName: checkUser.lastName,
+        role: checkUser.role,
+      },
+    });
+  } catch (e) {
+    res.status(500).json({
+      success: false,
+      message: "Some error occurred",
+    });
+  }
+};
+
+// Logout User
+const logoutUser = (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: "Logged out successfully!",
+  });
+};
+
+// Auth Middleware
+const authMiddleware = async (req, res, next) => {
+  const token = req.header("Authorization")?.replace("Bearer ", "");
+  if (!token) {
+    return res.status(401).json({
+      success: false,
+      message: "Unauthorized user - no token!",
+    });
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = decoded;
+    next();
+  } catch (error) {
+    res.status(401).json({
+      success: false,
+      message: "Unauthorized user - invalid token!",
+    });
+  }
+};
+
+// Get All Users
+const getAllUsers = async (req, res) => {
+  try {
+    const users = await User.find({}, "-password");
+    res.status(200).json({
+      success: true,
+      users,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch users",
+    });
+  }
+};
+
+module.exports = {
+  registerUser,
+  loginUser,
+  logoutUser,
+  authMiddleware,
+  getAllUsers,
+};
