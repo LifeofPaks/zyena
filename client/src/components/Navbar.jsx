@@ -7,7 +7,7 @@ const Navbar = () => {
   const [isBridalDropdownOpen, setIsBridalDropdownOpen] = useState(false); // Track Bridal dropdown
 
   return (
-    <nav className="container flex items-center justify-between !mx-auto shadow-md bg-white !px-8 rounded-2xl">
+    <nav className="container flex items-center justify-between !mx-auto ">
       <Link to="/">
         <img
           className="text-red-600"
@@ -47,47 +47,46 @@ const Navbar = () => {
             {/* Dropdown Menu for Gallery */}
             {link.hasDropdown && isDropdownOpen && (
               <div className="absolute left-0 mt-2 w-48 bg-white shadow-lg rounded-lg !border-t-2 border-blue-500 top-[2rem]">
-              <NavLink
-                to="#"
-                className="!px-4 !py-2 text-gray-700 hover:bg-gray-200 hover:text-blue-500 transition-all duration-300 ease-in-out flex items-center text-[13px]"
-                onMouseEnter={() => setIsBridalDropdownOpen(true)}
-              >
-                Bridal <MdOutlineKeyboardArrowRight className="!ml-[6rem]" />
-              </NavLink>
-            
-              {/* Nested Bridal Dropdown */}
-              {isBridalDropdownOpen && (
-                <div className="absolute left-full top-0 mt-2 w-48 bg-white shadow-lg rounded-lg !border-t-2 border-blue-500">
-                  <NavLink
-                    to="/valorous"
-                    className="block !px-4 !py-2 text-gray-700 hover:bg-gray-200 hover:text-blue-500 transition-all duration-300 ease-in-out text-[13px] tracking-wide border-b border-gray-200"
-                  >
-                    Valorous 2024
-                  </NavLink>
-                  <NavLink
-                    to="/bridal"
-                    className="block !px-4 !py-2 text-gray-700 hover:bg-gray-200 hover:text-blue-500 transition-all duration-300 ease-in-out text-[13px] tracking-wide border-b border-gray-200"
-                  >
-                    2023 Bridal
-                  </NavLink>
-                </div>
-              )}
-              <NavLink
-                onMouseEnter={() => setIsBridalDropdownOpen(false)}
-                to="/prom-dresses"
-                className="block !px-4 !py-2 text-gray-700 hover:bg-gray-200 hover:text-blue-500 transition-all duration-300 ease-in-out text-[13px] tracking-wide border-b border-gray-200"
-              >
-                Prom Dresses
-              </NavLink>
-              <NavLink
-                onMouseEnter={() => setIsBridalDropdownOpen(false)}
-                to="/evening-dresses"
-                className="block !px-4 !py-2 text-gray-700 hover:bg-gray-200 hover:text-blue-500 transition-all duration-300 ease-in-out text-[13px] tracking-wide border-b border-gray-200"
-              >
-                Evening Dresses
-              </NavLink>
-            </div>
-            
+                <NavLink
+                  to="#"
+                  className="!px-4 !py-2 text-gray-700 hover:bg-gray-200 hover:text-blue-500 transition-all duration-300 ease-in-out flex items-center text-[13px]"
+                  onMouseEnter={() => setIsBridalDropdownOpen(true)}
+                >
+                  Bridal <MdOutlineKeyboardArrowRight className="!ml-[6rem]" />
+                </NavLink>
+
+                {/* Nested Bridal Dropdown */}
+                {isBridalDropdownOpen && (
+                  <div className="absolute left-full top-0 mt-2 w-48 bg-white shadow-lg rounded-lg !border-t-2 border-blue-500">
+                    <NavLink
+                      to="/valorous"
+                      className="block !px-4 !py-2 text-gray-700 hover:bg-gray-200 hover:text-blue-500 transition-all duration-300 ease-in-out text-[13px] tracking-wide border-b border-gray-200"
+                    >
+                      Valorous 2024
+                    </NavLink>
+                    <NavLink
+                      to="/bridal"
+                      className="block !px-4 !py-2 text-gray-700 hover:bg-gray-200 hover:text-blue-500 transition-all duration-300 ease-in-out text-[13px] tracking-wide border-b border-gray-200"
+                    >
+                      2023 Bridal
+                    </NavLink>
+                  </div>
+                )}
+                <NavLink
+                  onMouseEnter={() => setIsBridalDropdownOpen(false)}
+                  to="/prom-dresses"
+                  className="block !px-4 !py-2 text-gray-700 hover:bg-gray-200 hover:text-blue-500 transition-all duration-300 ease-in-out text-[13px] tracking-wide border-b border-gray-200"
+                >
+                  Prom Dresses
+                </NavLink>
+                <NavLink
+                  onMouseEnter={() => setIsBridalDropdownOpen(false)}
+                  to="/evening-dresses"
+                  className="block !px-4 !py-2 text-gray-700 hover:bg-gray-200 hover:text-blue-500 transition-all duration-300 ease-in-out text-[13px] tracking-wide border-b border-gray-200"
+                >
+                  Evening Dresses
+                </NavLink>
+              </div>
             )}
           </div>
         ))}

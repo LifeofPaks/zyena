@@ -157,9 +157,25 @@ const Consultations = () => {
                   required
                   InputProps={{
                     style: { fontSize: "14px" },
+                    sx: {
+                      "&:hover:not(.Mui-disabled, .Mui-error):before": {
+                        borderBottom: "2px solid #d3a202", // text-amber-300
+                      },
+                      "&.Mui-focused:before": {
+                        borderBottom: "2px solid #d3a202 !important",
+                      },
+                      "&.Mui-focused .MuiInputLabel-root": {
+                        color: "#d3a202", // text-amber-300
+                      },
+                    },
                   }}
                   InputLabelProps={{
                     style: { fontSize: "14px" },
+                    sx: {
+                      "&.Mui-focused": {
+                        color: "#d3a202", // text-amber-300
+                      },
+                    },
                   }}
                 />
               </Grid>
@@ -173,6 +189,11 @@ const Consultations = () => {
                 className={`!text-[14px] !ml-[-12px] ${
                   errors.meetingType ? "!text-red-700" : ""
                 }`}
+                sx={{
+                  "&.Mui-focused": {
+                    color: "#d3a202", // Change label color on focus
+                  },
+                }}
               >
                 Meeting Type*
               </InputLabel>
@@ -184,7 +205,18 @@ const Consultations = () => {
                 onChange={handleInputChange}
                 required
                 label="Meeting Type"
-                sx={{ fontSize: "14px" }}
+                sx={{
+                  fontSize: "14px",
+                  "&:hover:not(.Mui-disabled, .Mui-error):before": {
+                    borderBottom: "2px solid #d3a202", // text-amber-300
+                  },
+                  "&.Mui-focused:before": {
+                    borderBottom: "2px solid #d3a202 !important",
+                  },
+                  "&.Mui-focused .MuiInputLabel-root": {
+                    color: "#d3a202", // text-amber-300
+                  },
+                }}
               >
                 <MenuItem value="inPerson" className="!text-[14px]">
                   In-Person
@@ -201,15 +233,29 @@ const Consultations = () => {
               fullWidth
               label="Consultation Date"
               type="date"
-              InputLabelProps={{ shrink: true }}
               variant="standard"
-              error={!!errors.consultationDate}
               name="consultationDate"
-              value={formData.consultationDate}
+              value={formData.consultationDate || ""}
               onChange={handleInputChange}
               required
+              error={!!errors?.consultationDate}
+              helperText={errors?.consultationDate || ""}
+              InputLabelProps={{
+                shrink: true,
+                style: { fontSize: "14px" },
+                sx: {
+                  "&.Mui-focused": {
+                    color: "#d3a202", // text-amber-300
+                  },
+                },
+              }}
               InputProps={{
                 style: { fontSize: "14px" },
+                sx: {
+                  "&:hover:not(.Mui-disabled, .Mui-error):before": {
+                    borderBottom: "2px solid #d3a202", // text-amber-300
+                  },
+                },
               }}
             />
           </Grid>
@@ -220,6 +266,11 @@ const Consultations = () => {
                 className={`!text-[14px] !ml-[-12px] ${
                   errors.consultationTime ? "!text-red-700" : ""
                 }`}
+                sx={{
+                  "&.Mui-focused": {
+                    color: "#d3a202", // Change label color on focus
+                  },
+                }}
               >
                 Consultation Time*
               </InputLabel>
@@ -231,7 +282,18 @@ const Consultations = () => {
                 onChange={handleInputChange}
                 required
                 label="Consultation Time"
-                sx={{ fontSize: "14px" }}
+                sx={{
+                  fontSize: "14px",
+                  "&:hover:not(.Mui-disabled, .Mui-error):before": {
+                    borderBottom: "2px solid #d3a202", // text-amber-300
+                  },
+                  "&.Mui-focused:before": {
+                    borderBottom: "2px solid #d3a202 !important",
+                  },
+                  "&.Mui-focused .MuiInputLabel-root": {
+                    color: "#d3a202", // text-amber-300
+                  },
+                }}
               >
                 {consultationTimes.map((time, index) => (
                   <MenuItem key={index} value={time} className="!text-[14px]">
@@ -249,6 +311,11 @@ const Consultations = () => {
                 className={`!text-[14px] !ml-[-12px] ${
                   errors.garmentType ? "!text-red-700" : ""
                 }`}
+                sx={{
+                  "&.Mui-focused": {
+                    color: "#d3a202", // Change label color on focus
+                  },
+                }}
               >
                 Garment Type*
               </InputLabel>
@@ -260,7 +327,18 @@ const Consultations = () => {
                 onChange={handleInputChange}
                 required
                 label="Garment Type"
-                sx={{ fontSize: "14px" }}
+                sx={{
+                  fontSize: "14px",
+                  "&:hover:not(.Mui-disabled, .Mui-error):before": {
+                    borderBottom: "2px solid #d3a202", // text-amber-300
+                  },
+                  "&.Mui-focused:before": {
+                    borderBottom: "2px solid #d3a202 !important",
+                  },
+                  "&.Mui-focused .MuiInputLabel-root": {
+                    color: "#d3a202", // text-amber-300
+                  },
+                }}
               >
                 {Object.entries(garmentPrices).map(([key, price]) => (
                   <MenuItem key={key} value={key} className="!text-[14px]">
