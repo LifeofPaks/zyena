@@ -13,6 +13,8 @@ import EveningDresses from "./pages/EveningDresses";
 import PromDresses from "./pages/PromDresses";
 import Valorous from "./pages/Valorous";
 import ChatBot from "./components/ChatBot";
+import SignUp from "./pages/SignUp";
+import Login from "./pages/Login";
 
 
 
@@ -34,6 +36,8 @@ function App() {
       <Route path="evening-dresses" element={<EveningDresses />} />
       <Route path="bridal" element={<Bridal />} />
       <Route path="valorous" element={<Valorous />} />
+      <Route path="sign-up" element={<SignUp />} />
+      <Route path="login" element={<Login />} />
     </Routes>
     </>
   );

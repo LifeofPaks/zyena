@@ -16,6 +16,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import { AiOutlineLogin, AiOutlineUserAdd } from "react-icons/ai";
 
 const Navbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -142,23 +143,31 @@ const Navbar = () => {
             horizontal: "right",
           }}
         >
-          <div className="p-2 w-30">
-            <MenuItem
-              onClick={handleProfileClose}
-              component={NavLink}
-              to="/sign-in"
-              className="!text-[13px] !border-b !border-gray-100"
-            >
-              Sign In
-            </MenuItem>
-            <MenuItem
-              onClick={handleProfileClose}
-              component={NavLink}
-              to="/sign-out"
-              className="!text-[13px]"
-            >
-              Sign Out
-            </MenuItem>
+          <div className="!p-2 px-4 w-30">
+            <NavLink to="/sign-up">
+              <MenuItem
+                onClick={handleProfileClose}
+                component={NavLink}
+                to="/sign-up"
+                className="!text-[11px] !border-b !border-gray-100"
+              >
+                <AiOutlineUserAdd className="!mr-2 !text-[14px]" />{" "}
+                {/* Icon for SIGN UP */}
+                SIGN UP
+              </MenuItem>
+            </NavLink>
+            <NavLink to="/login">
+              <MenuItem
+                onClick={handleProfileClose}
+                component={NavLink}
+                to="/login"
+                className="!text-[11px]"
+              >
+                <AiOutlineLogin className="!mr-2 !text-[14px]" />{" "}
+                {/* Icon for LOGIN */}
+                LOGIN
+              </MenuItem>
+            </NavLink>
           </div>
         </Popover>
       </div>
