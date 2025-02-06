@@ -10,6 +10,7 @@ import {
   Collapse,
   Popover,
   MenuItem,
+  Avatar,
   Button,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -142,9 +143,31 @@ const Navbar = () => {
 
       {/* Profile Icon & Popover */}
       <div>
-        <IconButton className="!hidden md:!block" onClick={handleProfileClick}>
-          <AccountCircleIcon fontSize="large" />
-        </IconButton>
+        {user ? (
+          <IconButton
+            className="!hidden md:!block"
+            onClick={handleProfileClick}
+          >
+            <Avatar
+              sx={{
+                fontWeight: "bold",
+                fontSize: "1.25rem",
+                width: 40,
+                height: 40,
+                boxShadow: "0 4px 10px rgba(0, 0, 0, 0.25)",
+              }}
+            >
+              {user.firstName?.charAt(0).toUpperCase()}
+            </Avatar>
+          </IconButton>
+        ) : (
+          <IconButton
+            className="!hidden md:!block"
+            onClick={handleProfileClick}
+          >
+            <AccountCircleIcon fontSize="large" />
+          </IconButton>
+        )}
 
         <Popover
           open={Boolean(anchorEl)}
@@ -161,7 +184,7 @@ const Navbar = () => {
         >
           {user ? (
             <div className="!p-2 px-4 w-30">
-              <NavLink to="/login">
+              <NavLink to="/">
                 {}
                 <MenuItem
                   onClick={() => {
