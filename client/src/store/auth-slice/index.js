@@ -7,13 +7,23 @@ const BACKEND_URL =
     ? import.meta.env.VITE_BACKEND_URL_PRODUCTION
     : import.meta.env.VITE_BACKEND_URL_LOCAL;
 
+// Helper functions for localStorage
+const saveToStorage = (token, user) => {
+  localStorage.setItem("token-zyena", token);
+  localStorage.setItem("user-zyena", JSON.stringify(user));
+};
+
+const clearStorage = () => {
+  localStorage.removeItem("token-zyena");
+  localStorage.removeItem("user-zyena");
+};
 
 // Initial state for the authentication slice
 const initialState = {
   isAuthenticated: false,
-  isLoading: true,
-  user: null,
-  token: localStorage.getItem("token") || null, // Load token from localStorage
+  isLoading: false,
+  user: JSON.parse(localStorage.getItem("user-zyena")) || null,
+  token: localStorage.getItem("token-zyena") || null,
   error: null,
   users: [],
 };
@@ -41,7 +51,9 @@ export const loginUser = createAsyncThunk(
       { withCredentials: true }
     );
     if (response.data.success) {
-      localStorage.setItem("token", response.data.token); // Store token in localStorage
+      const { token, user } = response.data;
+      saveToStorage(token, user);
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     }
     return response.data;
   }
@@ -51,25 +63,13 @@ export const loginUser = createAsyncThunk(
 export const logoutUser = createAsyncThunk(
   "/auth/logout",
   async () => {
-    localStorage.removeItem("token"); // Remove token from localStorage
     const response = await axios.post(
       `${BACKEND_URL}/api/auth/logout`,
       {},
       { withCredentials: true }
     );
-    return response.data;
-  }
-);
-
-// Async thunk to check authentication status
-export const checkAuth = createAsyncThunk(
-  "/auth/checkauth",
-  async () => {
-    const token = localStorage.getItem("token");
-    const response = await axios.get(`${BACKEND_URL}/api/auth/check-auth`, {
-      headers: { Authorization: `Bearer ${token}` },
-      withCredentials: true,
-    });
+    clearStorage();
+    delete axios.defaults.headers.common['Authorization'];
     return response.data;
   }
 );
@@ -77,38 +77,33 @@ export const checkAuth = createAsyncThunk(
 // Async thunk to fetch all users
 export const fetchAllUsers = createAsyncThunk(
   "auth/fetchAllUsers",
-  async () => {
-    const token = localStorage.getItem("token");
-
-    // If no token exists, throw an error
-    if (!token) {
-      throw new Error("No token found, please log in.");
-    }
-
+  async (_, { rejectWithValue }) => {
     try {
       const response = await axios.get(`${BACKEND_URL}/api/auth/users`, {
-        headers: {
-          Authorization: `Bearer ${token}`, // Ensure the token is included
-        },
-        withCredentials: true, // If you're using cookies for authentication, include this
+        withCredentials: true,
       });
-
       return response.data;
     } catch (error) {
-      // Log the error response to debug
       console.error("Error fetching users:", error.response || error);
-      throw error;
+      return rejectWithValue(error.response?.data || error.message);
     }
   }
 );
-
 
 const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    setUser: (state, action) => {
-      state.user = action.payload;
+    // Add hydrate reducer to restore auth state on app load
+    hydrate: (state) => {
+      const token = localStorage.getItem("token-zyena");
+      const user = JSON.parse(localStorage.getItem("user-zyena"));
+      if (token && user) {
+        state.isAuthenticated = true;
+        state.token = token;
+        state.user = user;
+        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      }
     },
   },
   extraReducers: (builder) => {
@@ -132,30 +127,21 @@ const authSlice = createSlice({
       .addCase(loginUser.fulfilled, (state, action) => {
         state.isLoading = false;
         state.user = action.payload.success ? action.payload.user : null;
+        state.token = action.payload.success ? action.payload.token : null;
         state.isAuthenticated = action.payload.success;
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.isLoading = false;
         state.user = null;
+        state.token = null;
         state.isAuthenticated = false;
         state.error = action.error.message;
-      })
-      .addCase(checkAuth.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(checkAuth.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.user = action.payload.success ? action.payload.user : null;
-        state.isAuthenticated = action.payload.success;
-      })
-      .addCase(checkAuth.rejected, (state) => {
-        state.isLoading = false;
-        state.user = null;
-        state.isAuthenticated = false;
+        clearStorage();
       })
       .addCase(logoutUser.fulfilled, (state) => {
         state.isLoading = false;
         state.user = null;
+        state.token = null;
         state.isAuthenticated = false;
       })
       .addCase(fetchAllUsers.pending, (state) => {
@@ -172,5 +158,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { setUser } = authSlice.actions;
+export const { hydrate } = authSlice.actions;
 export default authSlice.reducer;

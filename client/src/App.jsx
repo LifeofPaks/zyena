@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import ScrollTop from "./components/ScrollToTop";
@@ -16,16 +16,25 @@ import ChatBot from "./components/ChatBot";
 import SignUp from "./pages/SignUp";
 import Login from "./pages/Login";
 
+import { useDispatch } from "react-redux";
+import { hydrate } from "./store/auth-slice";
+
+
 function App() {
   const location = useLocation();
-  const isAuthPage = location.pathname === "/login" || location.pathname === "/sign-up";
+  const isAuthPage =
+    location.pathname === "/login" || location.pathname === "/sign-up";
+    const dispatch = useDispatch();
+
+useEffect(() => {
+  dispatch(hydrate());
+}, [dispatch]);
 
   return (
     <>
-      
-      {!isAuthPage && <ChatBot />} 
+      {!isAuthPage && <ChatBot />}
       <ScrollTop />
-      {!isAuthPage && <Navbar />} 
+      {!isAuthPage && <Navbar />}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="gallery" element={<Gallery />} />

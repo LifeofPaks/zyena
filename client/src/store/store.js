@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
-import consultationSlice from "./consultation-slice/index"
+import consultationReducer from "./consultation-slice/index"
+import authReducer from "./auth-slice/index";
 
 const store = configureStore({
     reducer: {
-        consultation:consultationSlice
+        auth: authReducer,
+        consultation:consultationReducer
     },
   });
   

@@ -16,7 +16,9 @@ import CloseIcon from "@mui/icons-material/Close";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { AiOutlineLogin, AiOutlineUserAdd } from "react-icons/ai";
+import { AiOutlineLogin, AiOutlineUserAdd, AiOutlineLogout } from "react-icons/ai";
+import { useSelector } from "react-redux";
+import { logoutUser } from "../store/auth-slice";
 
 const Navbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -24,6 +26,8 @@ const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileBridalOpen, setMobileBridalOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
+  const dispatch = logoutUser();
+  const { user, isAuthenticated} = useSelector((state) => state.auth);
 
   const navLinks = [
     { name: "Home", path: "/" },
@@ -41,6 +45,12 @@ const Navbar = () => {
   const handleProfileClose = () => {
     setAnchorEl(null);
   };
+
+  const handleLogout = () => {
+    dispatch(logoutUser);
+  };
+
+  console.log(user, isAuthenticated);
 
   return (
     <nav className="container flex items-center justify-between !mx-auto !py-1">
@@ -143,28 +153,44 @@ const Navbar = () => {
             horizontal: "right",
           }}
         >
-          <div className="!p-2 px-4 w-30">
-            <NavLink to="/sign-up">
-              <MenuItem
-                onClick={handleProfileClose}
-                className="!text-[11px] !border-b !border-gray-100"
-              >
-                <AiOutlineUserAdd className="!mr-2 !text-[14px]" />{" "}
-                {/* Icon for SIGN UP */}
-                SIGN UP
-              </MenuItem>
-            </NavLink>
-            <NavLink to="/login">
-              <MenuItem
-                onClick={handleProfileClose}
-                className="!text-[11px]"
-              >
-                <AiOutlineLogin className="!mr-2 !text-[14px]" />{" "}
-                {/* Icon for LOGIN */}
-                LOGIN
-              </MenuItem>
-            </NavLink>
-          </div>
+          {user ? (
+            <div className="!p-2 px-4 w-30">
+              <NavLink to="/login">
+                {}
+                <MenuItem
+                  onClick={() => {
+                    handleProfileClose, handleLogout;
+                  }}
+                  className="!text-[11px] "
+                >
+                  <AiOutlineLogout className="!mr-2 !text-[14px]" />{" "}
+                  {/* Icon for SIGN UP */}
+                  LOGOUT
+                </MenuItem>
+              </NavLink>
+            </div>
+          ) : (
+            <div className="!p-2 px-4 w-30">
+              <NavLink to="/sign-up">
+                {}
+                <MenuItem
+                  onClick={handleProfileClose}
+                  className="!text-[11px] !border-b !border-gray-100"
+                >
+                  <AiOutlineUserAdd className="!mr-2 !text-[14px]" />{" "}
+                  {/* Icon for SIGN UP */}
+                  SIGN UP
+                </MenuItem>
+              </NavLink>
+              <NavLink to="/login">
+                <MenuItem onClick={handleProfileClose} className="!text-[11px]">
+                  <AiOutlineLogin className="!mr-2 !text-[14px]" />{" "}
+                  {/* Icon for LOGIN */}
+                  LOGIN
+                </MenuItem>
+              </NavLink>
+            </div>
+          )}
         </Popover>
       </div>
 
