@@ -69,6 +69,7 @@ button {
   transform: scale(0.2);
   transform-origin: bottom right;
   transition: all 0.1s ease;
+  z-index: 1000;
 }
 
 .show-chatbot .chatbot-popup {
@@ -102,7 +103,7 @@ button {
 
 .logo-text {
   color: #fff;
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: 600;
 }
 
