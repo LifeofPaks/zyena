@@ -100,7 +100,7 @@ const Login = () => {
               },
             }}
             InputLabelProps={{
-              style: { fontSize: "14px" },
+              style: { fontSize: "16px" },
               sx: {
                 "&.Mui-focused": {
                   color: "#d3a202", // text-amber-300
@@ -151,7 +151,7 @@ const Login = () => {
               },
             }}
             InputLabelProps={{
-              style: { fontSize: "14px" },
+              style: { fontSize: "16px" },
               sx: {
                 "&.Mui-focused": {
                   color: "#d3a202", // text-amber-300

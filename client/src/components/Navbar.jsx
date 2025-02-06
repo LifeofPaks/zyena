@@ -17,7 +17,7 @@ import ExpandMore from "@mui/icons-material/ExpandMore";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { AiOutlineLogin, AiOutlineUserAdd, AiOutlineLogout } from "react-icons/ai";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../store/auth-slice";
 
 const Navbar = () => {
@@ -26,7 +26,7 @@ const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileBridalOpen, setMobileBridalOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
-  const dispatch = logoutUser();
+  const dispatch = useDispatch();
   const { user, isAuthenticated} = useSelector((state) => state.auth);
 
   const navLinks = [
@@ -47,7 +47,7 @@ const Navbar = () => {
   };
 
   const handleLogout = () => {
-    dispatch(logoutUser);
+    dispatch(logoutUser())
   };
 
   console.log(user, isAuthenticated);
@@ -159,7 +159,7 @@ const Navbar = () => {
                 {}
                 <MenuItem
                   onClick={() => {
-                    handleProfileClose, handleLogout;
+                    handleProfileClose(), handleLogout();
                   }}
                   className="!text-[11px] "
                 >
