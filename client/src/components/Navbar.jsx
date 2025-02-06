@@ -124,12 +124,14 @@ const Navbar = () => {
                   </div>
                 )}
                 <NavLink
+                  onMouseEnter={() => setIsBridalDropdownOpen(false)}
                   to="/prom-dresses"
                   className="block !px-4 !py-2 text-gray-700 hover:bg-gray-200 hover:text-blue-500 transition-all duration-300 ease-in-out text-[13px] border-b border-gray-200"
                 >
                   Prom Dresses
                 </NavLink>
                 <NavLink
+                  onMouseEnter={() => setIsBridalDropdownOpen(false)}
                   to="/evening-dresses"
                   className="block !px-4 !py-2 text-gray-700 hover:bg-gray-200 hover:text-blue-500 transition-all duration-300 ease-in-out text-[13px] border-b border-gray-200"
                 >
@@ -165,7 +167,11 @@ const Navbar = () => {
             className="!hidden md:!block"
             onClick={handleProfileClick}
           >
-            <AccountCircleIcon fontSize="large" />
+            <AccountCircleIcon
+              sx={{
+                fontSize: "40px",
+              }}
+            />
           </IconButton>
         )}
 
