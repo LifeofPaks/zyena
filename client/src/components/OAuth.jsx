@@ -1,5 +1,5 @@
 import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
-import { app } from "../firbease";
+import { app } from "../firebase";
 import { useDispatch } from "react-redux";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
