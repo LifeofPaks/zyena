@@ -154,31 +154,61 @@ const getAllUsers = async (req, res) => {
 
 const google = async (req, res, next) => {
   try {
-    const user = await User.findOne({ email: req.body.email });
-    if (user) {
-      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
-      const { password: pass, ...rest } = user._doc;
-      res.status(200).json({ ...rest, token });
-    } else {
+    console.log("Google login request received:", req.body); // Log incoming data
+
+    let user = await User.findOne({ email: req.body.email.toLowerCase() });
+
+    if (!user) {
+      console.log("User not found, creating a new one...");
+
+      // Generate a random password for new users
       const generatedPassword =
         Math.random().toString(36).slice(-8) +
         Math.random().toString(36).slice(-8);
       const hashedPassword = bcrypt.hashSync(generatedPassword, 10);
-      const newUser = new User({
-        firstName: "User",
-        lastName: "Zyena",
-        email: req.body.email,
+
+      user = new User({
+        firstName: req.body.firstName || "User",
+        lastName: req.body.lastName || "Zyena",
+        email: req.body.email.toLowerCase(), // Ensure email is stored in lowercase
         password: hashedPassword,
+        role: "user",
       });
-      await newUser.save();
-      const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET);
-      const { password: pass, ...rest } = newUser._doc;
-      res.status(200).json({ ...rest, token });
+
+      await user.save();
+      console.log("New user created successfully:", user);
+    } else {
+      console.log("User found, proceeding to login...");
     }
+
+    // Generate JWT token
+    const token = jwt.sign(
+      {
+        id: user._id,
+        role: user.role,
+        email: user.email,
+        firstName: user.firstName,
+        lastName: user.lastName,
+      },
+      process.env.JWT_SECRET,
+      { expiresIn: "1h" }
+    );
+
+    const { password: pass, ...rest } = user._doc;
+
+    console.log("User authenticated successfully:", rest);
+
+    res.status(200).json({
+      success: true,
+      token,
+      user: rest, // Return user details except password
+    });
   } catch (error) {
+    console.error("Error in Google authentication:", error);
     next(error);
   }
 };
+
 
 
 module.exports = {

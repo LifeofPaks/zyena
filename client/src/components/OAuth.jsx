@@ -15,31 +15,42 @@ export default function OAuth() {
     try {
       const provider = new GoogleAuthProvider();
       const auth = getAuth(app);
-
+    
       const result = await signInWithPopup(auth, provider);
-      console.log(result);
-
+      console.log("Firebase Google Auth result:", result);
+  
       const res = await fetch(`http://localhost:5500/api/auth/google`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-          credentials: "include",
+        credentials: "include",
         body: JSON.stringify({
-          firstName: result.user.displayName,
-          lastName: result.user.displayName,
-          email: result.user.email,
+          firstName: result.user.displayName.split(" ")[0],
+          lastName: result.user.displayName.split(" ")[1] || "Zyena",
+          email: result.user.email.toLowerCase(), // Convert to lowercase
         }),
       });
+  
       const data = await res.json();
-      console.log("Google auth",data);
-      dispatch(loginUser({ token: data.token, user: data.user }));
-        notifySuccess("Signed in Successfully!")
-        navigate('/');
+      console.log("Google auth response from backend:", data);
+  
+      if (data.success) {
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("user", JSON.stringify(data.user));
+  
+        dispatch(loginUser({ token: data.token, user: data.user }));
+  
+        notifySuccess("Signed in Successfully!");
+        navigate("/");
+      } else {
+        console.error("Google login failed:", data.message);
+      }
     } catch (error) {
-      console.log("could not sign in with google", error);
+      console.log("Could not sign in with Google", error);
     }
   };
+  
   return (
     <Button
       onClick={handleGoogleClick}
