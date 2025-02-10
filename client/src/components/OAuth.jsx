@@ -33,7 +33,7 @@ export default function OAuth() {
       });
       const data = await res.json();
       console.log("Google auth",data);
-        dispatch(loginUser(data));
+      dispatch(loginUser({ token: data.token, user: data.user }));
         notifySuccess("Signed in Successfully!")
         navigate('/');
     } catch (error) {
