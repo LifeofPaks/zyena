@@ -59,6 +59,26 @@ export const loginUser = createAsyncThunk(
   }
 );
 
+// Async thunk for logging in a user
+export const googleAuth = createAsyncThunk(
+  "/auth/google",
+  async (formData) => {
+    const response = await axios.post(
+      `${BACKEND_URL}/api/auth/google`,
+      formData,
+      { withCredentials: true }
+    );
+    if (response.data.success) {
+      const { token, user } = response.data;
+      saveToStorage(token, user);
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    }
+    return response.data;
+  }
+);
+
+
+
 // Async thunk for logging out a user
 export const logoutUser = createAsyncThunk(
   "/auth/logout",

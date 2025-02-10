@@ -19,6 +19,8 @@ import { notifyError, notifySuccess } from "../hooks/toastify";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { registerUser } from "../store/auth-slice";
+import OAuth from "../components/OAuth";
+
 
 
 const SignUp = () => {
@@ -189,6 +191,7 @@ const SignUp = () => {
           >
             Sign Up
           </Button>
+          <OAuth/>
           <Typography className="!text-[12px] !mt-[10px] text-gray-700">
             Already have an account?{" "}
             <NavLink to="/login" className="text-[#d3a202]">

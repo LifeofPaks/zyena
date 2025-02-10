@@ -25,6 +25,7 @@
     "axios": "^1.7.9",
     "compute-cosine-similarity": "^1.1.0",
     "date-fns": "^4.1.0",
+    "firebase": "^11.3.0",
     "fuse.js": "^7.1.0",
     "lucide-react": "^0.474.0",
     "ml-distance": "^4.0.1",
