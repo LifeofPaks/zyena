@@ -29,7 +29,7 @@ app.use(
     //   process.env.FRONTEND_URL_LOCAL, 
     //   process.env.FRONTEND_URL_PRODUCTION, 
     // ],
-    origin:"http://localhost:5174",
+    origin:"http://localhost:5173",
     methods: ["GET", "POST", "DELETE", "PUT"],
     allowedHeaders: [
       "Content-Type",

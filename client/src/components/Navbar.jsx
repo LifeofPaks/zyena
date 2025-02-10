@@ -280,7 +280,7 @@ const Navbar = () => {
                             style: { fontSize: "14px" },
                           }}
                         />
-                        {mobileBridalOpen ? <ExpandLess /> : <ExpandMore />}
+                        {mobileBridalOpen ? <ExpandLess className="!text-[16px]" /> : <ExpandMore className="!text-[16px]"  />}
                       </ListItem>
                       <Collapse
                         in={mobileBridalOpen}
