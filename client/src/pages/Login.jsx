@@ -171,7 +171,7 @@ const Login = () => {
           >
             Login
           </Button>
-          <OAuth/>
+          {/* <OAuth/> */}
           <Typography className="!text-[12px] !mt-[10px] text-gray-700">
             Don't have an account?{" "}
             <NavLink to="/sign-up" className="text-[#d3a202]">
