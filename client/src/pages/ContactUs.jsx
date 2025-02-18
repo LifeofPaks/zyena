@@ -86,16 +86,16 @@ const ContactUs = () => {
             required
             InputProps={{
               style: { fontSize: "14px" },
-            }}
-            sx={{
-              "&:hover:not(.Mui-disabled, .Mui-error):before": {
-                borderBottom: "2px solid #d3a202", // text-amber-300
-              },
-              "&.Mui-focused:before": {
-                borderBottom: "2px solid #d3a202 !important",
-              },
-              "&.Mui-focused .MuiInputLabel-root": {
-                color: "#d3a202", // text-amber-300
+              sx: {
+                "&:hover:not(.Mui-disabled, .Mui-error):before": {
+                  borderBottom: "2px solid #d3a202", // text-amber-300
+                },
+                "&.Mui-focused:before": {
+                  borderBottom: "2px solid #d3a202 !important",
+                },
+                "&.Mui-focused .MuiInputLabel-root": {
+                  color: "#d3a202", // text-amber-300
+                },
               },
             }}
             InputLabelProps={{
@@ -122,16 +122,16 @@ const ContactUs = () => {
             required
             InputProps={{
               style: { fontSize: "14px" },
-            }}
-            sx={{
-              "&:hover:not(.Mui-disabled, .Mui-error):before": {
-                borderBottom: "2px solid #d3a202", // text-amber-300
-              },
-              "&.Mui-focused:before": {
-                borderBottom: "2px solid #d3a202 !important",
-              },
-              "&.Mui-focused .MuiInputLabel-root": {
-                color: "#d3a202", // text-amber-300
+              sx: {
+                "&:hover:not(.Mui-disabled, .Mui-error):before": {
+                  borderBottom: "2px solid #d3a202", // text-amber-300
+                },
+                "&.Mui-focused:before": {
+                  borderBottom: "2px solid #d3a202 !important",
+                },
+                "&.Mui-focused .MuiInputLabel-root": {
+                  color: "#d3a202", // text-amber-300
+                },
               },
             }}
             InputLabelProps={{
@@ -158,16 +158,16 @@ const ContactUs = () => {
             required
             InputProps={{
               style: { fontSize: "14px" },
-            }}
-            sx={{
-              "&:hover:not(.Mui-disabled, .Mui-error):before": {
-                borderBottom: "2px solid #d3a202", // text-amber-300
-              },
-              "&.Mui-focused:before": {
-                borderBottom: "2px solid #d3a202 !important",
-              },
-              "&.Mui-focused .MuiInputLabel-root": {
-                color: "#d3a202", // text-amber-300
+              sx: {
+                "&:hover:not(.Mui-disabled, .Mui-error):before": {
+                  borderBottom: "2px solid #d3a202", // text-amber-300
+                },
+                "&.Mui-focused:before": {
+                  borderBottom: "2px solid #d3a202 !important",
+                },
+                "&.Mui-focused .MuiInputLabel-root": {
+                  color: "#d3a202", // text-amber-300
+                },
               },
             }}
             InputLabelProps={{
@@ -194,16 +194,16 @@ const ContactUs = () => {
             required
             InputProps={{
               style: { fontSize: "14px" },
-            }}
-            sx={{
-              "&:hover:not(.Mui-disabled, .Mui-error):before": {
-                borderBottom: "2px solid #d3a202", // text-amber-300
-              },
-              "&.Mui-focused:before": {
-                borderBottom: "2px solid #d3a202 !important",
-              },
-              "&.Mui-focused .MuiInputLabel-root": {
-                color: "#d3a202", // text-amber-300
+              sx: {
+                "&:hover:not(.Mui-disabled, .Mui-error):before": {
+                  borderBottom: "2px solid #d3a202", // text-amber-300
+                },
+                "&.Mui-focused:before": {
+                  borderBottom: "2px solid #d3a202 !important",
+                },
+                "&.Mui-focused .MuiInputLabel-root": {
+                  color: "#d3a202", // text-amber-300
+                },
               },
             }}
             InputLabelProps={{
@@ -231,16 +231,16 @@ const ContactUs = () => {
             required
             InputProps={{
               style: { fontSize: "14px" },
-            }}
-            sx={{
-              "&:hover:not(.Mui-disabled, .Mui-error):before": {
-                borderBottom: "2px solid #d3a202", // text-amber-300
-              },
-              "&.Mui-focused:before": {
-                borderBottom: "2px solid #d3a202 !important",
-              },
-              "&.Mui-focused .MuiInputLabel-root": {
-                color: "#d3a202", // text-amber-300
+              sx: {
+                "&:hover:not(.Mui-disabled, .Mui-error):before": {
+                  borderBottom: "2px solid #d3a202", // text-amber-300
+                },
+                "&.Mui-focused:before": {
+                  borderBottom: "2px solid #d3a202 !important",
+                },
+                "&.Mui-focused .MuiInputLabel-root": {
+                  color: "#d3a202", // text-amber-300
+                },
               },
             }}
             InputLabelProps={{
@@ -270,16 +270,16 @@ const ContactUs = () => {
             rows={4}
             InputProps={{
               style: { fontSize: "14px" },
-            }}
-            sx={{
-              "&:hover:not(.Mui-disabled, .Mui-error):before": {
-                borderBottom: "2px solid #d3a202", // text-amber-300
-              },
-              "&.Mui-focused:before": {
-                borderBottom: "2px solid #d3a202 !important",
-              },
-              "&.Mui-focused .MuiInputLabel-root": {
-                color: "#d3a202", // text-amber-300
+              sx: {
+                "&:hover:not(.Mui-disabled, .Mui-error):before": {
+                  borderBottom: "2px solid #d3a202", // text-amber-300
+                },
+                "&.Mui-focused:before": {
+                  borderBottom: "2px solid #d3a202 !important",
+                },
+                "&.Mui-focused .MuiInputLabel-root": {
+                  color: "#d3a202", // text-amber-300
+                },
               },
             }}
             InputLabelProps={{
@@ -296,6 +296,7 @@ const ContactUs = () => {
 
       <Box sx={{ marginTop: "2rem" }}>
         <Button
+          className="!normal-case"
           variant="contained"
           onClick={handleSubmit}
           sx={{
@@ -306,7 +307,7 @@ const ContactUs = () => {
             },
           }}
         >
-          Submit
+          Send Message
         </Button>
       </Box>
     </Box>
