@@ -94,6 +94,7 @@ const Navbar = () => {
               }
             >
               {link.name}
+              {link.name === "Gallery" && <ExpandMore className="ml-2 !text-[16px]" />}
             </NavLink>
 
             {/* Web Dropdown */}
