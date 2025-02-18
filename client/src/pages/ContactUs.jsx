@@ -14,6 +14,10 @@ const ContactUs = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+
+    // Clear all errors when typing into any input field
+    setErrors({});
+
     setFormData((prev) => ({
       ...prev,
       [name]: value,
