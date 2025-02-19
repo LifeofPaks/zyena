@@ -17,8 +17,6 @@ function SampleImage({
   uploadedImageUrl,
   setUploadedImageUrl,
   setImageLoadingState,
-  isEditMode,
-  isCustomStyling = false,
 }) {
   const inputRef = useRef(null);
   const location = useLocation();
@@ -72,7 +70,7 @@ function SampleImage({
 
   return (
     <div
-      className={`!w-full !mt-4   ${isCustomStyling ? "" : "mx-auto"}`}
+      className={`!w-full !mt-4`}
     >
       <InputLabel className="!text-[12px] font-semibold !mb-2 block ">
       Upload Inspiration Picture of the Dress
@@ -80,9 +78,7 @@ function SampleImage({
       <div
         onDragOver={handleDragOver}
         onDrop={handleDrop}
-        className={`!w-full ${
-          isEditMode && imageFile === null ? "opacity-50" : ""
-        } border-1 border-dashed rounded-lg p-4 border-gray-400 !w-full`}
+        className={` border-1 border-dashed rounded-lg p-4 border-gray-400 !w-full`}
       >
         <input
           id="image-upload"
@@ -90,20 +86,17 @@ function SampleImage({
           className="hidden"
           ref={inputRef}
           onChange={handleImageFileChange}
-          disabled={isEditMode}
         />
         {!imageFile ? (
           <InputLabel
             htmlFor="image-upload"
-            className={` ${
-              isEditMode ? "cursor-not-allowed" : ""
-            } !flex !flex-col !items-center !justify-center h-24 cursor-pointer !w-full`}
+            className={` !flex !flex-col !items-center !justify-center h-24 cursor-pointer !w-full`}
           >
             <AddPhotoAlternateIcon className="!text-[30px] text-muted-foreground mb-2" />
             <span className="font-normal !text-[14px]">Drag & drop or click to upload image</span>
           </InputLabel>
         ) : imageLoadingState ? (
-          <Skeleton variant="rectangular" className="h-10 bg-gray-100" />
+          <Skeleton variant="rectangular" className="!h-24 !m-1 bg-gray-100" />
         //   <Skeleton variant="rectangular" width={210} height={118} />
         ) : (
           <div className="flex items-center justify-between">

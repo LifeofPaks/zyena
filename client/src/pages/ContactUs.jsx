@@ -19,6 +19,9 @@ const ContactUs = () => {
   const [formData, setFormData] = useState(initialFormData);
   const [errors, setErrors] = useState({});
   const dispatch = useDispatch();
+  const [imageFile, setImageFile] = useState(null);
+  const [uploadedImageUrl, setUploadedImageUrl] = useState("");
+  const [imageLoadingState, setImageLoadingState] = useState(false);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -37,7 +40,8 @@ const ContactUs = () => {
     if (!formData.firstName) newErrors.firstName = "First Name is required";
     if (!formData.lastName) newErrors.lastName = "Last Name is required";
     if (!formData.email) newErrors.email = "Email is required";
-    if (!formData.phoneNumber) newErrors.phoneNumber = "Phone number is required";
+    if (!formData.phoneNumber)
+      newErrors.phoneNumber = "Phone number is required";
     if (!formData.subject) newErrors.subject = "Subject is required";
     if (!formData.message) newErrors.message = "Message is required";
     setErrors(newErrors);
@@ -313,7 +317,14 @@ const ContactUs = () => {
           </Grid>
         </Grid>
 
-        <SampleImage/>
+        <SampleImage
+          imageFile={imageFile}
+          setImageFile={setImageFile}
+          uploadedImageUrl={uploadedImageUrl}
+          setUploadedImageUrl={setUploadedImageUrl}
+          imageLoadingState={imageLoadingState}
+          setImageLoadingState={setImageLoadingState}
+        />
 
         <Box sx={{ marginTop: "2rem" }}>
           <Button
