@@ -40,7 +40,7 @@ const Navbar = () => {
   const navLinks = [
     { name: "Home", path: "/" },
     { name: "Gallery", path: "/bridal", hasDropdown: true },
-    { name: "Consultations", path: "/consultations" },
+    { name: "Consultation", path: "/consultation" },
     { name: "Shop", path: "/shop" },
     { name: "About Us", path: "/about-us" },
     { name: "Contact Us", path: "/contact-us" },
@@ -195,13 +195,13 @@ const Navbar = () => {
                {user.role === "admin" && (
                 <MenuItem
                   onClick={() => {
-                    navigate("/admin");
+                    navigate("/admin/dashboard");
                   }}
                   className="!text-[11px] !border-b !border-gray-100"
                 >
-                  <MdDashboard className="!mr-2 !text-[14px] !text-gray-500" />{" "}
+                  <MdDashboard className="!mr-1 !text-[14px] !text-gray-500" />{" "}
                   {/* Icon for SIGN UP */}
-                  ADMIN
+                  DASHBOARD
                 </MenuItem>
               )}
               <MenuItem
@@ -211,7 +211,7 @@ const Navbar = () => {
                 }}
                 className="!text-[11px] "
               >
-                <AiOutlineLogout className="!mr-2 !text-[14px]" />{" "}
+                <AiOutlineLogout className="!mr-1 !text-[14px]" />{" "}
                 {/* Icon for SIGN UP */}
                 LOGOUT
               </MenuItem>
@@ -224,14 +224,14 @@ const Navbar = () => {
                   onClick={handleProfileClose}
                   className="!text-[11px] !border-b !border-gray-100"
                 >
-                  <AiOutlineUserAdd className="!mr-2 !text-[14px]" />{" "}
+                  <AiOutlineUserAdd className="!mr-1 !text-[14px]" />{" "}
                   {/* Icon for SIGN UP */}
                   SIGN UP
                 </MenuItem>
               </NavLink>
               <NavLink to="/login">
                 <MenuItem onClick={handleProfileClose} className="!text-[11px]">
-                  <AiOutlineLogin className="!mr-2 !text-[14px]" />{" "}
+                  <AiOutlineLogin className="!mr-1 !text-[14px]" />{" "}
                   {/* Icon for LOGIN */}
                   LOGIN
                 </MenuItem>

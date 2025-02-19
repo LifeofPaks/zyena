@@ -18,13 +18,21 @@ import Login from "./pages/Login";
 import Admin from "./pages/Admin";
 import { useDispatch } from "react-redux";
 import { hydrate } from "./store/auth-slice";
+import Contacts from "./pages/admin/ContactList";
+import ContactList from "./pages/admin/ContactList";
+import ConsultationList from "./pages/admin/ConsultationList";
+import Dashboard from "./pages/admin/Dashboard";
 
 function App() {
   const location = useLocation();
   const isAuthPage =
     location.pathname === "/login" ||
     location.pathname === "/sign-up" ||
-    location.pathname === "/admin";
+    location.pathname === "/admin" ||
+    location.pathname === "/admin/contacts" ||
+    location.pathname === "/admin/consultations" ||
+    location.pathname === "/admin/dashboard"
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -39,7 +47,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="gallery" element={<Gallery />} />
-        <Route path="consultations" element={<Consultations />} />
+        <Route path="consultation" element={<Consultations />} />
         <Route path="shop" element={<Shop />} />
         <Route path="about-us" element={<AboutUs />} />
         <Route path="contact-us" element={<ContactUs />} />
@@ -49,7 +57,11 @@ function App() {
         <Route path="valorous" element={<Valorous />} />
         <Route path="sign-up" element={<SignUp />} />
         <Route path="login" element={<Login />} />
-        <Route path="admin" element={<Admin />} />
+        <Route path="admin" element={<Admin />}>
+          <Route path="dashboard" element={<Dashboard />} />
+          <Route path="contacts" element={<ContactList />} />
+          <Route path="consultations" element={<ConsultationList />} />
+        </Route>
       </Routes>
       {!isAuthPage && <ScrollTop />}
     </>
