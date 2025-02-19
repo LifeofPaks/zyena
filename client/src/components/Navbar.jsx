@@ -189,7 +189,7 @@ const Navbar = () => {
           }}
         >
           {user ? (
-            <div className="!p-2 px-4 w-30">
+            <div className="!p-2 px-4 w-[140px]">
               <NavLink to="/">
                 {}
                 <MenuItem
@@ -205,7 +205,7 @@ const Navbar = () => {
               </NavLink>
             </div>
           ) : (
-            <div className="!p-2 px-4 w-30">
+            <div className="!p-2 px-4 w-[140px]">
               <NavLink to="/sign-up">
                 {}
                 <MenuItem

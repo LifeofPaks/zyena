@@ -96,14 +96,14 @@ function SampleImage({
             <span className="font-normal !text-[14px]">Drag & drop or click to upload image</span>
           </InputLabel>
         ) : imageLoadingState ? (
-          <Skeleton variant="rectangular" className="!h-24 !m-1 bg-gray-100" />
+          <Skeleton variant="rectangular" className="!h-18 !m-1 bg-gray-100" />
         //   <Skeleton variant="rectangular" width={210} height={118} />
         ) : (
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between h-18">
             <div className="flex items-center">
-              <FileIcon className="w-8 text-primary mr-2 h-8" />
+              <FileIcon className="w-8 text-gray-700 lg:!ml-4 h-8 !ml-1 " />
             </div>
-            <p className="text-sm font-medium">{imageFile.name}</p>
+            <p className="text-sm text-gray-700 font-medium">{imageFile.name}</p>
             <Button
               variant="ghost"
               size="icon"

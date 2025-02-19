@@ -1,5 +1,25 @@
+const { imageUploadUtil } = require("../../helpers/cloudinary");
 const ContactUs = require("../../models/Contact");
 const nodemailer = require("nodemailer");
+
+const handleImageUpload = async (req, res) => {
+  try {
+    const b64 = Buffer.from(req.file.buffer).toString("base64");
+    const url = "data:" + req.file.mimetype + ";base64," + b64;
+    const result = await imageUploadUtil(url);
+
+    res.json({
+      success: true,
+      result,
+    });
+  } catch (error) {
+    console.log("upload error: ",error)
+    res.json({
+      success: false,
+      message: "Error occured",
+    });
+  }
+};
 
 // Nodemailer setup
 const transporter = nodemailer.createTransport({
@@ -29,7 +49,7 @@ const sendEmail = (to, subject, html) => {
 
 // Create Contact Us Submission
 const createContact = async (req, res) => {
-  const { firstName, lastName, phoneNumber, subject, message, email } = req.body;
+  const { firstName, lastName, phoneNumber, subject, message, email, image } = req.body;
 
   try {
     if (!firstName || !lastName || !phoneNumber || !subject || !message || !email) {
@@ -43,6 +63,7 @@ const createContact = async (req, res) => {
       subject,
       message,
       email,
+      image
     });
 
     await newContactUs.save();
@@ -126,4 +147,4 @@ const deleteContact = async (req, res) => {
   }
 };
 
-module.exports = { createContact, getAllContact, deleteContact };
+module.exports = { createContact, getAllContact, deleteContact, handleImageUpload };

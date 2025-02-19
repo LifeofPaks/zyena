@@ -25,8 +25,6 @@ const ContactUs = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-
-    // Clear all errors when typing into any input field
     setErrors({});
 
     setFormData((prev) => ({
@@ -47,15 +45,15 @@ const ContactUs = () => {
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      // Form submission logic
       console.log("Form submitted", formData);
     }
 
-    dispatch(newContact(formData)).then((data) => {
+    dispatch(newContact({...formData, image:uploadedImageUrl})).then((data) => {
       if (data?.payload?.success) {
         notifySuccess(data.payload.message);
         setFormData(initialFormData);
         setErrors({});
+        setImageFile(null)
       } else {
         notifyError(data.payload?.message);
       }
@@ -332,7 +330,7 @@ const ContactUs = () => {
             variant="contained"
             onClick={handleSubmit}
             sx={{
-              fontSize: "14px",
+              fontSize: "12px",
               backgroundColor: "#d3a202", // amber
               "&:hover": {
                 backgroundColor: "#b78901", // darker amber

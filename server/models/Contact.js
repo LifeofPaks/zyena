@@ -32,6 +32,7 @@ const ContactSchema = new mongoose.Schema({
     trim: true,
     lowercase: true,
   },
+  image: String,
 
 }, { timestamps: true });
 
