@@ -1,18 +1,23 @@
 import React, { useState } from "react";
 import { Box, Typography, TextField, Button, Grid } from "@mui/material";
 import Map from "../components/Map";
+import { notifyError, notifySuccess } from "../hooks/toastify";
+import { useDispatch } from "react-redux";
+import { newContact } from "../store/contact-slice";
 
+const initialFormData = {
+  firstName: "",
+  lastName: "",
+  email: "",
+  phoneNumber: "",
+  subject: "",
+  message: "",
+};
 
 const ContactUs = () => {
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    phone: "",
-    subject: "",
-    message: "",
-  });
+  const [formData, setFormData] = useState(initialFormData);
   const [errors, setErrors] = useState({});
+  const dispatch = useDispatch();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -31,7 +36,7 @@ const ContactUs = () => {
     if (!formData.firstName) newErrors.firstName = "First Name is required";
     if (!formData.lastName) newErrors.lastName = "Last Name is required";
     if (!formData.email) newErrors.email = "Email is required";
-    if (!formData.phone) newErrors.phone = "Phone number is required";
+    if (!formData.phoneNumber) newErrors.phoneNumber = "Phone number is required";
     if (!formData.subject) newErrors.subject = "Subject is required";
     if (!formData.message) newErrors.message = "Message is required";
     setErrors(newErrors);
@@ -40,6 +45,16 @@ const ContactUs = () => {
       // Form submission logic
       console.log("Form submitted", formData);
     }
+
+    dispatch(newContact(formData)).then((data) => {
+      if (data?.payload?.success) {
+        notifySuccess(data.payload.message);
+        setFormData(initialFormData);
+        setErrors({});
+      } else {
+        notifyError(data.payload?.message);
+      }
+    });
   };
 
   return (
@@ -189,11 +204,11 @@ const ContactUs = () => {
               fullWidth
               label="Phone"
               variant="standard"
-              name="phone"
-              value={formData.phone}
+              name="phoneNumber"
+              value={formData.phoneNumber}
               onChange={handleInputChange}
-              error={!!errors.phone}
-              helperText={errors.phone || ""}
+              error={!!errors.phoneNumber}
+              helperText={errors.phoneNumber || ""}
               required
               InputProps={{
                 style: { fontSize: "14px" },

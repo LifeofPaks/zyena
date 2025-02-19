@@ -57,7 +57,6 @@ const Navbar = () => {
     dispatch(logoutUser());
   };
 
-  console.log(user, isAuthenticated);
 
   return (
     <nav className="container flex items-center justify-between !mx-auto !py-1">
