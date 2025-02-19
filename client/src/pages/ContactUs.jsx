@@ -4,6 +4,7 @@ import Map from "../components/Map";
 import { notifyError, notifySuccess } from "../hooks/toastify";
 import { useDispatch } from "react-redux";
 import { newContact } from "../store/contact-slice";
+import SampleImage from "../components/SampleImage";
 
 const initialFormData = {
   firstName: "",
@@ -311,6 +312,8 @@ const ContactUs = () => {
             />
           </Grid>
         </Grid>
+
+        <SampleImage/>
 
         <Box sx={{ marginTop: "2rem" }}>
           <Button
