@@ -18,6 +18,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import { MdDashboard } from "react-icons/md";
 import {
   AiOutlineLogin,
   AiOutlineUserAdd,
@@ -57,7 +58,6 @@ const Navbar = () => {
     dispatch(logoutUser());
   };
 
-
   return (
     <nav className="container flex items-center justify-between !mx-auto !py-1">
       <Link to="/">
@@ -93,7 +93,9 @@ const Navbar = () => {
               }
             >
               {link.name}
-              {link.name === "Gallery" && <ExpandMore className="ml-2 !text-[16px]" />}
+              {link.name === "Gallery" && (
+                <ExpandMore className="ml-2 !text-[16px]" />
+              )}
             </NavLink>
 
             {/* Web Dropdown */}
@@ -190,19 +192,29 @@ const Navbar = () => {
         >
           {user ? (
             <div className="!p-2 px-4 w-[140px]">
-              <NavLink to="/">
-                {}
+               {user.role === "admin" && (
                 <MenuItem
                   onClick={() => {
-                    handleProfileClose(), handleLogout();
+                    navigate("/admin");
                   }}
-                  className="!text-[11px] "
+                  className="!text-[11px] !border-b !border-gray-100"
                 >
-                  <AiOutlineLogout className="!mr-2 !text-[14px]" />{" "}
+                  <MdDashboard className="!mr-2 !text-[14px] !text-gray-500" />{" "}
                   {/* Icon for SIGN UP */}
-                  LOGOUT
+                  ADMIN
                 </MenuItem>
-              </NavLink>
+              )}
+              <MenuItem
+                onClick={() => {
+                  handleProfileClose(), handleLogout();
+                  navigate("/");
+                }}
+                className="!text-[11px] "
+              >
+                <AiOutlineLogout className="!mr-2 !text-[14px]" />{" "}
+                {/* Icon for SIGN UP */}
+                LOGOUT
+              </MenuItem>
             </div>
           ) : (
             <div className="!p-2 px-4 w-[140px]">
@@ -280,7 +292,11 @@ const Navbar = () => {
                             style: { fontSize: "14px" },
                           }}
                         />
-                        {mobileBridalOpen ? <ExpandLess className="!text-[16px]" /> : <ExpandMore className="!text-[16px]"  />}
+                        {mobileBridalOpen ? (
+                          <ExpandLess className="!text-[16px]" />
+                        ) : (
+                          <ExpandMore className="!text-[16px]" />
+                        )}
                       </ListItem>
                       <Collapse
                         in={mobileBridalOpen}

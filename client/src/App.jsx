@@ -15,26 +15,27 @@ import Valorous from "./pages/Valorous";
 import ChatBot from "./components/ChatBot";
 import SignUp from "./pages/SignUp";
 import Login from "./pages/Login";
-
+import Admin from "./pages/Admin";
 import { useDispatch } from "react-redux";
 import { hydrate } from "./store/auth-slice";
-
 
 function App() {
   const location = useLocation();
   const isAuthPage =
-    location.pathname === "/login" || location.pathname === "/sign-up";
-    const dispatch = useDispatch();
+    location.pathname === "/login" ||
+    location.pathname === "/sign-up" ||
+    location.pathname === "/admin";
+  const dispatch = useDispatch();
 
-useEffect(() => {
-  dispatch(hydrate());
-}, [dispatch]);
+  useEffect(() => {
+    dispatch(hydrate());
+  }, [dispatch]);
 
   return (
     <>
       {!isAuthPage && <ChatBot />}
-      <ScrollTop />
       {!isAuthPage && <Navbar />}
+
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="gallery" element={<Gallery />} />
@@ -48,7 +49,9 @@ useEffect(() => {
         <Route path="valorous" element={<Valorous />} />
         <Route path="sign-up" element={<SignUp />} />
         <Route path="login" element={<Login />} />
+        <Route path="admin" element={<Admin />} />
       </Routes>
+      {!isAuthPage && <ScrollTop />}
     </>
   );
 }
