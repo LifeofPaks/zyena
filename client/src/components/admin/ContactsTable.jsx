@@ -8,20 +8,20 @@ import {
   TableContainer,
 } from "@mui/material";
 import { IconButton } from "@mui/material";
-import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-const ContactTable = ({ contacts }) => {
+const ContactTable = ({ contacts, handleDelete }) => {
   const contactsArr = contacts.contacts || [];
+
   return (
     <Card className="w-full px-3 border-none !shadow-none">
       <CardHeader
         title="All Contacts"
         className="text-[#008080]"
-        titleTypographyProps={{ sx: { fontSize: "14px", fontWeight:"bold"} }}
+        titleTypographyProps={{ sx: { fontSize: "14px", fontWeight: "bold" } }}
       />
-
-      <CardContent className="md:w-[710px] overflow-x-auto p-3 w-[360px] hide-scrollbar lg:w-full">
+      {
+        contactsArr.length ?   <CardContent className="md:w-[710px] overflow-x-auto p-3 w-[360px] hide-scrollbar lg:w-full">
         <TableContainer>
           <Table>
             <TableHead>
@@ -96,13 +96,11 @@ const ContactTable = ({ contacts }) => {
                     {contact.message}
                   </TableCell>
                   <TableCell>
-                    <IconButton
-                      onClick={() => console.log("Delete", contact._id)}
-                    >
+                    <IconButton onClick={() => handleDelete(contact._id)}>
                       <DeleteIcon
                         fontSize="small"
                         color="error"
-                        className="t!ext-[14px]"
+                        className="!text-[14px]"
                       />
                     </IconButton>
                   </TableCell>
@@ -111,7 +109,10 @@ const ContactTable = ({ contacts }) => {
             </TableBody>
           </Table>
         </TableContainer>
-      </CardContent>
+      </CardContent> : <p className="!text-gray-700 w-full !text-center !text-[12px] !mb-2">No contact or messages</p>
+      }
+
+    
     </Card>
   );
 };
