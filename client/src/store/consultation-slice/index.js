@@ -9,7 +9,7 @@ const BACKEND_URL =
 const initialState = {
   isLoading: false,
   consultationList: [],
-  error: null
+  error: null,
 };
 
 export const newConsultation = createAsyncThunk(
@@ -20,6 +20,32 @@ export const newConsultation = createAsyncThunk(
       formData
     );
     return response.data;
+  }
+);
+
+// Fetch all consultations
+export const fetchAllConsultations = createAsyncThunk(
+  "consultation/fetchAllConsultations",
+  async () => {
+    try {
+      const response = await axios.get(`${BACKEND_URL}/api/consultation/get`);
+      return response.data;
+    } catch (error) {
+      throw Error(error.response?.data || "Failed to fetch consultations");
+    }
+  }
+);
+
+// Delete a consultation
+export const deleteConsultation = createAsyncThunk(
+  "consultation/deleteConsultation",
+  async (id) => {
+    try {
+      await axios.delete(`${BACKEND_URL}/api/consultation/delete/${id}`);
+      return { id, ...response.data };
+    } catch (error) {
+      throw Error(error.response?.data || "Failed to delete consultation");
+    }
   }
 );
 
@@ -38,6 +64,17 @@ const consultationSlice = createSlice({
       })
       .addCase(newConsultation.rejected, (state) => {
         state.isLoading = false;
+      })
+      .addCase(fetchAllConsultations.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(fetchAllConsultations.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.consultationList = action.payload;
+      })
+      .addCase(fetchAllConsultations.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
       });
   },
 });

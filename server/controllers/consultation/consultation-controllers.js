@@ -197,4 +197,49 @@ const createConsultation = async (req, res) => {
   }
 };
 
-module.exports = { createConsultation };
+// Get All Consultations
+const getAllConsultations = async (req, res) => {
+  try {
+    const consultations = await Consultation.find();
+    res.status(200).json({
+      success: true,
+      consultations,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Failed to retrieve consultations",
+    });
+  }
+};
+
+// Delete Consultation
+const deleteConsultation = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const deletedConsultation = await Consultation.findByIdAndDelete(id);
+    if (!deletedConsultation) {
+      return res.json({
+        success: false,
+        message: "Consultation not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Consultation deleted successfully",
+    });
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({
+      success: false,
+      message: "Failed to delete consultation",
+    });
+  }
+};
+
+module.exports = {
+  createConsultation,
+  getAllConsultations,
+  deleteConsultation,
+};

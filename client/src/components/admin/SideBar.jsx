@@ -45,7 +45,7 @@ const SideBar = () => {
   ];
 
   return (
-    <div className="w-[300px] border-r border-gray-200 h-screen !p-4 hidden lg:block">
+    <div className="w-[300px] border-r border-gray-200 h-screen !py-6 hidden lg:block">
       <Link to="/" className="flex items-center">
         <img
           className="!ml-2 lg:ml-0"
@@ -54,7 +54,7 @@ const SideBar = () => {
           src="https://img.icons8.com/ios-filled/50/panopto.png"
           alt="panopto"
         />
-        <p className="font-bold text-[14px]">Zyena</p>
+        <p className="font-bold text-[12px]">Zyena</p>
       </Link>
 
       <div className="flex flex-col h-[98%] justify-between !pb-[3rem]">
@@ -80,7 +80,7 @@ const SideBar = () => {
               >
                 {menuItem.icon}
               </div>
-              <p className="text-[15px] font-semibold !pt-1">
+              <p className="text-[13px] font-semibold !pt-1">
                 {menuItem.label}
               </p>
             </div>
@@ -90,7 +90,7 @@ const SideBar = () => {
         <Button
           onClick={handleLogout}
           variant="outline"
-          className="!normal-case !bg-red-700 !text-white !w-[120px]"
+          className="!normal-case !bg-red-700 !text-white !w-[120px] !ml-4"
         >
           <AiOutlineLogout className="!mr-1 !text-[15px]" /> Logout
         </Button>

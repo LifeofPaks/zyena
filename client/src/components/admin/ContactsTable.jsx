@@ -14,7 +14,7 @@ const ContactTable = ({ contacts, handleDelete }) => {
   const contactsArr = contacts.contacts || [];
 
   return (
-    <Card className="w-full px-3 border-none !shadow-none">
+    <Card className="w-full px-3 border-none !shadow-none" sx={{ fontFamily: "Montserrat" }}>
       <CardHeader
         title="All Contacts"
         className="text-[#008080]"
@@ -80,19 +80,19 @@ const ContactTable = ({ contacts, handleDelete }) => {
                       style={{ width: 50, height: 50, objectFit: "cover" }}
                     />
                   </TableCell>
-                  <TableCell sx={{ fontSize: "13px" }} className=" !font-thin">
+                  <TableCell sx={{ fontSize: "14px" }} className=" !font-thin">
                     {contact.firstName} {contact.lastName}
                   </TableCell>
-                  <TableCell sx={{ fontSize: "13px" }} className=" !font-thin">
+                  <TableCell sx={{ fontSize: "14px" }} className=" !font-thin">
                     {contact.email}
                   </TableCell>
-                  <TableCell sx={{ fontSize: "13px" }} className=" !font-thin">
+                  <TableCell sx={{ fontSize: "14px" }} className=" !font-thin">
                     {contact.phoneNumber}
                   </TableCell>
-                  <TableCell sx={{ fontSize: "13px" }} className=" !font-thin">
+                  <TableCell sx={{ fontSize: "14px" }} className=" !font-thin">
                     {contact.subject}
                   </TableCell>
-                  <TableCell sx={{ fontSize: "13px" }} className=" !font-thin">
+                  <TableCell sx={{ fontSize: "14px" }} className=" !font-thin">
                     {contact.message}
                   </TableCell>
                   <TableCell>
@@ -109,7 +109,7 @@ const ContactTable = ({ contacts, handleDelete }) => {
             </TableBody>
           </Table>
         </TableContainer>
-      </CardContent> : <p className="!text-gray-700 w-full !text-center !text-[12px] !mb-2">No contact or messages</p>
+      </CardContent> : <p className="!text-gray-700 w-full !text-center !text-[12px] !mb-2">No contact or messages found</p>
       }
 
     

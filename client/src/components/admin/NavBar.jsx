@@ -5,7 +5,7 @@ import { Avatar } from "@mui/material";
 const NavBar = () => {
   const { user } = useSelector((state) => state.auth);
   return (
-    <div className="!px-3 !py-4 border-b border-gray-200 w-full flex items-center justify-between">
+    <div className="!px-6 !py-4 border-b border-gray-200 w-full flex items-center justify-between">
       <p className="!text-[13px]">
         Hello, Welcome back{" "}
         <span className="font-bold text-gray-500">{user.firstName}</span>
@@ -25,7 +25,6 @@ const NavBar = () => {
         <div className="hidden lg:block">
           <p className="!text-[13px] text-gray-700"> {user.firstName}</p>
           <p className="!text-[13px] text-gray-700 capitalize font-bold">
-            {" "}
             {user.role}
           </p>
         </div>

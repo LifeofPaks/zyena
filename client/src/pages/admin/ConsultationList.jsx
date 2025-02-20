@@ -1,9 +1,38 @@
-import React from 'react'
+import React, { useEffect } from "react";
+import { notifySuccess } from "../../hooks/toastify";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  deleteConsultation,
+  fetchAllConsultations,
+} from "../../store/consultation-slice";
+import ConsultationsTable from "../../components/admin/ConsultationsTable";
 
 const ConsultationList = () => {
-  return (
-    <div className='!p-4'>ConsultationList</div>
-  )
-}
+  const dispatch = useDispatch();
+  const { consultationList } = useSelector((state) => state.consultations);
+  console.log(consultationList);
 
-export default ConsultationList
+  function handleDelete(getCurrentConsultationId) {
+    dispatch(deleteConsultation(getCurrentConsultationId)).then((data) => {
+      if (data?.payload?.success) {
+        dispatch(fetchAllConsultations());
+        notifySuccess("Consultation deleted successfully!");
+      }
+    });
+  }
+
+  useEffect(() => {
+    dispatch(fetchAllConsultations());
+  }, [dispatch]);
+
+  return (
+    <div className="!p-4">
+      <ConsultationsTable
+        consultations={consultationList || []}
+        handleDelete={handleDelete}
+      />
+    </div>
+  );
+};
+
+export default ConsultationList;

@@ -1,5 +1,5 @@
 const { imageUploadUtil } = require("../../helpers/cloudinary");
-const ContactUs = require("../../models/Contact");
+const Contact = require("../../models/Contact");
 const nodemailer = require("nodemailer");
 
 const handleImageUpload = async (req, res) => {
@@ -56,7 +56,7 @@ const createContact = async (req, res) => {
       return res.json({ success: false, message: "All fields are required" });
     }
 
-    const newContactUs = new ContactUs({
+    const newContact = new Contact({
       firstName,
       lastName,
       phoneNumber,
@@ -66,7 +66,7 @@ const createContact = async (req, res) => {
       image
     });
 
-    await newContactUs.save();
+    await newContact.save();
 
     // Send confirmation email
     sendEmail(
@@ -96,7 +96,7 @@ const createContact = async (req, res) => {
     res.status(201).json({
       success: true,
       message: "Your message has been sent successfully",
-      contact: newContactUs,
+      contact: newContact,
     });
   } catch (error) {
     res.status(500).json({
@@ -109,11 +109,9 @@ const createContact = async (req, res) => {
 // Get All Contact Us Submissions
 const getAllContact = async (req, res) => {
   try {
-    const contacts = await ContactUs.find().sort({ createdAt: -1 });
-
+    const contacts = await Contact.find().sort({ createdAt: -1 });
     res.status(200).json({
       success: true,
-      message: "All contact messages retrieved successfully",
       contacts,
     });
   } catch (error) {
@@ -129,7 +127,7 @@ const deleteContact = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const deletedContact = await ContactUs.findByIdAndDelete(id);
+    const deletedContact = await Contact.findByIdAndDelete(id);
 
     if (!deletedContact) {
       return res.status(404).json({ success: false, message: "Message not found" });

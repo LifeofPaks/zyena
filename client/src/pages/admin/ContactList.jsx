@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { deleteContact, fetchAllContacts } from "../../store/contact-slice";
 import { useDispatch, useSelector } from "react-redux";
 import ContactTable from "../../components/admin/ContactsTable";
-import {notifySuccess} from "../../hooks/toastify"
+import { notifySuccess } from "../../hooks/toastify";
 
 const ContactList = () => {
   const dispatch = useDispatch();
@@ -20,10 +20,10 @@ const ContactList = () => {
       }
     });
   }
-  
+
   return (
     <div className="!p-4">
-      <ContactTable contacts={contactList || []} handleDelete={handleDelete}/>
+      <ContactTable contacts={contactList || []} handleDelete={handleDelete} />
     </div>
   );
 };
