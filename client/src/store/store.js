@@ -6,7 +6,8 @@ import contactUsReducer from "./contact-slice/index"
 const store = configureStore({
     reducer: {
         auth: authReducer,
-        consultation:consultationReducer
+        consultations:consultationReducer,
+        contacts:contactUsReducer
     },
   });
   

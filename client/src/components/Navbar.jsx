@@ -35,7 +35,7 @@ const Navbar = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { user, isAuthenticated } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.auth);
 
   const navLinks = [
     { name: "Home", path: "/" },
