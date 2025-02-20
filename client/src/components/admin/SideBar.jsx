@@ -11,16 +11,17 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import { Button } from "@mui/material";
 import { logoutUser } from "../../store/auth-slice";
 import { useDispatch } from "react-redux";
+import { AiOutlineLogout } from "react-icons/ai";
 
 const SideBar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const currentPath = window.location.pathname;
 
-   const handleLogout = () => {
-      dispatch(logoutUser());
-      navigate("/")
-    };
+  const handleLogout = () => {
+    dispatch(logoutUser());
+    navigate("/");
+  };
 
   const adminSidebarMenuItems = [
     {
@@ -57,38 +58,43 @@ const SideBar = () => {
       </Link>
 
       <div className="flex flex-col h-[98%] justify-between !pb-[3rem]">
-      <nav className="!mt-6 flex-col flex gap-2 ">
-        {adminSidebarMenuItems.map((menuItem) => (
-          <div
-            key={menuItem.id}
-            onClick={() => {
-              navigate(menuItem.path);
-            }}
-            className={`!flex cursor-pointer !mb-1 text-xl !items-center !gap-1 !pl-3 !pr-3 !border-l-4 !transition-colors !duration-200 ${
-              currentPath === menuItem.path
-                ? "text-[#212020] !border-[#008080]"
-                : "text-gray-400 border-transparent hover:text-[#212020]"
-            }`}
-          >
+        <nav className="!mt-6 flex-col flex gap-2 ">
+          {adminSidebarMenuItems.map((menuItem) => (
             <div
-              className={`${
+              key={menuItem.id}
+              onClick={() => {
+                navigate(menuItem.path);
+              }}
+              className={`!flex cursor-pointer !mb-1 text-xl !items-center !gap-1 !pl-3 !pr-3 !border-l-4 !transition-colors !duration-200 ${
                 currentPath === menuItem.path
-                  ? "text-[#008080]"
-                  : "text-inherit"
+                  ? "text-[#212020] !border-[#008080]"
+                  : "text-gray-400 border-transparent hover:text-[#212020]"
               }`}
             >
-              {menuItem.icon}
+              <div
+                className={`${
+                  currentPath === menuItem.path
+                    ? "text-[#008080]"
+                    : "text-inherit"
+                }`}
+              >
+                {menuItem.icon}
+              </div>
+              <p className="text-[15px] font-semibold !pt-1">
+                {menuItem.label}
+              </p>
             </div>
-            <p className="text-[15px] font-semibold !pt-1">{menuItem.label}</p>
-          </div>
-        ))}
-      </nav>
+          ))}
+        </nav>
 
-      <Button onClick={handleLogout} className="!normal-case !bg-red-700 !text-white !w-[120px]">Logout</Button>
-
+        <Button
+          onClick={handleLogout}
+          variant="outline"
+          className="!normal-case !bg-red-700 !text-white !w-[120px]"
+        >
+          <AiOutlineLogout className="!mr-1 !text-[15px]" /> Logout
+        </Button>
       </div>
-
-     
     </div>
   );
 };
