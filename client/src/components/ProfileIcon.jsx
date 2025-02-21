@@ -74,6 +74,10 @@ const ProfileIcon = () => {
           vertical: "top",
           horizontal: "right",
         }}
+        PaperProps={{
+            elevation: 2, 
+            sx: { boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.1)" }, 
+          }}
       >
         {user ? (
           <div className="!p-1 px-4 w-[140px]" onClick={() => setMobileOpen(false)}>
@@ -83,7 +87,7 @@ const ProfileIcon = () => {
                   navigate("/admin/dashboard");
                   handleProfileClose()
                 }}
-                className="!text-[11px] !border-b !border-gray-100"
+                className="!text-[11px] !py-3 !border-b !border-gray-100"
               >
                 <MdDashboard className="!mr-1 !text-[14px] !text-gray-500" />{" "}
                 {/* Icon for SIGN UP */}
@@ -95,7 +99,7 @@ const ProfileIcon = () => {
                 handleProfileClose(), handleLogout();
                 navigate("/");
               }}
-              className="!text-[11px] "
+              className="!text-[11px] !py-3 "
             >
               <AiOutlineLogout className="!mr-1 !text-[14px]" />{" "}
               {/* Icon for SIGN UP */}
@@ -103,12 +107,12 @@ const ProfileIcon = () => {
             </MenuItem>
           </div>
         ) : (
-          <div className="!p-1 px-4 w-[140px]" onClick={() => setMobileOpen(false)}>
+          <div className="!p-1 w-[140px]" onClick={() => setMobileOpen(false)}>
             <NavLink to="/sign-up">
               {}
               <MenuItem
                 onClick={handleProfileClose}
-                className="!text-[11px] !border-b !border-gray-100"
+                className="!text-[11px] !py-3 !border-b !border-gray-100 "
               >
                 <AiOutlineUserAdd className="!mr-1 !text-[14px]" />{" "}
                 {/* Icon for SIGN UP */}
@@ -116,7 +120,7 @@ const ProfileIcon = () => {
               </MenuItem>
             </NavLink>
             <NavLink to="/login">
-              <MenuItem onClick={handleProfileClose} className="!text-[11px]">
+              <MenuItem onClick={handleProfileClose} className="!text-[11px] !py-3">
                 <AiOutlineLogin className="!mr-1 !text-[14px]" />{" "}
                 {/* Icon for LOGIN */}
                 LOGIN

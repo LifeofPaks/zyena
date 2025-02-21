@@ -88,31 +88,26 @@ const ContactTable = ({ contacts, handleDelete }) => {
                     </TableCell>
                     <TableCell
                       sx={{ fontSize: "14px" }}
-                      className=" !font-thin"
                     >
                       {contact.firstName} {contact.lastName}
                     </TableCell>
                     <TableCell
                       sx={{ fontSize: "14px" }}
-                      className=" !font-thin"
                     >
                       {contact.email}
                     </TableCell>
                     <TableCell
                       sx={{ fontSize: "14px" }}
-                      className=" !font-thin"
                     >
                       {contact.phoneNumber}
                     </TableCell>
                     <TableCell
                       sx={{ fontSize: "14px" }}
-                      className=" !font-thin"
                     >
                       {contact.subject}
                     </TableCell>
                     <TableCell
                       sx={{ fontSize: "14px" }}
-                      className=" !font-thin"
                     >
                       {contact.message.length > 25
                         ? `${contact.message.slice(0, 25)}...`

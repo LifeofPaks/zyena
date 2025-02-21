@@ -7,17 +7,13 @@
   margin: 0;
 }
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   scroll-behavior: smooth;
 }
 
 body {
-  font-family: "Montserrat", serif !important;
+  font-family: "Montserrat", sans-serif !important;
 }
 
-.mont{
-  font-family: "Montserrat", serif;
-}
 
 .primary-color {
   color: #3b82f6;

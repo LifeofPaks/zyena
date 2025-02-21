@@ -64,33 +64,33 @@ const ConsultationsTable = ({ consultations, handleDelete }) => {
               <TableBody>
                 {consultationsArr.map((consultation) => (
                   <TableRow key={consultation._id}>
-                    <TableCell className="!font-thin" sx={{ fontSize: "14px" }}>
+                    <TableCell  sx={{ fontSize: "14px" }}>
                       {consultation.firstName} {consultation.lastName}
                     </TableCell>
-                    {/* <TableCell className="!font-thin"  sx={{ fontSize: "14px" }}>
+                    {/* <TableCell   sx={{ fontSize: "14px" }}>
                       {consultation.email}
                     </TableCell> */}
-                    <TableCell className="!font-thin"  sx={{ fontSize: "14px" }}>
+                    <TableCell   sx={{ fontSize: "14px" }}>
                       {consultation.phoneNumber}
                     </TableCell>
-                    {/* <TableCell className="!font-thin"  sx={{ fontSize: "14px" }}>
+                    {/* <TableCell   sx={{ fontSize: "14px" }}>
                       {consultation.state}
                     </TableCell> */}
-                    <TableCell className="!font-thin"  sx={{ fontSize: "14px" }}>
+                    <TableCell   sx={{ fontSize: "14px" }}>
                       {consultation.meetingType}
                     </TableCell>
-                    <TableCell className="!font-thin"  sx={{ fontSize: "14px" }}>
+                    <TableCell   sx={{ fontSize: "14px" }}>
                       {consultation.garmentType}
                     </TableCell>
-                    <TableCell className="!font-thin"  sx={{ fontSize: "14px" }}>
+                    <TableCell   sx={{ fontSize: "14px" }}>
                       {new Date(
                         consultation.consultationDate
                       ).toLocaleDateString()}
                     </TableCell>
-                    <TableCell className="!font-thin"  sx={{ fontSize: "14px" }}>
+                    <TableCell   sx={{ fontSize: "14px" }}>
                       {consultation.consultationTime}
                     </TableCell>
-                    <TableCell className="!font-thin"  sx={{ fontSize: "14px" }}>
+                    <TableCell   sx={{ fontSize: "14px" }}>
                       {consultation.amount}
                     </TableCell>
                     <TableCell>

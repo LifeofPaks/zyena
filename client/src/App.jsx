@@ -22,6 +22,14 @@ import Contacts from "./pages/admin/ContactList";
 import ContactList from "./pages/admin/ContactList";
 import ConsultationList from "./pages/admin/ConsultationList";
 import Dashboard from "./pages/admin/Dashboard";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
+
+const theme = createTheme({
+  typography: {
+    fontFamily: `"Montserrat", "Arial", sans-serif`,
+  },
+});
 
 function App() {
   const location = useLocation();
@@ -31,7 +39,7 @@ function App() {
     location.pathname === "/admin" ||
     location.pathname === "/admin/contacts" ||
     location.pathname === "/admin/consultations" ||
-    location.pathname === "/admin/dashboard"
+    location.pathname === "/admin/dashboard";
 
   const dispatch = useDispatch();
 
@@ -40,7 +48,8 @@ function App() {
   }, [dispatch]);
 
   return (
-    <>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
       {!isAuthPage && <ChatBot />}
       {!isAuthPage && <Navbar />}
 
@@ -64,7 +73,7 @@ function App() {
         </Route>
       </Routes>
       {!isAuthPage && <ScrollTop />}
-    </>
+    </ThemeProvider>
   );
 }
 

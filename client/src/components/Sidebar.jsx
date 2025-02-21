@@ -1,5 +1,5 @@
 import React from "react";
-import {  NavLink, useNavigate } from "react-router-dom";
+import {  NavLink } from "react-router-dom";
 import {
   Drawer,
   IconButton,
@@ -7,15 +7,12 @@ import {
   ListItem,
   ListItemText,
   Collapse,
-  Button,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import { useSidebarStore } from "../zustand/useSideBar";
-import { useDispatch, useSelector } from "react-redux";
 import ProfileIcon from "./ProfileIcon";
-import { logoutUser } from "../store/auth-slice";
 
 const Sidebar = () => {
   const {
@@ -24,9 +21,6 @@ const Sidebar = () => {
     mobileBridalOpen,
     setMobileBridalOpen,
   } = useSidebarStore();
-  const dispatch = useDispatch();
-  const { user } = useSelector((state) => state.auth);
-  const navigate = useNavigate();
 
   const navLinks = [
     { name: "Home", path: "/" },
