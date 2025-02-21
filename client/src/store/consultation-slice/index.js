@@ -41,7 +41,7 @@ export const deleteConsultation = createAsyncThunk(
   "consultation/deleteConsultation",
   async (id) => {
     try {
-      await axios.delete(`${BACKEND_URL}/api/consultation/delete/${id}`);
+      const response = await axios.delete(`${BACKEND_URL}/api/consultation/delete/${id}`);
       return { id, ...response.data };
     } catch (error) {
       throw Error(error.response?.data || "Failed to delete consultation");
