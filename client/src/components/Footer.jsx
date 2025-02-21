@@ -7,8 +7,8 @@ const Footer = () => {
   return (
     <div className="bg-black text-gray-400 ">
       <div className="container !mx-auto !py-4">
-        <div className="flex items-center justify-between">
-          <p className="text-[12px] !font-semibold">
+      <div className="flex flex-col-reverse items-center justify-center lg:flex-row lg:justify-between gap-3">
+          <p className="text-[11px] lg:text-[12px]  !font-semibold">
             © Copyright <span>{getCurrentYear}</span> Zyena. All rights
             Reserved.
           </p>
@@ -24,7 +24,7 @@ const Footer = () => {
             </Link>
           </div>
         </div>
-      <h1 className="text-[10rem] w-full text-center outline-font">ZYENA</h1>
+      <h1 className="text-[6rem] lg:text-[10rem]  w-full text-center outline-font">ZYENA</h1>
       </div>
     </div>
   );
