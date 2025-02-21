@@ -45,7 +45,7 @@ const SideBar = () => {
   ];
 
   return (
-    <div className="w-[300px] border-r border-gray-200 h-screen !py-6 hidden lg:block">
+    <div className="!w-[300px] border-r border-gray-200 h-screen !py-6 hidden lg:block">
       <Link to="/" className="flex items-center">
         <img
           className="!ml-2 lg:ml-0"

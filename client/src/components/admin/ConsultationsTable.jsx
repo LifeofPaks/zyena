@@ -32,15 +32,15 @@ const ConsultationsTable = ({ consultations, handleDelete }) => {
                   <TableCell  className="lg:w-auto  !min-w-[150px]" sx={{ fontSize: "14px", color: "#677787" }}>
                     Name
                   </TableCell>
-                  <TableCell className="" sx={{ fontSize: "14px", color: "#677787" }}>
+                  {/* <TableCell className="" sx={{ fontSize: "14px", color: "#677787" }}>
                     Email
-                  </TableCell>
+                  </TableCell> */}
                   <TableCell className="" sx={{ fontSize: "14px", color: "#677787" }}>
                     Phone
                   </TableCell>
-                  <TableCell className="" sx={{ fontSize: "14px", color: "#677787" }}>
+                  {/* <TableCell className="" sx={{ fontSize: "14px", color: "#677787" }}>
                     State
-                  </TableCell>
+                  </TableCell> */}
                   <TableCell  className="lg:w-auto  !min-w-[130px]" sx={{ fontSize: "14px", color: "#677787" }}>
                     Meeting Type
                   </TableCell>
@@ -48,7 +48,7 @@ const ConsultationsTable = ({ consultations, handleDelete }) => {
                     Garment Type
                   </TableCell>
                   <TableCell  className="lg:w-auto  !min-w-[150px]" sx={{ fontSize: "14px", color: "#677787" }}>
-                    Consultation Date
+                    Date
                   </TableCell>
                   <TableCell  className="lg:w-auto  !min-w-[150px]" sx={{ fontSize: "14px", color: "#677787" }}>
                     Time
@@ -67,15 +67,15 @@ const ConsultationsTable = ({ consultations, handleDelete }) => {
                     <TableCell className="!font-thin" sx={{ fontSize: "14px" }}>
                       {consultation.firstName} {consultation.lastName}
                     </TableCell>
-                    <TableCell className="!font-thin"  sx={{ fontSize: "14px" }}>
+                    {/* <TableCell className="!font-thin"  sx={{ fontSize: "14px" }}>
                       {consultation.email}
-                    </TableCell>
+                    </TableCell> */}
                     <TableCell className="!font-thin"  sx={{ fontSize: "14px" }}>
                       {consultation.phoneNumber}
                     </TableCell>
-                    <TableCell className="!font-thin"  sx={{ fontSize: "14px" }}>
+                    {/* <TableCell className="!font-thin"  sx={{ fontSize: "14px" }}>
                       {consultation.state}
-                    </TableCell>
+                    </TableCell> */}
                     <TableCell className="!font-thin"  sx={{ fontSize: "14px" }}>
                       {consultation.meetingType}
                     </TableCell>
