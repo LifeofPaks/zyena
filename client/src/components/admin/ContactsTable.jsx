@@ -36,7 +36,7 @@ const ContactTable = ({ contacts, handleDelete }) => {
                     Image
                   </TableCell>
                   <TableCell
-                    className="lg:w-auto !min-w-[130px]"
+                    className="lg:w-auto !min-w-[170px]"
                     sx={{ fontSize: "14px", color: "gray" }}
                   >
                     Name

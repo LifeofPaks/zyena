@@ -1,22 +1,13 @@
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import { useState } from "react";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 import {
-  Drawer,
   IconButton,
-  List,
-  ListItem,
-  ListItemText,
-  Collapse,
   Popover,
   MenuItem,
   Avatar,
-  Button,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import CloseIcon from "@mui/icons-material/Close";
 import ExpandMore from "@mui/icons-material/ExpandMore";
-import ExpandLess from "@mui/icons-material/ExpandLess";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { MdDashboard } from "react-icons/md";
 import {
@@ -26,13 +17,21 @@ import {
 } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../store/auth-slice";
+import { useSidebarStore } from "../zustand/useSideBar";
+import Sidebar from "./Sidebar";
+import ProfileIcon from "./ProfileIcon";
 
 const Navbar = () => {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [isBridalDropdownOpen, setIsBridalDropdownOpen] = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const [mobileBridalOpen, setMobileBridalOpen] = useState(false);
-  const [anchorEl, setAnchorEl] = useState(null);
+  const {
+    isDropdownOpen,
+    setIsDropdownOpen,
+    isBridalDropdownOpen,
+    setIsBridalDropdownOpen,
+    mobileOpen,
+    setMobileOpen,
+    anchorEl,
+    setAnchorEl,
+  } = useSidebarStore();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
@@ -46,17 +45,6 @@ const Navbar = () => {
     { name: "Contact Us", path: "/contact-us" },
   ];
 
-  const handleProfileClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleProfileClose = () => {
-    setAnchorEl(null);
-  };
-
-  const handleLogout = () => {
-    dispatch(logoutUser());
-  };
 
   return (
     <nav className="container flex items-center justify-between !mx-auto !py-1">
@@ -146,99 +134,9 @@ const Navbar = () => {
       </div>
 
       {/* Profile Icon & Popover */}
-      <div>
-        {user ? (
-          <IconButton
-            className="!hidden md:!block"
-            onClick={handleProfileClick}
-          >
-            <Avatar
-              sx={{
-                fontWeight: "bold",
-                fontSize: "1.25rem",
-                width: 40,
-                height: 40,
-                boxShadow: "0 4px 10px rgba(0, 0, 0, 0.25)",
-              }}
-            >
-              {user.firstName?.charAt(0).toUpperCase()}
-            </Avatar>
-          </IconButton>
-        ) : (
-          <IconButton
-            className="!hidden md:!block"
-            onClick={handleProfileClick}
-          >
-            <AccountCircleIcon
-              sx={{
-                fontSize: "40px",
-              }}
-            />
-          </IconButton>
-        )}
+      <div className="!hidden md:!block">
 
-        <Popover
-          open={Boolean(anchorEl)}
-          anchorEl={anchorEl}
-          onClose={handleProfileClose}
-          anchorOrigin={{
-            vertical: "bottom",
-            horizontal: "right",
-          }}
-          transformOrigin={{
-            vertical: "top",
-            horizontal: "right",
-          }}
-        >
-          {user ? (
-            <div className="!p-2 px-4 w-[140px]">
-               {user.role === "admin" && (
-                <MenuItem
-                  onClick={() => {
-                    navigate("/admin/dashboard");
-                  }}
-                  className="!text-[11px] !border-b !border-gray-100"
-                >
-                  <MdDashboard className="!mr-1 !text-[14px] !text-gray-500" />{" "}
-                  {/* Icon for SIGN UP */}
-                  DASHBOARD
-                </MenuItem>
-              )}
-              <MenuItem
-                onClick={() => {
-                  handleProfileClose(), handleLogout();
-                  navigate("/");
-                }}
-                className="!text-[11px] "
-              >
-                <AiOutlineLogout className="!mr-1 !text-[14px]" />{" "}
-                {/* Icon for SIGN UP */}
-                LOGOUT
-              </MenuItem>
-            </div>
-          ) : (
-            <div className="!p-2 px-4 w-[140px]">
-              <NavLink to="/sign-up">
-                {}
-                <MenuItem
-                  onClick={handleProfileClose}
-                  className="!text-[11px] !border-b !border-gray-100"
-                >
-                  <AiOutlineUserAdd className="!mr-1 !text-[14px]" />{" "}
-                  {/* Icon for SIGN UP */}
-                  SIGN UP
-                </MenuItem>
-              </NavLink>
-              <NavLink to="/login">
-                <MenuItem onClick={handleProfileClose} className="!text-[11px]">
-                  <AiOutlineLogin className="!mr-1 !text-[14px]" />{" "}
-                  {/* Icon for LOGIN */}
-                  LOGIN
-                </MenuItem>
-              </NavLink>
-            </div>
-          )}
-        </Popover>
+     <ProfileIcon/>
       </div>
 
       {/* Mobile Navbar Button */}
@@ -252,113 +150,7 @@ const Navbar = () => {
       )}
 
       {/* Mobile Drawer */}
-      <Drawer
-        anchor="left"
-        open={mobileOpen}
-        onClose={() => setMobileOpen(false)}
-      >
-        <div className="w-64 h-[90%]">
-          {/* Close Button */}
-          <div className="w-full flex justify-end">
-            <IconButton onClick={() => setMobileOpen(false)}>
-              <CloseIcon />
-            </IconButton>
-          </div>
-
-          <div className="flex flex-col justify-between h-full">
-            <List>
-              {navLinks.map((link) => (
-                <div key={link.name}>
-                  <ListItem
-                    button
-                    component={NavLink}
-                    to={link.path}
-                    onClick={() => setMobileOpen(false)}
-                  >
-                    <ListItemText
-                      primaryTypographyProps={{ style: { fontSize: "14px" } }}
-                      primary={link.name}
-                    />
-                  </ListItem>
-                  {link.hasDropdown && (
-                    <>
-                      <ListItem
-                        button
-                        onClick={() => setMobileBridalOpen(!mobileBridalOpen)}
-                      >
-                        <ListItemText
-                          primary="Bridal"
-                          primaryTypographyProps={{
-                            style: { fontSize: "14px" },
-                          }}
-                        />
-                        {mobileBridalOpen ? (
-                          <ExpandLess className="!text-[16px]" />
-                        ) : (
-                          <ExpandMore className="!text-[16px]" />
-                        )}
-                      </ListItem>
-                      <Collapse
-                        in={mobileBridalOpen}
-                        timeout="auto"
-                        unmountOnExit
-                      >
-                        <List component="div" disablePadding>
-                          <ListItem
-                            button
-                            component={NavLink}
-                            to="/valorous"
-                            onClick={() => setMobileOpen(false)}
-                          >
-                            <ListItemText
-                              primary="Valorous 2024"
-                              className="!pl-3"
-                              primaryTypographyProps={{
-                                style: { fontSize: "13px" },
-                              }}
-                            />
-                          </ListItem>
-                          <ListItem
-                            button
-                            component={NavLink}
-                            to="/bridal"
-                            onClick={() => setMobileOpen(false)}
-                          >
-                            <ListItemText
-                              primary="2023 Bridal"
-                              className="!pl-3"
-                              primaryTypographyProps={{
-                                style: { fontSize: "13px" },
-                              }}
-                            />
-                          </ListItem>
-                        </List>
-                      </Collapse>
-                    </>
-                  )}
-                </div>
-              ))}
-            </List>
-            {user ? (
-              <Button
-                className="!normal-case !bg-[#d3a202] !text-white w-[120px] !ml-2"
-                onClick={() => {
-                  setMobileOpen(false), handleLogout();
-                }}
-              >
-                Logout
-              </Button>
-            ) : (
-              <Button
-                className="!normal-case !bg-[#d3a202] !text-white w-[120px] !ml-2"
-                onClick={() => navigate("/login")}
-              >
-                Login
-              </Button>
-            )}
-          </div>
-        </div>
-      </Drawer>
+      <Sidebar/>
     </nav>
   );
 };

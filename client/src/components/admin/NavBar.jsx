@@ -1,15 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { Avatar } from "@mui/material";
+import { Avatar, Drawer, IconButton } from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
+import SideBar from "./SideBar";
+import { useAdminSidebarStore } from "../../zustand/useAdminSidebarStore";
 
 const NavBar = () => {
   const { user } = useSelector((state) => state.auth);
+  const { isSidebarOpen, toggleSidebar, setIsSidebarOpen } = useAdminSidebarStore();
   return (
     <div className="!px-6 !py-4 border-b border-gray-200 w-full flex items-center justify-between">
-      <p className="!text-[13px]">
-        Hello, Welcome back{" "}
-        <span className="font-bold text-gray-500">{user.firstName}</span>
-      </p>
+      <div className="flex items-center gap-1">
+        <IconButton
+          onClick={toggleSidebar}
+          className="lg:!hidden"
+        >
+          <MenuIcon />
+        </IconButton>
+        <p className="!text-[13px]">
+          Hello, Welcome back{" "}
+          <span className="font-bold text-gray-500">{user.firstName}</span>
+        </p>
+      </div>
       <div className="flex items-center gap-1">
         <Avatar
           sx={{
@@ -29,6 +41,15 @@ const NavBar = () => {
           </p>
         </div>
       </div>
+      <Drawer
+        anchor="left"
+        open={isSidebarOpen}
+        onClose={() => setIsSidebarOpen(false)}
+      >
+        <div className="w-[300px]">
+          <SideBar />
+        </div>
+      </Drawer>
     </div>
   );
 };

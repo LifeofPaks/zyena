@@ -1,10 +1,7 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
-  BadgeCheck,
-  LayoutDashboard,
   ShoppingBasket,
-  PackageOpen,
 } from "lucide-react";
 import LocalMallIcon from "@mui/icons-material/LocalMall";
 import DashboardIcon from "@mui/icons-material/Dashboard";
@@ -12,11 +9,15 @@ import { Button } from "@mui/material";
 import { logoutUser } from "../../store/auth-slice";
 import { useDispatch } from "react-redux";
 import { AiOutlineLogout } from "react-icons/ai";
+import { useAdminSidebarStore } from "../../zustand/useAdminSidebarStore";
 
 const SideBar = () => {
+  const { isSidebarOpen, setIsSidebarOpen } = useAdminSidebarStore();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const currentPath = window.location.pathname;
+
+  console.log("isSidebarOpen: ", isSidebarOpen);
 
   const handleLogout = () => {
     dispatch(logoutUser());
@@ -45,8 +46,16 @@ const SideBar = () => {
   ];
 
   return (
-    <div className="!w-[300px] border-r border-gray-200 h-screen !py-6 hidden lg:block">
-      <Link to="/" className="flex items-center">
+    <div
+      className={`!w-[300px] border-r border-gray-200 h-screen !py-6 lg:block ${
+        isSidebarOpen ? "block" : "hidden"
+      }`}
+    >
+      <Link
+        to="/"
+        className="flex items-center"
+        onClick={() => setIsSidebarOpen(false)}
+      >
         <img
           className="!ml-2 lg:ml-0"
           width="35"
@@ -64,6 +73,7 @@ const SideBar = () => {
               key={menuItem.id}
               onClick={() => {
                 navigate(menuItem.path);
+                setIsSidebarOpen(false);
               }}
               className={`!flex cursor-pointer !mb-1 text-xl !items-center !gap-1 !pl-3 !pr-3 !border-l-4 !transition-colors !duration-200 ${
                 currentPath === menuItem.path

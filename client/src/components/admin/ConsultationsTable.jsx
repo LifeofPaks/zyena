@@ -29,7 +29,7 @@ const ConsultationsTable = ({ consultations, handleDelete }) => {
             <Table>
               <TableHead>
                 <TableRow className="bg-gray-100 !text-gray-700">
-                  <TableCell  className="lg:w-auto  !min-w-[150px]" sx={{ fontSize: "14px", color: "#677787" }}>
+                  <TableCell  className="lg:w-auto  !min-w-[170px]" sx={{ fontSize: "14px", color: "#677787" }}>
                     Name
                   </TableCell>
                   {/* <TableCell className="" sx={{ fontSize: "14px", color: "#677787" }}>
