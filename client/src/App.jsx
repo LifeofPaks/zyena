@@ -24,6 +24,7 @@ import ConsultationList from "./pages/admin/ConsultationList";
 import Dashboard from "./pages/admin/Dashboard";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
+import Footer from "./components/Footer";
 
 const theme = createTheme({
   typography: {
@@ -73,6 +74,8 @@ function App() {
         </Route>
       </Routes>
       {!isAuthPage && <ScrollTop />}
+      {!isAuthPage &&  <Footer/>}
+     
     </ThemeProvider>
   );
 }
