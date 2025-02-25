@@ -5,7 +5,8 @@ export const useSidebarStore = create((set) => ({
   setIsSidebarOpen: (isOpen) => set({ isSidebarOpen: isOpen }),
   
   isDropdownOpen: false,
-  setIsDropdownOpen: (isOpen) => set({ isSidebarOpen: isOpen }),
+  setIsDropdownOpen: (isOpen) => set({ isDropdownOpen: isOpen }),
+
 
   isBridalDropdownOpen: false,
   setIsBridalDropdownOpen: (isOpen) => set({ isBridalDropdownOpen: isOpen }),

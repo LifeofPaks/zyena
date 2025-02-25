@@ -1,25 +1,12 @@
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
-import {
-  IconButton,
-  Popover,
-  MenuItem,
-  Avatar,
-} from "@mui/material";
+import { IconButton} from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import ExpandMore from "@mui/icons-material/ExpandMore";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { MdDashboard } from "react-icons/md";
-import {
-  AiOutlineLogin,
-  AiOutlineUserAdd,
-  AiOutlineLogout,
-} from "react-icons/ai";
-import { useDispatch, useSelector } from "react-redux";
-import { logoutUser } from "../store/auth-slice";
 import { useSidebarStore } from "../zustand/useSideBar";
 import Sidebar from "./Sidebar";
 import ProfileIcon from "./ProfileIcon";
+import Logo from "./Logo";
 
 const Navbar = () => {
   const {
@@ -29,41 +16,28 @@ const Navbar = () => {
     setIsBridalDropdownOpen,
     mobileOpen,
     setMobileOpen,
-    anchorEl,
-    setAnchorEl,
   } = useSidebarStore();
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const { user } = useSelector((state) => state.auth);
+
 
   const navLinks = [
     { name: "Home", path: "/" },
     { name: "Gallery", path: "/bridal", hasDropdown: true },
-    { name: "Consultation", path: "/consultation" },
+    { name: "Appointment", path: "/consultation" },
     { name: "Shop", path: "/shop" },
-    { name: "About Us", path: "/about-us" },
+    { name: "Our Story", path: "/about-us" },
     { name: "Contact Us", path: "/contact-us" },
   ];
 
-
   return (
     <nav className="container flex items-center justify-between !mx-auto !py-1">
-      <Link to="/">
-        <img
-          className="!ml-2 lg:ml-0"
-          width="35"
-          height="35"
-          src="https://img.icons8.com/ios-filled/50/panopto.png"
-          alt="panopto"
-        />
-      </Link>
+    <Logo/>
 
       {/* Web Navbar - Hidden on Mobile */}
       <div className="!hidden md:!flex items-center gap-8 !p-4">
         {navLinks.map((link) => (
           <div
             key={link.name}
-            className="relative"
+            className="relative uppercase font-semibold"
             onMouseEnter={() => link.hasDropdown && setIsDropdownOpen(true)}
             onMouseLeave={() => link.hasDropdown && setIsDropdownOpen(false)}
           >
@@ -71,12 +45,12 @@ const Navbar = () => {
               to={link.path}
               onMouseEnter={() => setIsBridalDropdownOpen(false)}
               className={({ isActive }) =>
-                `relative text-black text-sm transition-all duration-300 
+                `relative text-black text-[12px] transition-all duration-300 
                  after:content-[''] after:absolute after:left-1/2 after:w-0 
-                 after:h-[2px] after:bg-blue-500 after:transition-all 
+                 after:h-[2px] after:bg-black after:transition-all 
                  after:duration-300 after:top-full hover:after:w-full hover:after:left-0
                  ${
-                   isActive ? "text-blue-500" : "hover:text-blue-500"
+                   isActive ? "text-gray-500" : "hover:text-gray-500"
                  } block h-[30px]`
               }
             >
@@ -88,26 +62,26 @@ const Navbar = () => {
 
             {/* Web Dropdown */}
             {link.hasDropdown && isDropdownOpen && (
-              <div className="absolute left-0 mt-2 w-48 bg-white shadow-lg rounded-lg border-t-2 border-blue-500 top-[2rem]">
+              <div className="absolute left-0 mt-2 w-48 bg-white shadow-lg border-t-2 border-black top-[2rem]">
                 <NavLink
                   to="#"
-                  className="!px-4 !py-2 text-gray-700 hover:bg-gray-200 hover:text-blue-500 transition-all duration-300 ease-in-out flex items-center text-[13px] border-b border-gray-200"
+                  className="!px-4 !py-2  hover:bg-gray-200 hover:text-gray-500 transition-all duration-300 ease-in-out flex items-center text-[11px] border-b border-gray-200"
                   onMouseEnter={() => setIsBridalDropdownOpen(true)}
                 >
                   Bridal <MdOutlineKeyboardArrowRight className="ml-auto" />
                 </NavLink>
 
                 {isBridalDropdownOpen && (
-                  <div className="absolute left-full top-0 mt-2 w-48 bg-white shadow-lg rounded-lg border-t-2 border-blue-500">
+                  <div className="absolute left-full top-0 mt-2 w-48 bg-white shadow-lg border-t-2 border-black">
                     <NavLink
                       to="/valorous"
-                      className="block !px-4 !py-2 text-gray-700 hover:bg-gray-200 hover:text-blue-500 transition-all duration-300 ease-in-out text-[13px] border-b border-gray-200"
+                      className="block !px-4 !py-2  hover:bg-gray-200 hover:text-gray-500 transition-all duration-300 ease-in-out text-[11px] border-b border-gray-200"
                     >
                       Valorous 2024
                     </NavLink>
                     <NavLink
                       to="/bridal"
-                      className="block !px-4 !py-2 text-gray-700 hover:bg-gray-200 hover:text-blue-500 transition-all duration-300 ease-in-out text-[13px] border-b border-gray-200"
+                      className="block !px-4 !py-2  hover:bg-gray-200 hover:text-gray-500 transition-all duration-300 ease-in-out text-[11px] border-b border-gray-200"
                     >
                       2023 Bridal
                     </NavLink>
@@ -116,14 +90,14 @@ const Navbar = () => {
                 <NavLink
                   onMouseEnter={() => setIsBridalDropdownOpen(false)}
                   to="/prom-dresses"
-                  className="block !px-4 !py-2 text-gray-700 hover:bg-gray-200 hover:text-blue-500 transition-all duration-300 ease-in-out text-[13px] border-b border-gray-200"
+                  className="block !px-4 !py-2  hover:bg-gray-200 hover:text-gray-500 transition-all duration-300 ease-in-out text-[11px] border-b border-gray-200"
                 >
                   Prom Dresses
                 </NavLink>
                 <NavLink
                   onMouseEnter={() => setIsBridalDropdownOpen(false)}
                   to="/evening-dresses"
-                  className="block !px-4 !py-2 text-gray-700 hover:bg-gray-200 hover:text-blue-500 transition-all duration-300 ease-in-out text-[13px] border-b border-gray-200"
+                  className="block !px-4 !py-2  hover:bg-gray-200 hover:text-gray-500 transition-all duration-300 ease-in-out text-[11px] border-b border-gray-200"
                 >
                   Evening Dresses
                 </NavLink>
@@ -135,8 +109,7 @@ const Navbar = () => {
 
       {/* Profile Icon & Popover */}
       <div className="!hidden md:!block">
-
-     <ProfileIcon/>
+        <ProfileIcon />
       </div>
 
       {/* Mobile Navbar Button */}
@@ -150,7 +123,7 @@ const Navbar = () => {
       )}
 
       {/* Mobile Drawer */}
-      <Sidebar/>
+      <Sidebar />
     </nav>
   );
 };
