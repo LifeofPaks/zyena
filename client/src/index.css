@@ -17,7 +17,7 @@ body {
 .outline-font{
   font-family: 'MADE TOMMY Outline', sans-serif !important;
   font-weight: 800;
-  opacity: .1;
+  opacity: .2;
 }
 
 
@@ -42,6 +42,7 @@ button {
   background: #3b82f6;
   border-radius: 50%;
   transition: all 0.2s ease;
+  z-index: 1000;
 }
 
 #chatbot-toggler span {
