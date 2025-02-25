@@ -1,13 +1,13 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { ShoppingBasket } from "lucide-react";
-import LocalMallIcon from "@mui/icons-material/LocalMall";
-import DashboardIcon from "@mui/icons-material/Dashboard";
+import {  useNavigate } from "react-router-dom";
+import { HiCalendarDateRange } from "react-icons/hi2";
+import { MdDashboard } from "react-icons/md";
 import { Button } from "@mui/material";
 import { logoutUser } from "../../store/auth-slice";
 import { useDispatch } from "react-redux";
 import { AiOutlineLogout } from "react-icons/ai";
 import { useAdminSidebarStore } from "../../zustand/useAdminSidebarStore";
+import { IoIosMail } from "react-icons/io";
 import Logo from "../Logo";
 
 const SideBar = () => {
@@ -28,19 +28,19 @@ const SideBar = () => {
       id: "dashboard",
       label: "Dashboard",
       path: "/admin/dashboard",
-      icon: <DashboardIcon className="!text-[18px]" />,
+      icon: <MdDashboard className="!text-[18px]" />,
     },
     {
       id: "consultations",
       label: "Consultations",
       path: "/admin/consultations",
-      icon: <ShoppingBasket className="w-[20px]" />,
+      icon: <HiCalendarDateRange className="w-[20px]" />,
     },
     {
       id: "contacts",
       label: "Contacts",
       path: "/admin/contacts",
-      icon: <LocalMallIcon className="!text-[18px]" />,
+      icon: <IoIosMail className="!text-[18px]" />,
     },
   ];
 
@@ -76,7 +76,7 @@ const SideBar = () => {
               >
                 {menuItem.icon}
               </div>
-              <p className="text-[13px] font-semibold !pt-1">
+              <p className="text-[13px] font-semibold ">
                 {menuItem.label}
               </p>
             </div>

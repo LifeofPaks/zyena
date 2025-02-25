@@ -19,7 +19,7 @@ const ContactTable = ({ contacts, handleDelete }) => {
       sx={{ fontFamily: "Montserrat" }}
     >
       <CardHeader
-        title="All Contacts"
+        title="All Contacts and messages"
         className="text-[#008080]"
         titleTypographyProps={{ sx: { fontSize: "14px", fontWeight: "bold" } }}
       />
