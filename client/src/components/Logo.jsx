@@ -4,7 +4,7 @@ import LogoImage from "../assets/zyena-logo.png";
 
 const Logo = () => {
   return (
-    <Link to="/" className="flex items-center flex-col !ml-2 lg:ml-0">
+    <Link to="/" className="flex items-center flex-col">
       <img
         className=""
         width="35"

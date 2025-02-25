@@ -5,7 +5,9 @@ import AdminContent from "../components/admin/AdminContent";
 const Admin = () => {
   return (
     <div className="flex w-full">
-      <SideBar />
+     <div className="lg:block hidden">
+     <SideBar />
+     </div>
       <AdminContent />
     </div>
   );

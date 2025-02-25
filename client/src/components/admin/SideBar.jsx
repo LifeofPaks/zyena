@@ -1,8 +1,6 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import {
-  ShoppingBasket,
-} from "lucide-react";
+import { ShoppingBasket } from "lucide-react";
 import LocalMallIcon from "@mui/icons-material/LocalMall";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import { Button } from "@mui/material";
@@ -10,6 +8,7 @@ import { logoutUser } from "../../store/auth-slice";
 import { useDispatch } from "react-redux";
 import { AiOutlineLogout } from "react-icons/ai";
 import { useAdminSidebarStore } from "../../zustand/useAdminSidebarStore";
+import Logo from "../Logo";
 
 const SideBar = () => {
   const { isSidebarOpen, setIsSidebarOpen } = useAdminSidebarStore();
@@ -47,24 +46,11 @@ const SideBar = () => {
 
   return (
     <div
-      className={`!w-[300px] border-r border-gray-200 h-screen !py-6 lg:block ${
-        isSidebarOpen ? "block" : "hidden"
-      }`}
+      className={` !flex flex-col items-start !w-[300px] border-r border-gray-200 h-screen !py-6 `}
     >
-      <Link
-        to="/"
-        className="flex items-center"
-        onClick={() => setIsSidebarOpen(false)}
-      >
-        <img
-          className="!ml-2 lg:ml-0"
-          width="35"
-          height="35"
-          src="https://img.icons8.com/ios-filled/50/panopto.png"
-          alt="panopto"
-        />
-        <p className="font-bold text-[12px]">Zyena</p>
-      </Link>
+      <div className="!ml-4">
+        <Logo />
+      </div>
 
       <div className="flex flex-col h-[98%] justify-between !pb-[3rem]">
         <nav className="!mt-6 flex-col flex gap-2 ">

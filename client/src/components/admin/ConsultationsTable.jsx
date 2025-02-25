@@ -44,13 +44,13 @@ const ConsultationsTable = ({ consultations, handleDelete }) => {
                   <TableCell  className="lg:w-auto  !min-w-[130px]" sx={{ fontSize: "14px", color: "#677787" }}>
                     Meeting Type
                   </TableCell>
-                  <TableCell  className="lg:w-auto  !min-w-[130px]" sx={{ fontSize: "14px", color: "#677787" }}>
+                  <TableCell  className="lg:w-auto  !min-w-[150px]" sx={{ fontSize: "14px", color: "#677787" }}>
                     Garment Type
                   </TableCell>
                   <TableCell  className="lg:w-auto  !min-w-[150px]" sx={{ fontSize: "14px", color: "#677787" }}>
                     Date
                   </TableCell>
-                  <TableCell  className="lg:w-auto  !min-w-[150px]" sx={{ fontSize: "14px", color: "#677787" }}>
+                  <TableCell  className="lg:w-auto  !min-w-[180px]" sx={{ fontSize: "14px", color: "#677787" }}>
                     Time
                   </TableCell>
                   <TableCell  className="lg:w-auto  !min-w-[120px]" sx={{ fontSize: "14px", color: "#677787" }}>
