@@ -31,7 +31,7 @@ button {
 
 #chatbot-toggler {
   position: fixed;
-  bottom: 30px;
+  bottom: 100px;
   right: 35px;
   border: none;
   height: 50px;
@@ -43,6 +43,11 @@ button {
   border-radius: 50%;
   transition: all 0.2s ease;
   z-index: 1000;
+}
+
+.show-chatbot #chatbot-toggler{
+  opacity: 0;
+  pointer-events: none;
 }
 
 #chatbot-toggler span {
@@ -71,7 +76,7 @@ button {
   border-radius: 15px;
   box-shadow: 0 0 128px rgba(0, 0, 0, 0.1), 0 32px 64px -48px rgba(0, 0, 0, 0.5);
   overflow: hidden;
-  bottom: 90px;
+  bottom: 100px;
   right: 35px;
   opacity: 0;
   pointer-events: none;
@@ -117,8 +122,8 @@ button {
 }
 
 .chat-header button {
-  height: 40px;
-  width: 40px;
+  height: 30px;
+  width: 30px;
   border: none;
   outline: none;
   background: none;
@@ -131,7 +136,7 @@ button {
 }
 
 .chat-header button:hover {
-  background: #2e67c2;
+  background: #2d70dd;
 }
 
 .chat-body {
@@ -252,8 +257,8 @@ button {
 
 @media (max-width: 520px) {
   #chatbot-toggler {
-    bottom: 20px;
-    right: 20px;
+    bottom: 100px;
+    right: 35px;
   }
   
   .chatbot-popup{
@@ -277,4 +282,31 @@ button {
   .chat-footer {
     padding: 10px 15px 15px;
   }
+}
+
+/* Scroll to Top Button Styles */
+.scroll-top {
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.3);
+  width: 50px;
+  height: 45px;
+  border-radius: 62% 38% 46% 54% / 60% 63% 37% 40%;
+  background: #008080;
+  display: grid;
+  place-content: center;
+  cursor: pointer;
+  position: fixed;
+  z-index: 10;
+  right: 2rem;
+  bottom: 15rem;
+  animation: bounce 1.5s ease-in-out 1.5s infinite;
+  transition: 0.3s;
+  visibility: hidden;
+  opacity: 0;
+}
+
+/* Show state */
+.scroll-top.show {
+  visibility: visible;
+  opacity: 1;
+  bottom: 2rem;
 }

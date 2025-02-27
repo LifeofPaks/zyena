@@ -78,7 +78,7 @@ const ChatBot = () => {
             <h1 className="logo-text">Zyena</h1>
           </div>
           <button onClick={() => setShowChatBot(prev => !prev)}>
-            <IoIosArrowDown />
+          <IoClose />
           </button>
         </div>
         <div ref={chatBodyRef} className="chat-body">
