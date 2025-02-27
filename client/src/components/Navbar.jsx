@@ -62,7 +62,7 @@ const Navbar = () => {
 
             {/* Web Dropdown */}
             {link.hasDropdown && isDropdownOpen && (
-              <div className="absolute left-0 mt-2 w-48 bg-white shadow-lg border-t-2 border-black top-[2rem]">
+              <div className="absolute left-0 mt-2 w-48 bg-white shadow-lg border-t-2 border-black top-[2rem] z-50">
                 <NavLink
                   to="#"
                   className="!px-4 !py-2  hover:bg-gray-200 hover:text-gray-500 transition-all duration-300 ease-in-out flex items-center text-[11px] border-b border-gray-200"
