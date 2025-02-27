@@ -28,7 +28,7 @@ import Footer from "./components/Footer";
 
 const theme = createTheme({
   typography: {
-    fontFamily: `"Montserrat", "Arial", sans-serif`,
+    fontFamily: `"Lexend", serif`,
   },
 });
 
