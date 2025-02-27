@@ -45,7 +45,7 @@ const Footer = () => {
         <h1 className="text-[6rem] lg:text-[10rem]  w-full text-center outline-font">
           ZYENA
         </h1>
-        <p className="text-[11px] lg:text-[12px] w-full text-center">
+        <p className="text-[10px] lg:text-[11px] w-full text-center">
           © Copyright <span>{getCurrentYear}</span> Zyena. All rights Reserved.
         </p>
       </div>

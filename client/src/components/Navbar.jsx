@@ -1,6 +1,6 @@
 import { Link, NavLink } from "react-router-dom";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
-import { IconButton} from "@mui/material";
+import { IconButton } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import { useSidebarStore } from "../zustand/useSideBar";
@@ -18,7 +18,6 @@ const Navbar = () => {
     setMobileOpen,
   } = useSidebarStore();
 
-
   const navLinks = [
     { name: "Home", path: "/" },
     { name: "Gallery", path: "/bridal", hasDropdown: true },
@@ -30,7 +29,9 @@ const Navbar = () => {
 
   return (
     <nav className="container flex items-center justify-between !mx-auto !py-1">
-    <Logo/>
+      <div className="!ml-4 lg:ml-0">
+        <Logo />
+      </div>
 
       {/* Web Navbar - Hidden on Mobile */}
       <div className="!hidden md:!flex items-center gap-8 !p-4">

@@ -1,5 +1,5 @@
-import React from "react";
-import {  NavLink } from "react-router-dom";
+import React, { useState } from "react";
+import { NavLink } from "react-router-dom";
 import {
   Drawer,
   IconButton,
@@ -15,16 +15,28 @@ import { useSidebarStore } from "../zustand/useSideBar";
 import ProfileIcon from "./ProfileIcon";
 
 const Sidebar = () => {
-  const {
-    mobileOpen,
-    setMobileOpen,
-    mobileBridalOpen,
-    setMobileBridalOpen,
-  } = useSidebarStore();
+  const { mobileOpen, setMobileOpen } = useSidebarStore();
+  const [mobileGalleryOpen, setMobileGalleryOpen] = useState(false);
+  const [mobileBridalOpen, setMobileBridalOpen] = useState(false);
 
   const navLinks = [
     { name: "Home", path: "/" },
-    { name: "Gallery", path: "/bridal", hasDropdown: true },
+    {
+      name: "Gallery",
+      hasDropdown: true,
+      subLinks: [
+        {
+          name: "Bridal",
+          hasDropdown: true,
+          subLinks: [
+            { name: "Valorous 2024", path: "/valorous" },
+            { name: "2023 Bridal", path: "/bridal" },
+          ],
+        },
+        { name: "Prom Dresses", path: "/prom-dresses" },
+        { name: "Evening Dresses", path: "/evening-dresses" },
+      ],
+    },
     { name: "Consultation", path: "/consultation" },
     { name: "Shop", path: "/shop" },
     { name: "About Us", path: "/about-us" },
@@ -32,11 +44,7 @@ const Sidebar = () => {
   ];
 
   return (
-    <Drawer
-      anchor="left"
-      open={mobileOpen}
-      onClose={() => setMobileOpen(false)}
-    >
+    <Drawer anchor="left" open={mobileOpen} onClose={() => setMobileOpen(false)}>
       <div className="w-64 h-[90%]">
         <div className="w-full flex justify-end">
           <IconButton onClick={() => setMobileOpen(false)}>
@@ -50,75 +58,67 @@ const Sidebar = () => {
               <div key={link.name}>
                 <ListItem
                   button
-                  component={NavLink}
-                  to={link.path}
-                  onClick={() => setMobileOpen(false)}
+                  component={link.path ? NavLink : "div"}
+                  to={link.path || ""}
+                  onClick={() => {
+                    if (!link.hasDropdown) setMobileOpen(false);
+                    else setMobileGalleryOpen(!mobileGalleryOpen);
+                  }}
                 >
-                  <ListItemText
-                    primaryTypographyProps={{ style: { fontSize: "14px" } }}
-                    primary={link.name}
-                  />
+                  <ListItemText primaryTypographyProps={{ style: { fontSize: "14px" } }} primary={link.name} />
+                  {link.hasDropdown &&
+                    (mobileGalleryOpen ? <ExpandLess className="!text-[16px]" /> : <ExpandMore className="!text-[16px]" />)}
                 </ListItem>
+
                 {link.hasDropdown && (
-                  <>
-                    <ListItem
-                      button
-                      onClick={() => setMobileBridalOpen(!mobileBridalOpen)}
-                    >
-                      <ListItemText
-                        primary="Bridal"
-                        primaryTypographyProps={{
-                          style: { fontSize: "14px" },
-                        }}
-                      />
-                      {mobileBridalOpen ? (
-                        <ExpandLess className="!text-[16px]" />
-                      ) : (
-                        <ExpandMore className="!text-[16px]" />
-                      )}
-                    </ListItem>
-                    <Collapse
-                      in={mobileBridalOpen}
-                      timeout="auto"
-                      unmountOnExit
-                    >
-                      <List component="div" disablePadding>
-                        <ListItem
-                          button
-                          component={NavLink}
-                          to="/valorous"
-                          onClick={() => setMobileOpen(false)}
-                        >
-                          <ListItemText
-                            primary="Valorous 2024"
-                            className="!pl-3"
-                            primaryTypographyProps={{
-                              style: { fontSize: "13px" },
+                  <Collapse in={mobileGalleryOpen} timeout="auto" unmountOnExit>
+                    <List component="div" disablePadding>
+                      {link.subLinks.map((subLink) => (
+                        <div key={subLink.name}>
+                          <ListItem
+                            button
+                            component={subLink.path ? NavLink : "div"}
+                            to={subLink.path || ""}
+                            onClick={() => {
+                              if (!subLink.hasDropdown) setMobileOpen(false);
+                              else setMobileBridalOpen(!mobileBridalOpen);
                             }}
-                          />
-                        </ListItem>
-                        <ListItem
-                          button
-                          component={NavLink}
-                          to="/bridal"
-                          onClick={() => setMobileOpen(false)}
-                        >
-                          <ListItemText
-                            primary="2023 Bridal"
-                            className="!pl-3"
-                            primaryTypographyProps={{
-                              style: { fontSize: "13px" },
-                            }}
-                          />
-                        </ListItem>
-                      </List>
-                    </Collapse>
-                  </>
+                          >
+                            <ListItemText primaryTypographyProps={{ style: { fontSize: "13px", marginLeft:"10px" } }} primary={subLink.name} />
+                            {subLink.hasDropdown &&
+                              (mobileBridalOpen ? <ExpandLess className="!text-[16px]" /> : <ExpandMore className="!text-[16px]" />)}
+                          </ListItem>
+
+                          {subLink.hasDropdown && (
+                            <Collapse in={mobileBridalOpen} timeout="auto" unmountOnExit>
+                              <List component="div" disablePadding>
+                                {subLink.subLinks.map((nestedLink) => (
+                                  <ListItem
+                                    key={nestedLink.name}
+                                    button
+                                    component={NavLink}
+                                    to={nestedLink.path}
+                                    onClick={() => setMobileOpen(false)}
+                                  >
+                                    <ListItemText
+                                      primaryTypographyProps={{ style: { fontSize: "12px" } }}
+                                      primary={nestedLink.name}
+                                      className="!pl-6"
+                                    />
+                                  </ListItem>
+                                ))}
+                              </List>
+                            </Collapse>
+                          )}
+                        </div>
+                      ))}
+                    </List>
+                  </Collapse>
                 )}
               </div>
             ))}
           </List>
-        <ProfileIcon/>
+          <ProfileIcon />
         </div>
       </div>
     </Drawer>

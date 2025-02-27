@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import ChatIcon from "./ChatIcon";
-import { IoIosArrowDown } from "react-icons/io";
 import ChatForm from "./ChatForm";
 import ChatMessage from "./ChatMessage";
 import { BsFillChatRightFill } from "react-icons/bs";
