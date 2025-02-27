@@ -18,13 +18,13 @@ import Login from "./pages/Login";
 import Admin from "./pages/Admin";
 import { useDispatch } from "react-redux";
 import { hydrate } from "./store/auth-slice";
-import Contacts from "./pages/admin/ContactList";
 import ContactList from "./pages/admin/ContactList";
 import ConsultationList from "./pages/admin/ConsultationList";
 import Dashboard from "./pages/admin/Dashboard";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import Footer from "./components/Footer";
+import Testimonials from "./pages/Testimonials";
 
 const theme = createTheme({
   typography: {
@@ -57,9 +57,10 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="gallery" element={<Gallery />} />
-        <Route path="consultation" element={<Consultations />} />
+        <Route path="testimonial" element={<Testimonials />} />
+        <Route path="appointment" element={<Consultations />} />
         <Route path="shop" element={<Shop />} />
-        <Route path="about-us" element={<AboutUs />} />
+        <Route path="our-story" element={<AboutUs />} />
         <Route path="contact-us" element={<ContactUs />} />
         <Route path="prom-dresses" element={<PromDresses />} />
         <Route path="evening-dresses" element={<EveningDresses />} />

@@ -20,10 +20,11 @@ const Navbar = () => {
 
   const navLinks = [
     { name: "Home", path: "/" },
+    { name: "Our Story", path: "/our-story" },
+    { name: "Testimonials", path: "/testimonial" },
     { name: "Gallery", path: "/bridal", hasDropdown: true },
-    { name: "Appointment", path: "/consultation" },
     { name: "Shop", path: "/shop" },
-    { name: "Our Story", path: "/about-us" },
+    { name: "Appointment", path: "/appointment" },
     { name: "Contact Us", path: "/contact-us" },
   ];
 

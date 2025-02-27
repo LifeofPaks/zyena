@@ -21,6 +21,8 @@ const Sidebar = () => {
 
   const navLinks = [
     { name: "Home", path: "/" },
+    { name: "Our Story", path: "/our-story" },
+    { name: "Testimonials", path: "/testimonial" },
     {
       name: "Gallery",
       hasDropdown: true,
@@ -37,14 +39,18 @@ const Sidebar = () => {
         { name: "Evening Dresses", path: "/evening-dresses" },
       ],
     },
-    { name: "Consultation", path: "/consultation" },
     { name: "Shop", path: "/shop" },
-    { name: "About Us", path: "/about-us" },
+    { name: "Appointment", path: "/appointment" },
+
     { name: "Contact Us", path: "/contact-us" },
   ];
 
   return (
-    <Drawer anchor="left" open={mobileOpen} onClose={() => setMobileOpen(false)}>
+    <Drawer
+      anchor="left"
+      open={mobileOpen}
+      onClose={() => setMobileOpen(false)}
+    >
       <div className="w-64 h-[90%]">
         <div className="w-full flex justify-end">
           <IconButton onClick={() => setMobileOpen(false)}>
@@ -65,9 +71,16 @@ const Sidebar = () => {
                     else setMobileGalleryOpen(!mobileGalleryOpen);
                   }}
                 >
-                  <ListItemText primaryTypographyProps={{ style: { fontSize: "14px" } }} primary={link.name} />
+                  <ListItemText
+                    primaryTypographyProps={{ style: { fontSize: "14px" } }}
+                    primary={link.name}
+                  />
                   {link.hasDropdown &&
-                    (mobileGalleryOpen ? <ExpandLess className="!text-[16px]" /> : <ExpandMore className="!text-[16px]" />)}
+                    (mobileGalleryOpen ? (
+                      <ExpandLess className="!text-[16px]" />
+                    ) : (
+                      <ExpandMore className="!text-[16px]" />
+                    ))}
                 </ListItem>
 
                 {link.hasDropdown && (
@@ -84,13 +97,26 @@ const Sidebar = () => {
                               else setMobileBridalOpen(!mobileBridalOpen);
                             }}
                           >
-                            <ListItemText primaryTypographyProps={{ style: { fontSize: "13px", marginLeft:"10px" } }} primary={subLink.name} />
+                            <ListItemText
+                              primaryTypographyProps={{
+                                style: { fontSize: "13px", marginLeft: "10px" },
+                              }}
+                              primary={subLink.name}
+                            />
                             {subLink.hasDropdown &&
-                              (mobileBridalOpen ? <ExpandLess className="!text-[16px]" /> : <ExpandMore className="!text-[16px]" />)}
+                              (mobileBridalOpen ? (
+                                <ExpandLess className="!text-[16px]" />
+                              ) : (
+                                <ExpandMore className="!text-[16px]" />
+                              ))}
                           </ListItem>
 
                           {subLink.hasDropdown && (
-                            <Collapse in={mobileBridalOpen} timeout="auto" unmountOnExit>
+                            <Collapse
+                              in={mobileBridalOpen}
+                              timeout="auto"
+                              unmountOnExit
+                            >
                               <List component="div" disablePadding>
                                 {subLink.subLinks.map((nestedLink) => (
                                   <ListItem
@@ -101,7 +127,9 @@ const Sidebar = () => {
                                     onClick={() => setMobileOpen(false)}
                                   >
                                     <ListItemText
-                                      primaryTypographyProps={{ style: { fontSize: "12px" } }}
+                                      primaryTypographyProps={{
+                                        style: { fontSize: "12px" },
+                                      }}
                                       primary={nestedLink.name}
                                       className="!pl-6"
                                     />
