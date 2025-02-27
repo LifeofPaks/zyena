@@ -28,7 +28,7 @@ const Footer = () => {
             </div>
           </div>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4 justify-center">
             <Link>
               <FaFacebookF className="text-[18px]" />
             </Link>
