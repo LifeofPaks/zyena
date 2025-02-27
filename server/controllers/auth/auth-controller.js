@@ -4,9 +4,18 @@ const User = require("../../models/User");
 const validator = require("validator");
 const nodemailer = require("nodemailer");
 
+// Configure nodemailer transporter
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: process.env.EMAIL_USER, // Your email
+    pass: process.env.EMAIL_PASS, // App password (if using Gmail)
+  },
+});
+
 // Register User
 const registerUser = async (req, res) => {
-  const { firstName, lastName, email, password } = req.body;
+  const { firstName, lastName, email, userName, password } = req.body;
 
   if (!validator.isEmail(email)) {
     return res.json({
@@ -29,10 +38,26 @@ const registerUser = async (req, res) => {
       firstName,
       lastName,
       email,
+      userName,
       password: hashPassword,
     });
 
     await newUser.save();
+
+    // Send a confirmation email
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: email,
+      subject: "Welcome to Zyena – Where Style Meets Elegance!",
+      html: `<h2 style="color:#ff4081;">Hey ${firstName}, welcome to Zyena! 💖</h2>
+       <p>We're thrilled to have you join our fashion-forward community! Get ready to explore the latest trends, exclusive collections, and stylish essentials curated just for you.</p>
+       <p>✨ Discover fashion that speaks to you.<br>✨ Shop your favorites with ease.<br>✨ Stay ahead with our latest drops.</p>
+       <p>Start shopping now and redefine your style! <a href="https://zyena.com" style="color:#ff4081; text-decoration:none; font-weight:bold;">Click here</a> to begin.</p>
+       <p>Happy styling!<br/><strong>Zyena</strong></p>`,
+    };
+
+    await transporter.sendMail(mailOptions);
+
     res.status(200).json({
       success: true,
       message: "Registration successful",
@@ -76,6 +101,7 @@ const loginUser = async (req, res) => {
         id: checkUser._id,
         role: checkUser.role,
         email: checkUser.email,
+        userName: checkUser.userName,
         firstName: checkUser.firstName,
         lastName: checkUser.lastName,
         role: checkUser.role,
@@ -92,13 +118,14 @@ const loginUser = async (req, res) => {
         email: checkUser.email,
         role: checkUser.role,
         id: checkUser._id,
+        userName: checkUser.userName,
         firstName: checkUser.firstName,
         lastName: checkUser.lastName,
         role: checkUser.role,
       },
     });
   } catch (e) {
-    console.log(e)
+    console.log(e);
     res.status(500).json({
       success: false,
       message: "Some error occurred",
@@ -208,8 +235,6 @@ const google = async (req, res, next) => {
     next(error);
   }
 };
-
-
 
 module.exports = {
   registerUser,

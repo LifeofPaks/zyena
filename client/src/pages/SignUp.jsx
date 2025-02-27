@@ -29,6 +29,7 @@ const SignUp = () => {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
+    userName:"",
     email: "",
     password: "",
   });
@@ -83,7 +84,7 @@ const SignUp = () => {
           <NavLink to="/"> Sign Up</NavLink>
         </Typography>
         <form onSubmit={handleSubmit}>
-          {["firstName", "lastName", "email"].map((field, index) => (
+          {["firstName", "lastName",  "email", "userName"].map((field, index) => (
             <TextField
               key={field}
               fullWidth
@@ -102,6 +103,8 @@ const SignUp = () => {
                     {index === 0 ? (
                       <Person className="!text-[15px]" />
                     ) : index === 1 ? (
+                      <Person className="!text-[15px]" />
+                    ): index === 1 ? (
                       <Person className="!text-[15px]" />
                     ) : index === 2 ? (
                       <Email className="!text-[15px]" />
