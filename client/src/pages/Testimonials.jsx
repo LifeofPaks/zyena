@@ -3,6 +3,7 @@ import { Grid, TextField, Button, Box } from "@mui/material";
 import { Star } from "lucide-react";
 import { useDispatch } from "react-redux";
 import { createTestimonial } from "../store/testimonial-slice";
+import { notifyError, notifySuccess } from "../hooks/toastify";
 
 const initialFormData = {
   title: "",
@@ -37,12 +38,13 @@ export default function Testimonials() {
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      dispatch(newTestimonial(formData)).then((data) => {
+      dispatch(createTestimonial(formData)).then((data) => {
         if (data?.payload?.success) {
+          setFormData(initialFormData);
+          setErrors({});
           notifySuccess(data.payload.message);
-          setFormData({ title: "", name: "", message: "", rating: 0 });
         } else {
-          notifyError(data.payload?.message || "Something went wrong");
+            notifyError(data.payload?.message);
         }
       });
     }
