@@ -40,11 +40,11 @@ export default function Testimonials() {
     if (Object.keys(newErrors).length === 0) {
       dispatch(createTestimonial(formData)).then((data) => {
         if (data?.payload?.success) {
+          notifySuccess(data.payload.message);
           setFormData(initialFormData);
           setErrors({});
-          notifySuccess(data.payload.message);
         } else {
-            notifyError(data.payload?.message);
+          notifyError(data.payload?.message);
         }
       });
     }
