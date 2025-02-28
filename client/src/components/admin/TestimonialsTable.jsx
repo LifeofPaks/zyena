@@ -35,16 +35,16 @@ const TestimonialsTable = ({ testimonials, handleDelete }) => {
             <Table>
               <TableHead>
                 <TableRow className="bg-gray-100 !text-gray-700">
-                  <TableCell sx={{ fontSize: "14px", color: "gray" }}>
+                  <TableCell  className="lg:w-auto !min-w-[120px]" sx={{ fontSize: "14px", color: "gray" }}>
                     Name
-                  </TableCell>
-                  <TableCell sx={{ fontSize: "14px", color: "gray" }}>
+                  </TableCell >
+                  <TableCell  className="lg:w-auto !min-w-[170px]" sx={{ fontSize: "14px", color: "gray" }}>
                     Title
                   </TableCell>
-                  <TableCell sx={{ fontSize: "14px", color: "gray" }}>
+                  <TableCell  className="lg:w-auto !min-w-[190px]" sx={{ fontSize: "14px", color: "gray" }}>
                     Message
                   </TableCell>
-                  <TableCell sx={{ fontSize: "14px", color: "gray" }}>
+                  <TableCell  className="lg:w-auto !min-w-[100px]" sx={{ fontSize: "14px", color: "gray" }}>
                     Rating
                   </TableCell>
                   <TableCell sx={{ fontSize: "14px", color: "gray" }}>
@@ -59,7 +59,9 @@ const TestimonialsTable = ({ testimonials, handleDelete }) => {
                       {testimonial.name}
                     </TableCell>
                     <TableCell sx={{ fontSize: "14px" }}>
-                      {testimonial.title}
+                      {testimonial.title.length > 18
+                        ? `${testimonial.title.slice(0, 18)}...`
+                        : testimonial.title}
                     </TableCell>
                     <TableCell sx={{ fontSize: "14px" }}>
                       {testimonial.message.length > 25

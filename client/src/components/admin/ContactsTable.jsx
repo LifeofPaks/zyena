@@ -25,7 +25,12 @@ const ContactTable = ({ contacts, handleDelete }) => {
       />
       {contactsArr.length ? (
         <CardContent className="md:w-[710px] overflow-x-auto p-3 w-[360px] hide-scrollbar lg:w-full">
-          <TableContainer>
+          <TableContainer  sx={{
+              maxHeight: 700,
+              overflow: "auto",
+              scrollbarWidth: "none",
+              "&::-webkit-scrollbar": { display: "none" },
+            }}>
             <Table>
               <TableHead>
                 <TableRow className="bg-gray-100 !text-gray-700">
