@@ -72,11 +72,25 @@ const Consultations = () => {
   const isFormValid = () => {
     const newErrors = {};
 
+    // Check for empty required fields
     Object.keys(formData).forEach((key) => {
       if (!formData[key]) {
         newErrors[key] = true;
       }
     });
+
+    // Check if consultationDate is within allowed range (Wednesday to Sunday)
+    if (formData.consultationDate) {
+      const selectedDate = new Date(formData.consultationDate);
+      const dayOfWeek = selectedDate.getDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
+
+      if (dayOfWeek === 1 || dayOfWeek === 2) {
+        newErrors.consultationDate = true;
+        notifyError(
+          "Consultations can only be booked from Wednesday to Sunday."
+        );
+      }
+    }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -101,13 +115,13 @@ const Consultations = () => {
       return;
     }
 
-    // Check if the selected date is within allowed range (Wednesday to Sunday)
-    const selectedDate = new Date(formData.consultationDate);
-    const dayOfWeek = selectedDate.getDay(); // 0 is Sunday, 1 is Monday, etc.
-    if (dayOfWeek === 1 || dayOfWeek === 2) {
-      notifyError("Consultations can only be booked from Wednesday to Sunday.");
-      return;
-    }
+    // // Check if the selected date is within allowed range (Wednesday to Sunday)
+    // const selectedDate = new Date(formData.consultationDate);
+    // const dayOfWeek = selectedDate.getDay(); // 0 is Sunday, 1 is Monday, etc.
+    // if (dayOfWeek === 1 || dayOfWeek === 2) {
+    //   notifyError("Consultations can only be booked from Wednesday to Sunday.");
+    //   return;
+    // }
 
     const entry = { ...formData, amount: selectedAmount };
 

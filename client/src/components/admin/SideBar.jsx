@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 import { AiOutlineLogout } from "react-icons/ai";
 import { useAdminSidebarStore } from "../../zustand/useAdminSidebarStore";
 import { IoIosMail } from "react-icons/io";
+import { TfiWrite } from "react-icons/tfi";
 import Logo from "../Logo";
 
 const SideBar = () => {
@@ -46,7 +47,7 @@ const SideBar = () => {
       id: "testimonials",
       label: "Testimonials",
       path: "/admin/testimonials",
-      icon: <IoIosMail className="!text-[18px]" />,
+      icon: <TfiWrite className="!text-[18px]" />,
     },
   ];
 
