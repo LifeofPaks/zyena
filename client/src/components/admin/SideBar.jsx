@@ -52,7 +52,7 @@ const SideBar = () => {
 
   return (
     <div
-      className={` !flex flex-col items-start !w-[250px] border-r border-gray-200 h-screen !py-6 `}
+      className={` !flex flex-col items-start !w-[250px] h-screen !py-6 `}
     >
       <div className="!ml-4">
         <Logo />

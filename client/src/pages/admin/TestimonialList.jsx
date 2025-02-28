@@ -5,6 +5,7 @@ import {
   fetchAllTestimonials,
 } from "../../store/testimonial-slice";
 import TestimonialsTable from "../../components/admin/TestimonialsTable";
+import { notifySuccess } from "../../hooks/toastify";
 
 const TestimonialList = () => {
   const dispatch = useDispatch();
@@ -13,8 +14,8 @@ const TestimonialList = () => {
    function handleDelete(getCurrentTestimonialId) {
       dispatch(deleteTestimonial(getCurrentTestimonialId)).then((data) => {
         if (data?.payload?.success) {
-          dispatch(fetchAllConsultations());
-          notifySuccess("Consultation deleted successfully!");
+          dispatch(fetchAllTestimonials());
+          notifySuccess("Testimonial deleted successfully!");
         }
       });
     }

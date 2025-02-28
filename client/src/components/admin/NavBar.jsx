@@ -9,7 +9,7 @@ const NavBar = () => {
   const { user } = useSelector((state) => state.auth);
   const { isSidebarOpen, toggleSidebar, setIsSidebarOpen } = useAdminSidebarStore();
   return (
-    <div className="!px-6 !py-4 border-b border-gray-200 w-full flex items-center justify-between">
+    <div className="!px-6 !py-4 w-full flex items-center justify-between">
       <div className="flex items-center gap-1">
         <IconButton
           onClick={toggleSidebar}
@@ -46,7 +46,7 @@ const NavBar = () => {
         open={isSidebarOpen}
         onClose={() => setIsSidebarOpen(false)}
       >
-        <div className="w-[300px]">
+        <div className="w-[250px]">
           <SideBar />
         </div>
       </Drawer>
