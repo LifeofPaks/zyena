@@ -54,6 +54,7 @@ export default function Testimonials() {
   return (
     <div>
       <Reviews />
+      
       <Box
         sx={{
           padding: 4,
@@ -61,6 +62,11 @@ export default function Testimonials() {
           margin: "3rem auto",
         }}
       >
+        <div className="w-full text-center !mb-4">
+        <h1 className=" uppercase font-semibold tracking-wider text-[13px] pb-3">
+          ADD YOUR REVIEW
+        </h1>
+      </div>
         <Grid container spacing={4}>
           <Grid item xs={12}>
             <TextField
