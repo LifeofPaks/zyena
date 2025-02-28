@@ -28,7 +28,7 @@ export const Home = () => {
           <Button
             onClick={() => navigate("/appointment")}
             variant="contained"
-            className="!mt-8 !py-[10px] !px-4 group !bg-[#d3a202] !text-white !font-normal transition-transform duration-300 ease-in-out  hover:scale-105 animate-bounce group-hover:animate-none"
+            className="!rounded-none !mt-8 !py-[10px] !px-4 group !bg-[#d3a202] !text-white !font-normal transition-transform duration-300 ease-in-out  hover:scale-105 animate-bounce group-hover:animate-none"
           >
             Book an appointment
           </Button>

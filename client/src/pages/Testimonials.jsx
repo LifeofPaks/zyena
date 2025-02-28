@@ -4,6 +4,7 @@ import { Star } from "lucide-react";
 import { useDispatch } from "react-redux";
 import { createTestimonial } from "../store/testimonial-slice";
 import { notifyError, notifySuccess } from "../hooks/toastify";
+import Reviews from "../components/Reviews";
 
 const initialFormData = {
   title: "",
@@ -51,158 +52,161 @@ export default function Testimonials() {
   };
 
   return (
-    <Box
-      sx={{
-        padding: 4,
-        maxWidth: 800,
-        margin: "3rem auto",
-      }}
-    >
-      <Grid container spacing={4}>
-        <Grid item xs={12}>
-          <TextField
-            fullWidth
-            label="Name"
-            variant="standard"
-            name="name"
-            value={formData.name}
-            onChange={handleInputChange}
-            required
-            error={!!errors.name}
-            helperText={errors.name}
-            InputProps={{
-              style: { fontSize: "14px" },
-              sx: {
-                "&:hover:not(.Mui-disabled, .Mui-error):before": {
-                  borderBottom: "2px solid #d3a202",
+    <div>
+      <Reviews />
+      <Box
+        sx={{
+          padding: 4,
+          maxWidth: 800,
+          margin: "3rem auto",
+        }}
+      >
+        <Grid container spacing={4}>
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              label="Name"
+              variant="standard"
+              name="name"
+              value={formData.name}
+              onChange={handleInputChange}
+              required
+              error={!!errors.name}
+              helperText={errors.name}
+              InputProps={{
+                style: { fontSize: "14px" },
+                sx: {
+                  "&:hover:not(.Mui-disabled, .Mui-error):before": {
+                    borderBottom: "2px solid #d3a202",
+                  },
+                  "&.Mui-focused:before": {
+                    borderBottom: "2px solid #d3a202 !important",
+                  },
+                  "&.Mui-focused .MuiInputLabel-root": {
+                    color: "#d3a202",
+                  },
                 },
-                "&.Mui-focused:before": {
-                  borderBottom: "2px solid #d3a202 !important",
+              }}
+              InputLabelProps={{
+                style: { fontSize: "14px" },
+                sx: {
+                  "&.Mui-focused": {
+                    color: "#d3a202",
+                  },
                 },
-                "&.Mui-focused .MuiInputLabel-root": {
-                  color: "#d3a202",
-                },
-              },
-            }}
-            InputLabelProps={{
-              style: { fontSize: "14px" },
-              sx: {
-                "&.Mui-focused": {
-                  color: "#d3a202",
-                },
-              },
-            }}
-          />
-        </Grid>
+              }}
+            />
+          </Grid>
 
-        <Grid item xs={12}>
-          <TextField
-            fullWidth
-            label="Testimonial Title"
-            variant="standard"
-            name="title"
-            value={formData.title}
-            onChange={handleInputChange}
-            required
-            error={!!errors.title}
-            helperText={errors.title}
-            InputProps={{
-              style: { fontSize: "14px" },
-              sx: {
-                "&:hover:not(.Mui-disabled, .Mui-error):before": {
-                  borderBottom: "2px solid #d3a202",
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              label="Testimonial Title"
+              variant="standard"
+              name="title"
+              value={formData.title}
+              onChange={handleInputChange}
+              required
+              error={!!errors.title}
+              helperText={errors.title}
+              InputProps={{
+                style: { fontSize: "14px" },
+                sx: {
+                  "&:hover:not(.Mui-disabled, .Mui-error):before": {
+                    borderBottom: "2px solid #d3a202",
+                  },
+                  "&.Mui-focused:before": {
+                    borderBottom: "2px solid #d3a202 !important",
+                  },
+                  "&.Mui-focused .MuiInputLabel-root": {
+                    color: "#d3a202",
+                  },
                 },
-                "&.Mui-focused:before": {
-                  borderBottom: "2px solid #d3a202 !important",
+              }}
+              InputLabelProps={{
+                style: { fontSize: "14px" },
+                sx: {
+                  "&.Mui-focused": {
+                    color: "#d3a202",
+                  },
                 },
-                "&.Mui-focused .MuiInputLabel-root": {
-                  color: "#d3a202",
-                },
-              },
-            }}
-            InputLabelProps={{
-              style: { fontSize: "14px" },
-              sx: {
-                "&.Mui-focused": {
-                  color: "#d3a202",
-                },
-              },
-            }}
-          />
-        </Grid>
+              }}
+            />
+          </Grid>
 
-        <Grid item xs={12}>
-          <TextField
-            fullWidth
-            label="Message"
-            variant="outlined"
-            name="message"
-            value={formData.message}
-            onChange={handleInputChange}
-            required
-            multiline
-            rows={4}
-            error={!!errors.message}
-            helperText={errors.message}
-            InputProps={{
-              style: { fontSize: "14px" },
-              sx: {
-                "&:hover:not(.Mui-disabled, .Mui-error):before": {
-                  borderBottom: "2px solid #d3a202",
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              label="Message"
+              variant="outlined"
+              name="message"
+              value={formData.message}
+              onChange={handleInputChange}
+              required
+              multiline
+              rows={4}
+              error={!!errors.message}
+              helperText={errors.message}
+              InputProps={{
+                style: { fontSize: "14px" },
+                sx: {
+                  "&:hover:not(.Mui-disabled, .Mui-error):before": {
+                    borderBottom: "2px solid #d3a202",
+                  },
+                  "&.Mui-focused:before": {
+                    borderBottom: "2px solid #d3a202 !important",
+                  },
+                  "&.Mui-focused .MuiInputLabel-root": {
+                    color: "#d3a202",
+                  },
                 },
-                "&.Mui-focused:before": {
-                  borderBottom: "2px solid #d3a202 !important",
+              }}
+              InputLabelProps={{
+                style: { fontSize: "14px" },
+                sx: {
+                  "&.Mui-focused": {
+                    color: "#d3a202",
+                  },
                 },
-                "&.Mui-focused .MuiInputLabel-root": {
-                  color: "#d3a202",
-                },
-              },
-            }}
-            InputLabelProps={{
-              style: { fontSize: "14px" },
-              sx: {
-                "&.Mui-focused": {
-                  color: "#d3a202",
-                },
-              },
-            }}
-          />
-        </Grid>
+              }}
+            />
+          </Grid>
 
-        <Grid item xs={12}>
-          <div style={{ display: "flex", alignItems: "center", gap: "2px" }}>
-            {[1, 2, 3, 4, 5].map((star) => (
-              <Star
-                key={star}
-                size={20}
-                color={
-                  star <= (hoverRating || formData.rating) ? "#d3a202" : "#ccc"
-                }
-                fill={
-                  star <= (hoverRating || formData.rating) ? "#d3a202" : "none"
-                }
-                onMouseEnter={() => setHoverRating(star)}
-                onMouseLeave={() => setHoverRating(0)}
-                onClick={() => handleRating(star)}
-                style={{ cursor: "pointer" }}
-              />
-            ))}
-          </div>
-          {errors.rating && (
-            <p style={{ color: "red", fontSize: "12px" }}>{errors.rating}</p>
-          )}
-        </Grid>
+          <Grid item xs={12}>
+            <div style={{ display: "flex", alignItems: "center" }}>
+              {[1, 2, 3, 4, 5].map((star) => (
+                <Star
+                  key={star}
+                  size={20}
+                  color="#d3a202"
+                  fill={
+                    star <= (hoverRating || formData.rating)
+                      ? "#d3a202"
+                      : "none"
+                  }
+                  onMouseEnter={() => setHoverRating(star)}
+                  onMouseLeave={() => setHoverRating(0)}
+                  onClick={() => handleRating(star)}
+                  style={{ cursor: "pointer" }}
+                />
+              ))}
+            </div>
+            {errors.rating && (
+              <p style={{ color: "red", fontSize: "11px" }}>{errors.rating}</p>
+            )}
+          </Grid>
 
-        <Grid item xs={12}>
-          <Button
-            variant="contained"
-            className="!normal-case !bg-[#d3a202]"
-            onClick={handleSubmit}
-          >
-            Add review
-          </Button>
+          <Grid item xs={12}>
+            <Button
+              variant="contained"
+              className="!normal-case !bg-[#d3a202] !rounded-none !text-[13px]"
+              onClick={handleSubmit}
+            >
+              Add review
+            </Button>
+          </Grid>
         </Grid>
-      </Grid>
-    </Box>
+      </Box>
+    </div>
   );
 }

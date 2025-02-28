@@ -326,7 +326,7 @@ const ContactUs = () => {
 
         <Box sx={{ marginTop: "2rem" }}>
           <Button
-            className="!normal-case"
+            className="!normal-case !rounded-none"
             variant="contained"
             onClick={handleSubmit}
             sx={{

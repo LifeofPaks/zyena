@@ -10,7 +10,6 @@ import ConsultationsTable from "../../components/admin/ConsultationsTable";
 const ConsultationList = () => {
   const dispatch = useDispatch();
   const { consultationList } = useSelector((state) => state.consultations);
-  console.log(consultationList);
 
   function handleDelete(getCurrentConsultationId) {
     dispatch(deleteConsultation(getCurrentConsultationId)).then((data) => {
