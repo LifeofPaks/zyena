@@ -22,7 +22,7 @@ const Navbar = () => {
     { name: "Home", path: "/" },
     { name: "Our Story", path: "/our-story" },
     { name: "Testimonials", path: "/testimonial" },
-    { name: "Gallery", path: "/bridal", hasDropdown: true },
+    { name: "Gallery", path: "/valorous", hasDropdown: true },
     { name: "Shop", path: "/shop" },
     { name: "Appointment", path: "/appointment" },
     { name: "Contact Us", path: "/contact-us" },

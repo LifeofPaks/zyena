@@ -26,7 +26,7 @@ body {
 
 
 .primary-color {
-  color: #3b82f6;
+  color: #d3a202;
 }
 
 button {
@@ -35,7 +35,7 @@ button {
 
 #chatbot-toggler {
   position: fixed;
-  bottom: 100px;
+  bottom: 2rem;
   right: 35px;
   border: none;
   height: 50px;
@@ -43,7 +43,7 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #3b82f6;
+  background: #d3a202;
   border-radius: 50%;
   transition: all 0.2s ease;
   z-index: 1000;
@@ -98,7 +98,7 @@ button {
 
 .chat-header {
   padding: 15px 22px;
-  background: #3b82f6;
+  background: #d3a202;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -114,7 +114,7 @@ button {
 .header-info svg {
   padding: 6px;
   background: #fff;
-  fill: #3b82f6;
+  fill: #d3a202;
   border-radius: 50%;
   flex-shrink: 0;
 }
@@ -140,7 +140,7 @@ button {
 }
 
 .chat-header button:hover {
-  background: #2d70dd;
+  background: #af8702;
 }
 
 .chat-body {
@@ -169,7 +169,7 @@ button {
 .bot-message svg {
   padding: 6px;
   fill: #fff;
-  background-color: #3b82f6;
+  background-color: #d3a202;
   border-radius: 50%;
   flex-shrink: 0;
   margin-bottom: 2px;
@@ -179,7 +179,7 @@ button {
 .message-text {
   max-width: 75%;
   padding: 12px 16px;
-  background: #3b82f6;
+  background: #d3a202;
   word-wrap: break-word;
   white-space: pre-line;
   font-size: 13px;
@@ -197,7 +197,7 @@ button {
 }
 
 .user-message .message-text {
-  background: #3b82f6;
+  background: #d3a202;
   border-radius: 13px 13px 3px 13px;
   color: #fff;
 }
@@ -231,10 +231,10 @@ button {
 .chat-form button {
   height: 35px;
   width: 35px;
-  background: #3b82f6;
+  background: #d3a202;
   color: #fff;
   border-radius: 50%;
-  background: #3b82f6;
+  background: #d3a202;
   border: none;
   outline: none;
   display: flex;
@@ -255,7 +255,7 @@ button {
 }
 
 .chat-form:focus-within {
-  outline: 2px solid #3b82f6;
+  outline: 2px solid #d3a202;
 }
 
 
@@ -294,13 +294,13 @@ button {
   width: 50px;
   height: 45px;
   border-radius: 62% 38% 46% 54% / 60% 63% 37% 40%;
-  background: #008080;
+  background: #d3a202;
   display: grid;
   place-content: center;
   cursor: pointer;
   position: fixed;
   z-index: 10;
-  right: 2rem;
+  right: 6rem;
   bottom: 15rem;
   animation: bounce 1.5s ease-in-out 1.5s infinite;
   transition: 0.3s;
