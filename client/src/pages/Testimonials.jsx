@@ -63,7 +63,7 @@ export default function Testimonials() {
         }}
       >
         <div className="w-full text-center !mb-4">
-        <h1 className=" uppercase font-semibold tracking-wider text-[13px] pb-3">
+        <h1 className=" uppercase font-semibold tracking-wide text-[13px] pb-3">
           ADD YOUR REVIEW
         </h1>
       </div>

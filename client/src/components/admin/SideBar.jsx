@@ -42,18 +42,24 @@ const SideBar = () => {
       path: "/admin/contacts",
       icon: <IoIosMail className="!text-[18px]" />,
     },
+    {
+      id: "testimonials",
+      label: "Testimonials",
+      path: "/admin/testimonials",
+      icon: <IoIosMail className="!text-[18px]" />,
+    },
   ];
 
   return (
     <div
-      className={` !flex flex-col items-start !w-[300px] border-r border-gray-200 h-screen !py-6 `}
+      className={` !flex flex-col items-start !w-[250px] border-r border-gray-200 h-screen !py-6 `}
     >
       <div className="!ml-4">
         <Logo />
       </div>
 
       <div className="flex flex-col h-[98%] justify-between !pb-[3rem]">
-        <nav className="!mt-6 flex-col flex gap-2 ">
+        <nav className="!mt-6 flex-col flex gap-3 ">
           {adminSidebarMenuItems.map((menuItem) => (
             <div
               key={menuItem.id}
@@ -63,14 +69,14 @@ const SideBar = () => {
               }}
               className={`!flex cursor-pointer !mb-1 text-xl !items-center !gap-1 !pl-3 !pr-3 !border-l-4 !transition-colors !duration-200 ${
                 currentPath === menuItem.path
-                  ? "text-[#212020] !border-[#008080]"
+                  ? "text-[#212020] !border-[#d3a202]"
                   : "text-gray-400 border-transparent hover:text-[#212020]"
               }`}
             >
               <div
                 className={`${
                   currentPath === menuItem.path
-                    ? "text-[#008080]"
+                    ? "text-[#d3a202]"
                     : "text-inherit"
                 }`}
               >
@@ -86,7 +92,7 @@ const SideBar = () => {
         <Button
           onClick={handleLogout}
           variant="outline"
-          className="!normal-case !bg-red-700 !text-white !w-[120px] !ml-4"
+          className="!normal-case !bg-[#d3a202] !text-white !w-[120px] !ml-4"
         >
           <AiOutlineLogout className="!mr-1 !text-[15px]" /> Logout
         </Button>

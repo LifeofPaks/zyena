@@ -20,7 +20,7 @@ const ContactTable = ({ contacts, handleDelete }) => {
     >
       <CardHeader
         title="Contacts and messages"
-        className="text-[#008080]"
+        className="text-[#d3a202]"
         titleTypographyProps={{ sx: { fontSize: "14px", fontWeight: "bold" } }}
       />
       {contactsArr.length ? (

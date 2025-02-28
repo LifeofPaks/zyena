@@ -25,6 +25,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import Footer from "./components/Footer";
 import Testimonials from "./pages/Testimonials";
+import TestimonialList from "./pages/admin/TestimonialList";
 
 const theme = createTheme({
   typography: {
@@ -40,6 +41,7 @@ function App() {
     location.pathname === "/admin" ||
     location.pathname === "/admin/contacts" ||
     location.pathname === "/admin/consultations" ||
+    location.pathname === "/admin/testimonials" ||
     location.pathname === "/admin/dashboard";
 
   const dispatch = useDispatch();
@@ -72,6 +74,7 @@ function App() {
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="contacts" element={<ContactList />} />
           <Route path="consultations" element={<ConsultationList />} />
+          <Route path="testimonials" element={<TestimonialList />} />
         </Route>
       </Routes>
       {!isAuthPage && <ScrollTop />}
