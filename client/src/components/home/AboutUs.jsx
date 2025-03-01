@@ -8,10 +8,10 @@ const AboutUs = () => {
   const navigate = useNavigate();
   return (
     <div className="container !mx-auto lg:!py-30 !py-18">
-      <div className="flex justify-betweeen items-center gap-[4rem] flex-col lg:flex-row lg:!px-0 !px-6">
+      <div className="flex justify-betweeen items-center lg:gap-[6rem] gap-[3rem] flex-col lg:flex-row lg:!px-0 !px-6">
         <div>
           <div className="flex !items-center gap-2 !mb-[1rem]">
-            <h1 className="!text-[24px] uppercase playfair font-[500] ">
+            <h1 className="lg:!text-[24px] !text-[20px] uppercase playfair font-[500] ">
               About us
             </h1>
             <div className="w-[100px] h-[1px] bg-[#999898]"></div>

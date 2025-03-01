@@ -258,6 +258,33 @@ button {
   outline: 2px solid #d3a202;
 }
 
+/* Scroll to Top Button Styles */
+.scroll-top {
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.3);
+  width: 50px;
+  height: 45px;
+  border-radius: 62% 38% 46% 54% / 60% 63% 37% 40%;
+  background: #d3a202;
+  display: grid;
+  place-content: center;
+  cursor: pointer;
+  position: fixed;
+  z-index: 10;
+  right: 2.1rem;
+  bottom: 15rem;
+  animation: bounce 1.5s ease-in-out 1.5s infinite;
+  transition: 0.3s;
+  visibility: hidden;
+  opacity: 0;
+}
+
+/* Show state */
+.scroll-top.show {
+  visibility: visible;
+  opacity: 1;
+  bottom: 2rem;
+}
+
 
 @media (max-width: 520px) {
   #chatbot-toggler {
@@ -286,34 +313,24 @@ button {
   .chat-footer {
     padding: 10px 15px 15px;
   }
+
+  #chatbot-toggler{
+    width: 40px;
+    height: 40px;
+  }
+
+  #chatbot-toggler span {
+    font-size: 18px;
+  }
+
+  .scroll-top {
+    height: 40px;
+    width: 45px;
+  }
+
 }
 
-/* Scroll to Top Button Styles */
-.scroll-top {
-  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.3);
-  width: 50px;
-  height: 45px;
-  border-radius: 62% 38% 46% 54% / 60% 63% 37% 40%;
-  background: #d3a202;
-  display: grid;
-  place-content: center;
-  cursor: pointer;
-  position: fixed;
-  z-index: 10;
-  right: 2.3rem;
-  bottom: 15rem;
-  animation: bounce 1.5s ease-in-out 1.5s infinite;
-  transition: 0.3s;
-  visibility: hidden;
-  opacity: 0;
-}
 
-/* Show state */
-.scroll-top.show {
-  visibility: visible;
-  opacity: 1;
-  bottom: 2rem;
-}
 
 
 @keyframes marquee {
