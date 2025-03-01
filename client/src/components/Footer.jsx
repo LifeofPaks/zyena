@@ -10,7 +10,7 @@ const Footer = () => {
   return (
     <div className="bg-black text-gray-400 ">
       <div className="container !mx-auto !py-4 !pt-10">
-        <div className="flex flex-col lg:items-start  justify-center lg:flex-row lg:justify-between gap-6">
+        <div className="flex flex-col lg:items-start  justify-center lg:flex-row lg:justify-between gap-6 lg:!px-0 !px-6">
           <p className=" text-[14px] lg:w-[280px] w-full !leading-[30px]">
             At Zyena, our passion lies in creating high-quality fashion with
             empowering designs that combine style, elegance, and comfort.
