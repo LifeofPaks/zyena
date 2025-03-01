@@ -10,7 +10,7 @@ const Testimonials = () => {
         dots: true,
         infinite: true,
         speed: 1000,
-        slidesToShow: 2,
+        slidesToShow: 3,
         slidesToScroll: 2,
         initialSlide: 0,
         responsive: [
