@@ -7,7 +7,7 @@ const ScrollText = ({
     <div className="relative w-full overflow-hidden bg-gray-900 py-4">
       <div className="marquee flex whitespace-nowrap animate-scroll">
         {Array.from({ length: 8 }).map((_, index) => (
-          <span key={index} className="text-white text-[13px] px-8 !ml-12">
+          <span key={index} className="text-white text-[11px] lg:text-[13px] px-8 !ml-12">
             {text}
           </span>
         ))}

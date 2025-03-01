@@ -4,6 +4,8 @@ import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import ScrollText from "../components/ScrollText";
 import AboutUs from "../components/home/AboutUs";
+import Specials from "../components/home/Specials";
+import Testimonials from "../components/home/Testimonials";
 
 export const Home = () => {
   const navigate = useNavigate();
@@ -36,6 +38,8 @@ export const Home = () => {
         </div>
       </div>
       <AboutUs />
+      <Specials/>
+      <Testimonials/>
     </div>
   );
 };
