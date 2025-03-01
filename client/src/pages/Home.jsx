@@ -6,6 +6,7 @@ import ScrollText from "../components/ScrollText";
 import AboutUs from "../components/home/AboutUs";
 import Specials from "../components/home/Specials";
 import Testimonials from "../components/home/Testimonials";
+import Recommended from "../components/home/Recommended";
 
 export const Home = () => {
   const navigate = useNavigate();
@@ -40,6 +41,7 @@ export const Home = () => {
       <AboutUs />
       <Specials/>
       <Testimonials/>
+      <Recommended/>
     </div>
   );
 };
