@@ -10,7 +10,7 @@ const Footer = () => {
   return (
     <div className="bg-black text-gray-400 ">
       <div className="container !mx-auto !py-4 !pt-10">
-        <div className="flex flex-col lg:items-start  justify-center lg:flex-row lg:justify-between gap-6 !px-4">
+        <div className="flex flex-col lg:items-start  justify-center lg:flex-row lg:justify-between gap-6">
           <p className=" text-[14px] lg:w-[280px] w-full !leading-[30px]">
             At Zyena, our passion lies in creating high-quality fashion with
             empowering designs that combine style, elegance, and comfort.
@@ -18,13 +18,17 @@ const Footer = () => {
 
           <div>
             <div className="flex  items-center gap-1 text-[13px] !mb-2">
-              <CiMail /><span className="!font-semibold">Emai: </span>  info@zyena.co
+              <CiMail className="text-[17px]" />
+              <span className="!font-semibold">Emai: </span> info@zyena.co
             </div>
             <div className="flex  items-center gap-1 text-[13px] !mb-2">
-              <PiPhoneLight /> <span className="!font-semibold"> Phone:</span> +1 862 684 2601
+              <PiPhoneLight className="text-[17px]" />{" "}
+              <span className="!font-semibold"> Phone:</span> +1 862 684 2601
             </div>
             <div className="flex  items-center gap-1 text-[13px] !mb-2">
-              <CiLocationOn /> <span className="!font-semibold">Address: </span> Newark, New Jersey, United States.
+              <CiLocationOn className="text-[17px]" />{" "}
+              <span className="!font-semibold">Address: </span> Newark, New
+              Jersey, United States.
             </div>
           </div>
 
@@ -39,8 +43,6 @@ const Footer = () => {
               <FaInstagram className="text-[18px]" />
             </Link>
           </div>
-
-         
         </div>
         <h1 className="text-[6rem] lg:text-[10rem]  w-full text-center outline-font">
           ZYENA

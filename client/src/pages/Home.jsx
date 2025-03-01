@@ -3,6 +3,7 @@ import HeroVideo from "../assets/video-sample.mp4";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import ScrollText from "../components/ScrollText";
+import AboutUs from "../components/home/AboutUs";
 
 export const Home = () => {
   const navigate = useNavigate();
@@ -19,7 +20,7 @@ export const Home = () => {
           preload="auto"
           className="w-full h-full object-cover"
         />
-        
+
         <div className="absolute inset-0 flex flex-col items-center justify-center  w-full !mx-auto gap-4 ">
           <h1 className="inset-0 flex items-center justify-center text-white w-full text-[1.9rem] lg:text-[64px] lg:w-[1000px] !mx-auto text-center drop-shadow-[2px_4px_6px_rgba(0,0,0,0.5)] playfair">
             Timeless elegance, crafted for your perfect moment
@@ -34,6 +35,7 @@ export const Home = () => {
           </Button>
         </div>
       </div>
+      <AboutUs />
     </div>
   );
 };
