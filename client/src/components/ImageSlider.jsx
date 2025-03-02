@@ -11,55 +11,51 @@ import RecImg9 from "../assets/home/rec-9.jpg";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import IconButton from "@mui/material/IconButton";
-import gsap from 'gsap';
 
 const ImageSlider = () => {
   const imageArr = [
     RecImg1,
+    RecImg8,
     RecImg2,
     RecImg3,
     RecImg4,
     RecImg5,
     RecImg6,
     RecImg7,
-    RecImg8,
     RecImg9,
   ];
-  const [midImage, setMidImage] = useState(0)
-  const [rightImage, setRightImage] = useState(1)
-  const [leftImage, setLeftImage] = useState(imageArr.length - 1)
+  const [midImage, setMidImage] = useState(0);
+  const [rightImage, setRightImage] = useState(1);
+  const [leftImage, setLeftImage] = useState(imageArr.length - 1);
 
-  useEffect(() =>{
-    if(midImage === 0){
-        setLeftImage(imageArr.length - 1)
-        setRightImage(1)
-    } else if(midImage === imageArr.length - 1) {
-        setRightImage(0)
-        setLeftImage(midImage - 1)
-    } else{
-        setRightImage(midImage + 1)
-        setLeftImage(midImage - 1)
+  useEffect(() => {
+    if (midImage === 0) {
+      setLeftImage(imageArr.length - 1);
+      setRightImage(1);
+    } else if (midImage === imageArr.length - 1) {
+      setRightImage(0);
+      setLeftImage(midImage - 1);
+    } else {
+      setRightImage(midImage + 1);
+      setLeftImage(midImage - 1);
     }
-  }, [midImage])
+  }, [midImage]);
 
-  const decrement=()=>{
-    if(midImage == imageArr.length-1){
-        setMidImage(0);
+  const decrement = () => {
+    if (midImage == imageArr.length - 1) {
+      setMidImage(0);
+    } else {
+      setMidImage(midImage + 1);
     }
-    else{
-        setMidImage(midImage+1);
-    }
-}
+  };
 
-  const increment=()=>{
-    if(midImage == 0){
-        setMidImage(imageArr.length-1);
+  const increment = () => {
+    if (midImage == 0) {
+      setMidImage(imageArr.length - 1);
+    } else {
+      setMidImage(midImage - 1);
     }
-    else{
-        setMidImage(midImage-1);
-    }
-  
-}
+  };
 
   return (
     <div>
@@ -73,7 +69,7 @@ const ImageSlider = () => {
           <img
             src={imageArr[midImage]}
             alt="rec-images"
-            className="w-[350px] h-[450px] object-cover rounded-[15px] shadow-[0px_0px_30px_1px_rgba(0,0,0,0.1)] mid-img"
+            className="lg:!w-[350px] w-full !h-[450px] object-cover rounded-[15px] shadow-[0px_0px_50px_1px_rgba(0,0,0,0.5)] mid-img"
           />
           <img
             src={imageArr[rightImage]}
@@ -83,7 +79,11 @@ const ImageSlider = () => {
         </div>
         <div className="flex items-center justify-center gap-1 !my-2">
           {imageArr.map((_, index) => (
-            <div className={`h-[8px] w-[8px] rounded-full  ${index===midImage?'bg-[#d3a202]':'bg-gray-300'}`}></div>
+            <div
+              className={`h-[8px] w-[8px] rounded-full  ${
+                index === midImage ? "bg-[#d3a202]" : "bg-gray-300"
+              }`}
+            ></div>
           ))}
         </div>
         <div className="flex items-center justify-center gap-3">
